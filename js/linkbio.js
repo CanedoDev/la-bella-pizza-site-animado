@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Corrige viewport no Mobile
     setVH();
 
+    // Verifica se o loader global está ativo para sincronizar as animações (2.4s é o tempo da TL do loader)
+    const loader = document.getElementById("global-loader");
+    const baseDelay = (loader && !loader.classList.contains("hidden")) ? 2.4 : 0;
+
     // 1. ANIMAR A ENTRADA DA MINHOCA (GROW SVG WORM)
     const isMobile = window.innerWidth <= 768;
     const pathId = isMobile ? "bio-stroke-path-mob" : "bio-stroke-path-desk";
@@ -24,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
             strokeDashoffset: 0,
             duration: 1.8,
             ease: "power2.out",
-            delay: 0.1
+            delay: baseDelay + 0.1
         });
     }
 
@@ -37,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: 0.8,
         stagger: 0.1,
         ease: "power2.out",
-        delay: 0.5
+        delay: baseDelay + 0.5
     });
 
     // Animação Elástica dos Botões (O "estilo elástico" da marca)
@@ -48,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: 1.2,
         ease: "elastic.out(1, 0.75)",
         stagger: 0.15,
-        delay: 0.6
+        delay: baseDelay + 0.6
     });
 
     // Animação de Entrada do Rodapé
@@ -56,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         opacity: 0,
         duration: 0.8,
         ease: "power2.out",
-        delay: 1.3
+        delay: baseDelay + 1.3
     });
 
 
