@@ -73,12 +73,38 @@ const botoesFechar = () => {
         item.addEventListener('click', fecharModal)
     })
 
-    // Adicionando evento de clique no fundo escuro para fechar o modal
-    seleciona('.pizzaWindowArea').addEventListener('click', (e) => {
-        if (e.target.classList.contains('pizzaWindowArea')) {
-            fecharModal()
-        }
+    // Adicionando evento de clique no fundo escuro para fechar o modal de pizza
+    const pizzaArea = seleciona('.pizzaWindowArea')
+    if (pizzaArea) {
+        pizzaArea.addEventListener('click', (e) => {
+            if (e.target.classList.contains('pizzaWindowArea')) {
+                fecharModal()
+            }
+        })
+    }
+
+    // Eventos do Modal de Combos
+    selecionaTodos('.comboInfo--cancelButton, .combo--cancelButton, .comboInfo--cancelMobileButton').forEach((item) => {
+        item.addEventListener('click', () => {
+            if (typeof fecharModalCombo === 'function') fecharModalCombo()
+        })
     })
+
+    const comboArea = seleciona('.comboWindowArea')
+    if (comboArea) {
+        comboArea.addEventListener('click', (e) => {
+            if (e.target.classList.contains('comboWindowArea')) {
+                if (typeof fecharModalCombo === 'function') fecharModalCombo()
+            }
+        })
+    }
+
+    const btnAddCombo = seleciona('.comboInfo--addButton, .combo--addButton')
+    if (btnAddCombo) {
+        btnAddCombo.onclick = () => {
+            if (typeof confirmarAdicaoCombo === 'function') confirmarAdicaoCombo()
+        }
+    }
 }
 
 const preencheDadosPizza = (pizzaItem, item, index) => {
@@ -93,6 +119,28 @@ const preencherDadosModal = (item) => {
     seleciona('.pizzaInfo h1').innerHTML = item.name
     seleciona('.pizzaInfo--desc').innerHTML = item.description
     seleciona('.pizzaInfo--actualPrice').innerHTML = formatoReal(item.price[0])
+
+    let tagText = 'TRADICIONAL'
+    let tagClass = 'tag-tradicional'
+    if (item.category === 'Pizzas Especiais') {
+        tagText = 'ESPECIAL'
+        tagClass = 'tag-especial'
+    } else if (item.category === 'Pizzas Doces') {
+        tagText = 'DOCE'
+        tagClass = 'tag-doce'
+    } else if (item.category === 'Pizzas Gourmet') {
+        tagText = 'GOURMET'
+        tagClass = 'tag-gourmet'
+    } else if (item.category === 'Bebidas') {
+        tagText = 'BEBIDA GELADA'
+        tagClass = 'tag-bebida'
+    }
+
+    const tagEl = seleciona('.pizzaTag')
+    if (tagEl) {
+        tagEl.innerText = tagText
+        tagEl.className = `pizzaTag ${tagClass}`
+    }
 }
 
 const pegarKey = (e) => {
@@ -240,7 +288,7 @@ const adicionarNoCarrinho = () => {
 
         let identificador = pizzaJson[modalKey].id + 't' + size
 
-        let enderecoDaPizza = cart.findIndex((item) => item.identificador == identificador)
+        let enderecoDaPizza = cart.findIndex((item) => !item.isCombo && item.identificador == identificador)
 
         // Maior que -1 conserta o bug fatal (Porque -1 no Javascript é tido como Verdadeiro e o IF quebrava!)
         if (enderecoDaPizza > -1) {
@@ -250,11 +298,18 @@ const adicionarNoCarrinho = () => {
                 identificador,
                 id: pizzaJson[modalKey].id,
                 size: size,
+                sizeIndex: sizeIndex,
                 qt: quantPizzas,
-                price: price // <-- Você tinha esquecido de colocar o preço no pacote!
+                price: price
             }
             cart.push(pizzaNoCarrinho)
         }
+
+        // Executa detecção inteligente de combos se itens avulsos formarem combo
+        if (typeof detectarEAplicarCombos === 'function') {
+            detectarEAplicarCombos(cart)
+        }
+
         fecharModal()
         abrirCarrinho()
         atualizarCarrinho()
@@ -267,8 +322,13 @@ const atualizarCarrinho = () => {
     let desconto = 0
     let total = 0
 
-    let diaDaSemana = new Date().getDay()
-    let quartaFeira = (diaDaSemana === 4)
+    const diaDaSemana = typeof getDiaAtual === 'function' ? getDiaAtual() : new Date().getDay()
+    const quartaFeira = (diaDaSemana === 3 || diaDaSemana === 4)
+
+    // Roda a detecção automática de combos para agrupar itens elegíveis
+    if (typeof detectarEAplicarCombos === 'function') {
+        detectarEAplicarCombos(cart)
+    }
 
     if (cart.length > 0) {
         seleciona('aside').classList.add('show')
@@ -276,19 +336,51 @@ const atualizarCarrinho = () => {
         seleciona('.cart').innerHTML = ''
 
         cart.forEach((itemDoCarrinho) => {
-
-            let pizzaItem = pizzaJson.find((item) => item.id == itemDoCarrinho.id)
-
             let cartItem = seleciona('.models .cart--item').cloneNode(true)
 
+            if (itemDoCarrinho.isCombo) {
+                // Item é um Combo Dinâmico
+                cartItem.classList.add('is-combo')
+                cartItem.querySelector('.cart--item img').src = itemDoCarrinho.img || 'assets/img/banner1 1.webp'
 
-            let pizzaName = `${pizzaItem.name} (${itemDoCarrinho.size})`
+                const precoOriginalItem = (itemDoCarrinho.originalPrice || itemDoCarrinho.price) * itemDoCarrinho.qt
+                const precoFinalItem = itemDoCarrinho.price * itemDoCarrinho.qt
+                const economiaItem = (itemDoCarrinho.discount || 0) * itemDoCarrinho.qt
 
-            cartItem.querySelector('.cart--item img').src = pizzaItem.img
-            cartItem.querySelector('.cart--item-nome').innerHTML = pizzaName
-            cartItem.querySelector('.cart--item--qt').innerHTML = itemDoCarrinho.qt
+                cartItem.querySelector('.cart--item-nome').innerHTML = `
+                    <span class="cart--item-tag-combo">Combo</span>
+                    <div class="cart--item-combo-title">${itemDoCarrinho.name}</div>
+                    <div class="cart--item-combo-sub">${itemDoCarrinho.dynamicName || ''}</div>
+                    <div class="cart--item-prices-combo">
+                        <s>${formatoReal(precoOriginalItem)}</s>
+                        <strong>${formatoReal(precoFinalItem)}</strong>
+                        <span class="economy-tag">Economia de ${formatoReal(economiaItem)}</span>
+                    </div>
+                `
+                cartItem.querySelector('.cart--item--qt').innerHTML = itemDoCarrinho.qt
 
-            seleciona('.cart').append(cartItem)
+                subtotal += precoOriginalItem
+                desconto += economiaItem
+            } else {
+                // Item Avulso Normal (Pizza ou Bebida)
+                let pizzaItem = pizzaJson.find((item) => item.id == itemDoCarrinho.id)
+                let pizzaName = pizzaItem ? `${pizzaItem.name} (${itemDoCarrinho.size})` : `Item (${itemDoCarrinho.size})`
+
+                cartItem.querySelector('.cart--item img').src = pizzaItem ? pizzaItem.img : 'assets/img/logo.webp'
+                cartItem.querySelector('.cart--item-nome').innerHTML = pizzaName
+                cartItem.querySelector('.cart--item--qt').innerHTML = itemDoCarrinho.qt
+
+                let itemTotal = itemDoCarrinho.qt * itemDoCarrinho.price
+                subtotal += itemTotal
+
+                if (quartaFeira && itemDoCarrinho.size === 'M') {
+                    if (pizzaPromoQuartaUm.includes(itemDoCarrinho.id)) {
+                        desconto += (itemDoCarrinho.qt * 10)
+                    } else if (pizzaPromoQuartaDois.includes(itemDoCarrinho.id)) {
+                        desconto += (itemDoCarrinho.qt * 11)
+                    }
+                }
+            }
 
             seleciona('.menu-openner span').innerHTML = cart.length
 
@@ -302,36 +394,29 @@ const atualizarCarrinho = () => {
                     itemDoCarrinho.qt--
                 } else {
                     let indexDoItem = cart.findIndex(cartItem => cartItem.identificador === itemDoCarrinho.identificador)
-                    cart.splice(indexDoItem, 1)
-                    seleciona('.cart').innerHTML = ''
-                    seleciona('.menu-openner span').innerHTML = 0
-                    seleciona('.subtotal span:last-child').innerHTML = 'R$ --'
-                    seleciona('.desconto span:last-child').innerHTML = 'R$ --'
-                    seleciona('.total span:last-child').innerHTML = 'R$ --'
+                    if (indexDoItem > -1) {
+                        cart.splice(indexDoItem, 1)
+                    }
                 }
                 atualizarCarrinho()
             })
+
             seleciona('.cart').append(cartItem)
-
-            subtotal += itemDoCarrinho.qt * itemDoCarrinho.price
-
-            if (quartaFeira && itemDoCarrinho.size === 'M') {
-                if (pizzaPromoQuartaUm.includes(itemDoCarrinho.id)) {
-                    desconto += (itemDoCarrinho.qt * 10)
-                } else if (pizzaPromoQuartaDois.includes(itemDoCarrinho.id)) {
-                    desconto += (itemDoCarrinho.qt * 11)
-                }
-            }
         })
 
-        //desconto = subtotal * 0.1
-        total = subtotal - desconto
+        total = Math.max(0, subtotal - desconto)
 
+        seleciona('.menu-openner span').innerHTML = cart.length
         seleciona('.subtotal span:last-child').innerHTML = formatoReal(subtotal)
         seleciona('.desconto span:last-child').innerHTML = formatoReal(desconto)
         seleciona('.total span:last-child').innerHTML = formatoReal(total)
     } else {
         seleciona('aside').classList.remove('show')
+        seleciona('.cart').innerHTML = ''
+        seleciona('.menu-openner span').innerHTML = 0
+        seleciona('.subtotal span:last-child').innerHTML = 'R$ --'
+        seleciona('.desconto span:last-child').innerHTML = 'R$ --'
+        seleciona('.total span:last-child').innerHTML = 'R$ --'
     }
 
 }
@@ -344,43 +429,59 @@ const capturarDadosDoPedido = () => {
         total: 0
     }
 
-    let diaDaSemana = new Date().getDay()
-    let quartaFeira = (diaDaSemana === 4)
+    const diaDaSemana = typeof getDiaAtual === 'function' ? getDiaAtual() : new Date().getDay()
+    const quartaFeira = (diaDaSemana === 3 || diaDaSemana === 4)
 
     cart.forEach((itemDoCarrinho) => {
+        if (itemDoCarrinho.isCombo) {
+            const precoFinal = itemDoCarrinho.price * itemDoCarrinho.qt
+            const precoOriginal = (itemDoCarrinho.originalPrice || itemDoCarrinho.price) * itemDoCarrinho.qt
+            const economia = (itemDoCarrinho.discount || 0) * itemDoCarrinho.qt
 
-        let pizzaItem = pizzaJson.find((item) => item.id == itemDoCarrinho.id)
+            pedido.itens.push({
+                isCombo: true,
+                nome: itemDoCarrinho.name,
+                detalhes: itemDoCarrinho.dynamicName || '',
+                tamanho: 'Combo',
+                quantidade: itemDoCarrinho.qt,
+                preco: itemDoCarrinho.price,
+                totalPizza: precoFinal,
+                desconto: economia
+            })
 
-        let pizzaName = pizzaItem.name
-        let pizzaSize = itemDoCarrinho.size
-        let pizzasQt = itemDoCarrinho.qt
-        let pizzaPrice = itemDoCarrinho.price
-        let pizzaTotal = 0
+            pedido.subtotal += precoOriginal
+            pedido.desconto += economia
+        } else {
+            let pizzaItem = pizzaJson.find((item) => item.id == itemDoCarrinho.id)
+            let pizzaName = pizzaItem ? pizzaItem.name : 'Item'
+            let pizzaSize = itemDoCarrinho.size
+            let pizzasQt = itemDoCarrinho.qt
+            let pizzaPrice = itemDoCarrinho.price
+            let pizzaTotal = pizzasQt * pizzaPrice
 
-        pizzaTotal += pizzasQt * pizzaPrice
-
-        pedido.itens.push(
-            {
+            pedido.itens.push({
+                isCombo: false,
                 nome: pizzaName,
                 tamanho: pizzaSize,
                 quantidade: pizzasQt,
                 preco: pizzaPrice,
-                totalPizza: pizzaTotal
-            }
-        )
+                totalPizza: pizzaTotal,
+                desconto: 0
+            })
 
-        pedido.subtotal += pizzaTotal
+            pedido.subtotal += pizzaTotal
 
-        if (quartaFeira && itemDoCarrinho.size === 'M') {
-            if (pizzaPromoQuartaUm.includes(itemDoCarrinho.id)) {
-                pedido.desconto += (itemDoCarrinho.qt * 10)
-            } else if (pizzaPromoQuartaDois.includes(itemDoCarrinho.id)) {
-                pedido.desconto += (itemDoCarrinho.qt * 11)
+            if (quartaFeira && itemDoCarrinho.size === 'M') {
+                if (pizzaPromoQuartaUm.includes(itemDoCarrinho.id)) {
+                    pedido.desconto += (itemDoCarrinho.qt * 10)
+                } else if (pizzaPromoQuartaDois.includes(itemDoCarrinho.id)) {
+                    pedido.desconto += (itemDoCarrinho.qt * 11)
+                }
             }
         }
     })
     
-    pedido.total = pedido.subtotal - pedido.desconto
+    pedido.total = Math.max(0, pedido.subtotal - pedido.desconto)
     return pedido
 }
 
@@ -494,29 +595,46 @@ const configurarCheckout = () => {
         }
 
         let pedido = capturarDadosDoPedido()
-        let mensagem = `Olá, gostaria de fazer um pedido:\n\n`
+
+        let mensagem = `🍕 *NOVO PEDIDO - LA BELLA PIZZA* 🍕\n`
+        mensagem += `━━━━━━━━━━━━━━━━━━━━\n\n`
+        mensagem += `📋 *ITENS DO PEDIDO:*\n\n`
+
         pedido.itens.forEach((item) => {
-            // Nota que aqui eu tive que buscar a propriedade .totalPizza que nós construimos juntos na outra aula
-            mensagem += `🍕 ${item.nome} (${item.tamanho}) - ${item.quantidade}x - ${formatoReal(item.totalPizza)}\n`
+            if (item.isCombo) {
+                mensagem += `• *${item.nome}* (${item.quantidade}x)\n`
+                if (item.detalhes) {
+                    mensagem += `  ↳ ${item.detalhes}\n`
+                }
+                mensagem += `  ↳ Valor: ${formatoReal(item.totalPizza)}`
+                if (item.desconto > 0) {
+                    mensagem += ` _(Economia: ${formatoReal(item.desconto)})_`
+                }
+                mensagem += `\n\n`
+            } else {
+                mensagem += `• *${item.nome}* (${item.tamanho}) - ${item.quantidade}x\n`
+                mensagem += `  ↳ Valor: ${formatoReal(item.totalPizza)}\n\n`
+            }
         })
 
+        mensagem += `━━━━━━━━━━━━━━━━━━━━\n`
+        mensagem += `💵 *RESUMO FINANCEIRO:*\n`
+        mensagem += `• *Subtotal:* ${formatoReal(pedido.subtotal)}\n`
         if (pedido.desconto > 0) {
-            mensagem += `\nSubtotal: ${formatoReal(pedido.subtotal)}`
-            mensagem += `\nDesconto promocional: -${formatoReal(pedido.desconto)}`
+            mensagem += `• *Desconto / Economia:* -${formatoReal(pedido.desconto)}\n`
         }
+        mensagem += `• *TOTAL DO PEDIDO:* *${formatoReal(pedido.total)}*\n`
+        mensagem += `━━━━━━━━━━━━━━━━━━━━\n\n`
 
-        mensagem += `\n💰 Total do pedido: ${formatoReal(pedido.total)}\n`
-
-        // 3.4 Injetando os dados da entrega no final do bilhete
-        mensagem += `\n🛵 DADOS DE ENTREGA:\n`
-        mensagem += `Nome: ${nomePessoa}\n`
-        mensagem += `Telefone: ${telefonePessoa}\n`
-        mensagem += `Endereço: ${enderecoPessoa}, Número ${numeroCasaPessoa} - ${bairroPessoa}\n`
-        mensagem += `Forma de pagamento: ${formaPagamento}`
-
-        if (complementoPessoa !== '') {
-            mensagem += `Complemento: ${complementoPessoa}`
+        mensagem += `📍 *DADOS PARA ENTREGA:*\n`
+        mensagem += `• *Nome:* ${nomePessoa}\n`
+        mensagem += `• *Telefone:* ${telefonePessoa}\n`
+        mensagem += `• *Endereço:* ${enderecoPessoa}, Nº ${numeroCasaPessoa} - ${bairroPessoa}\n`
+        if (complementoPessoa && complementoPessoa.trim() !== '') {
+            mensagem += `• *Complemento:* ${complementoPessoa.trim()}\n`
         }
+        mensagem += `• *Forma de Pagamento:* ${formaPagamento}\n`
+        mensagem += `━━━━━━━━━━━━━━━━━━━━`
 
         let mensagemFinal = encodeURIComponent(mensagem)
 
@@ -631,9 +749,9 @@ const carregarPizzas = () => {
         }
     }
 
-    // Regra da Promoção
-    const diaDaSemana = new Date().getDay();
-    const quartaFeira = (diaDaSemana === 4); // Definido como 4 (Quinta) para você testar hoje
+    const diaDaSemana = typeof getDiaAtual === 'function' ? getDiaAtual() : new Date().getDay();
+    const tercaFeira = (diaDaSemana === 2);
+    const quartaFeira = (diaDaSemana === 3 || diaDaSemana === 4);
 
     // Listas separadas
     let pizzasPromo = [];
@@ -710,6 +828,19 @@ const carregarPizzas = () => {
         // Ação do clique para abrir o Modal
         pizzaItem.querySelector('.card-btn').addEventListener('click', (e) => {
             e.preventDefault();
+
+            // Se for um item da categoria Combos, abre o Modal Dinâmico de Combos
+            if (item.category === 'Combos' || item.comboId) {
+                const comboObj = (typeof combosJson !== 'undefined')
+                    ? combosJson.find(c => c.id === item.comboId || c.id === item.id) || item
+                    : item;
+                if (typeof abrirModalCombo === 'function') {
+                    abrirModalCombo(comboObj);
+                    botoesFechar();
+                    return;
+                }
+            }
+
             let chave = pegarKey(e);
             abrirModal();
             preencherDadosModal(item);
@@ -722,9 +853,41 @@ const carregarPizzas = () => {
         botoesFechar();
     };
 
-    // 1. Renderiza "Ofertas do Dia" primeiro (se existir promoção)
+    // 1. Renderiza Promoção de Terça-feira ("La Bella em Dobro")
+    if (tercaFeira && typeof combosJson !== 'undefined') {
+        const combosTerca = combosJson.filter(c => c.category === 'PromocaoTerca');
+        if (combosTerca.length > 0 && (categoriaAtual === 'all' || categoriaAtual === 'combos')) {
+            let tituloTerca = document.createElement('h2');
+            tituloTerca.classList.add('category-title');
+            tituloTerca.innerHTML = "La Bella em Dobro 🔥";
+            grid.append(tituloTerca);
+            if (window.animateTitle) window.animateTitle(tituloTerca);
+
+            combosTerca.forEach((combo, idx) => {
+                let comboItem = seleciona('.models .card').cloneNode(true);
+                comboItem.classList.add('combos', 'card-red');
+                comboItem.querySelector(".card-pizza-img").src = combo.img;
+                comboItem.querySelector(".card-title").innerHTML = combo.name;
+                comboItem.querySelector(".card-price").innerHTML = `R$ ${combo.price.toFixed(2).replace('.', ',')}`;
+                
+                const btn = comboItem.querySelector('.card-btn');
+                btn.innerText = "Montar Promoção";
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (typeof abrirModalCombo === 'function') {
+                        abrirModalCombo(combo);
+                        botoesFechar();
+                    }
+                });
+
+                grid.append(comboItem);
+                if (window.observeCard) window.observeCard(comboItem);
+            });
+        }
+    }
+
+    // 2. Renderiza "Ofertas do Dia" de Quarta-feira (se existir promoção)
     if (pizzasPromo.length > 0) {
-        // Verifica se alguma pizza de promo passou no filtro atual pra não colocar um H2 fantasma na tela
         let temPromoPraMostrar = pizzasPromo.some(({ item }) => {
             const catSlug = item.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
             return item.name.toLowerCase().includes(termoAtual.toLowerCase()) &&
@@ -741,7 +904,7 @@ const carregarPizzas = () => {
         }
     }
 
-    // 2. Renderiza as pizzas Normais em seguida
+    // 3. Renderiza as pizzas Normais e Combos regulares em seguida
     pizzasNormais.forEach(obj => desenharCard(obj, false));
 }
 

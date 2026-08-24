@@ -1,7 +1,7 @@
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 function animateTitle(title) {
-    const split = new SplitText(title, { type: "chars" });
+    const split = new SplitText(title, { type: "words,chars", wordsClass: "split-word" });
 
     gsap.set(split.chars, { opacity: 0, y: 40, scale: 0.4 });
 

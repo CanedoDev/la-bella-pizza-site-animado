@@ -63,17 +63,17 @@
 
     <header class="header">
         <nav class="nav-container">
-            <a href="#inicio" class="nav-link">Início</a>
-            <a href="cardápio.html" class="nav-link">Cardápio</a>
-            <a href="#promocoes" class="nav-link">Promoções</a>
+            <a href="#inicio" class="nav-link active" data-section="inicio">Início</a>
+            <a href="cardápio.html" class="nav-link" data-section="cardapio">Cardápio</a>
+            <a href="#promocoes" class="nav-link" data-section="promocoes">Promoções</a>
 
-            <a href="#home" class="logo-link">
+            <a href="#inicio" class="logo-link">
                 <!-- Using the existing logo asset -->
                 <img src="assets/img/logo.webp" alt="La Bella Pizza" class="logo">
             </a>
 
-            <a href="#sobre" class="nav-link">Sobre</a>
-            <a href="#contato" class="nav-link">Contato</a>
+            <a href="#sobre" class="nav-link" data-section="sobre">Sobre</a>
+            <a href="#contato" class="nav-link" data-section="contato">Contato</a>
             <a href="cardápio.html" class="nav-btn">Pedir Pizza</a>
             <div class="hamburger-menu">
                 <span></span>
@@ -84,7 +84,7 @@
     </header>
 
     <main>
-        <section class="hero-section">
+        <section class="hero-section" id="inicio">
 
             <div class="hero-container">
                 <!-- Left Column -->
@@ -318,10 +318,25 @@
                 <div class="promocao-container">
                     <div class="promo-slider">
                         <div class="promo-slides">
-                            <a href="cardápio.html" style="display: block; width: 100%; height: 100%; flex-shrink: 0;"><img
-                                    src="assets/img/banner1 1.webp" alt="Promoção 1" class="promo-slide"></a>
-                            <a href="cardápio.html" style="display: block; width: 100%; height: 100%; flex-shrink: 0;"><img
-                                    src="assets/img/banner2 1.webp" alt="Promoção 2" class="promo-slide"></a>
+                            <a href="cardápio.html" class="promo-slide promo-banner-red">
+                                <img src="assets/img/banner1 1.webp" alt="Promoção Quarta da Casa - Pizzas a partir de R$ 59,90" class="promo-banner-bg">
+                                <div class="promo-banner-content">
+                                    <h3 class="promo-banner-title">Quarta da Casa</h3>
+                                    <p class="promo-banner-desc">Sabores selecionados com condições especiais a partir de:</p>
+                                    <div class="promo-banner-price">R$ 59,90</div>
+                                </div>
+                            </a>
+                            <a href="cardápio.html" class="promo-slide promo-banner-green">
+                                <img src="assets/img/banner2 1.webp" alt="Promoção La Bella em Dobro - 2 Pizzas Médias, Grandes ou Super por R$ 109,90" class="promo-banner-bg">
+                                <div class="promo-banner-content">
+                                    <h3 class="promo-banner-title">La Bella em Dobro</h3>
+                                    <div class="promo-banner-options">
+                                        <div class="promo-option-item">2 Pizzas Médias por <strong>R$ 109,90</strong></div>
+                                        <div class="promo-option-item">2 Pizzas Grandes por <strong>R$ 109,90</strong></div>
+                                        <div class="promo-option-item">2 Pizzas Super por <strong>R$ 109,90</strong></div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                         <button class="promo-btn prev" aria-label="Anterior">&#10094;</button>
                         <button class="promo-btn next" aria-label="Próximo">&#10095;</button>
@@ -539,7 +554,7 @@
         }
         </script>
     </main>
-    <footer>
+    <footer id="contato">
         <div class="bg-footer"><img src="assets/img/bg footer.webp" alt=""></div>
         <div class="footer-container">
             <h3 class="footer-title">Mais que pizza. Uma experiência.</h3>
@@ -548,8 +563,8 @@
                     <div class="left">
                         <h4>Navegação rápida</h4>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#cardapio">Cardápio</a></li>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="cardápio.html">Cardápio</a></li>
                             <li><a href="#sobre">Sobre</a></li>
                             <li><a href="#contato">Contato</a></li>
                         </ul>
@@ -564,9 +579,8 @@
                     </div>
                 </div>
                 <div class="bottom">
-                    <div class="telefone">📞 <strong>Telefone:</strong> (24) 99932-3962</div>
-                    <div class="endereco">📍 <strong>Endereço:</strong> Pizzaria La Bella, Bingen, 2076, Petrópolis -
-                        RJ, 25660-008</div>
+                    <div class="telefone">📞 <strong>Telefone:</strong> <a href="tel:+5524999323962">(24) 99932-3962</a></div>
+                    <div class="endereco">📍 <strong>Endereço:</strong> <a href="https://maps.google.com/?q=Pizzaria+La+Bella,+Rua+Bingen,+2076+-+Bingen,+Petr%C3%B3polis+-+RJ,+25660-008" target="_blank" rel="noopener noreferrer">Pizzaria La Bella, Bingen, 2076, Petrópolis - RJ, 25660-008</a></div>
                     <div class="horario">🕐 <strong>Horários:</strong> Todos os dias, 18h às 23h</div>
                 </div>
             </div>
@@ -602,6 +616,7 @@
         });
     </script>
     <script src="js/promo-slider.js"></script>
+    <script src="js/nav-scrollspy.js"></script>
     <script src="js/loader.js"></script>
 </body>
 

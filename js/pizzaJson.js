@@ -1,10 +1,9 @@
-// Este arquivo contém todas as pizzas extraídas do cardápio físico.
-// As imagens estão usando placeholders das disponíveis na pasta assets.
-// O tamanho "Grande 35 cm" foi mantido como padrão para os displays iniciais nos cartões pequenos
-// (o JavaScript principal vai usar o index 1 do array de price se a matriz tiver quatro tamanhos e assim por diante).
+// ==========================================================================
+// CARDÁPIO DE PRODUTOS - LA BELLA PIZZA
+// ==========================================================================
 
 let pizzaJson = [
-    // --- CATEGORIA 1: R$ 54,90 à R$ 86,90 ---
+    // --- PIZZAS TRADICIONAIS (1 a 24 + Brasileira) ---
     {
         id: 1,
         category: 'Pizzas Tradicionais',
@@ -12,10 +11,8 @@ let pizzaJson = [
         img: 'assets/img/pizza calabresa.png',
         price: [54.90, 64.90, 76.90, 86.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Molho de tomate italiano, muçarela e orégano'
+        description: 'O clássico perfeito: generosa camada de muçarela derretida no ponto ideal sobre molho de tomate italiano artesanal e orégano aromático.'
     },
-
-    // --- CATEGORIA 2: R$ 62,90 à R$ 93,90 ---
     {
         id: 2,
         category: 'Pizzas Tradicionais',
@@ -23,7 +20,7 @@ let pizzaJson = [
         img: 'assets/img/pizza brasileira.png',
         price: [62.90, 69.90, 86.90, 93.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Atum, azeitona preta e cebola'
+        description: 'Sabor marcante e equilibrado: atum nobre desfiado, azeitonas pretas selecionadas e fatias suaves de cebola fresca.'
     },
     {
         id: 3,
@@ -32,7 +29,7 @@ let pizzaJson = [
         img: 'assets/img/pizza frango catupiry.webp',
         price: [62.90, 69.90, 86.90, 93.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Alho torrado'
+        description: 'Para os amantes de sabor intenso: lâminas douradas e crocantes de alho torrado sobre muçarela derretida e molho de tomate.'
     },
     {
         id: 4,
@@ -41,7 +38,7 @@ let pizzaJson = [
         img: 'assets/img/pizza calabresa.png',
         price: [62.90, 69.90, 86.90, 93.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Calabresa'
+        description: 'A queridinha da casa: fatias artesanais de calabresa defumada douradas no forno a lenha sobre queijo muçarela e molho especial.'
     },
     {
         id: 5,
@@ -50,7 +47,7 @@ let pizzaJson = [
         img: 'assets/img/pizza brasileira.png',
         price: [62.90, 69.90, 86.90, 93.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Tomate, burrata e manjericão fresco'
+        description: 'A autêntica tradição italiana: fatias de tomate fresco suculento, burrata cremosa e folhas frescas de manjericão colhidas no dia.'
     },
     {
         id: 6,
@@ -59,7 +56,7 @@ let pizzaJson = [
         img: 'assets/img/pizza frango catupiry.webp',
         price: [62.90, 69.90, 86.90, 93.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Presunto'
+        description: 'Suave e saborosa: fatias selecionadas de presunto cozido de primeira qualidade sobre muçarela derretida e orégano.'
     },
     {
         id: 7,
@@ -68,512 +65,517 @@ let pizzaJson = [
         img: 'assets/img/pizza calabresa.png',
         price: [62.90, 69.90, 86.90, 93.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Requeijão cremoso e parmesão'
+        description: 'Harmonia cremosa irresistível: combinação perfeita de muçarela nobre, autêntico requeijão cremoso e parmesão ralado na hora.'
     },
     {
         id: 8,
         category: 'Pizzas Tradicionais',
         name: 'Americana',
         img: 'assets/img/pizza brasileira.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Bacon torrado, ovo e cebola'
+        description: 'Combinação robusta e saborosa: cubos de bacon torrado crocante, ovos cozidos picados e rodelas de cebola sobre muçarela.'
     },
     {
         id: 9,
         category: 'Pizzas Tradicionais',
         name: 'Alho e Parmesão',
         img: 'assets/img/pizza frango catupiry.webp',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Tomate, alho torrado, parmesão e azeite'
+        description: 'Aroma e crocância incomparáveis: fatias de tomate fresco, alho dourado torrado, parmesão gratinado e fio de azeite extravirgem.'
     },
     {
         id: 10,
         category: 'Pizzas Tradicionais',
         name: 'Bacon',
         img: 'assets/img/pizza calabresa.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Bacon, cebola e alho torrado'
+        description: 'Sabor defumado inconfundível: bacon crocante premium, anéis de cebola e um toque especial de alho torrado sobre muçarela.'
     },
     {
         id: 11,
         category: 'Pizzas Tradicionais',
         name: 'Baiana',
         img: 'assets/img/pizza brasileira.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Calabresa picante, ovos, pimenta biquinho e cebola'
+        description: 'Toque picante na medida certa: calabresa picante moída, ovos cozidos, pimenta biquinho aromática e rodelas de cebola.'
     },
     {
         id: 12,
         category: 'Pizzas Tradicionais',
         name: 'Calabresa c/ Cebola',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [62.90, 69.90, 86.90, 93.90],
+        img: 'assets/img/pizza calabresa.png',
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Calabresa e cebola'
+        description: 'O clássico que nunca erra: fatias douradas de calabresa artesanal cobertas com anéis de cebola fresca e orégano aromático.'
     },
     {
         id: 13,
         category: 'Pizzas Tradicionais',
         name: 'Calabresa c/ Catupiry',
-        img: 'assets/img/pizza calabresa.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Calabresa e requeijão cremoso'
+        description: 'Dupla perfeita: calabresa defumada fatiada combinada com a cremosidade inconfundível do legítimo requeijão cremoso.'
     },
     {
         id: 14,
         category: 'Pizzas Tradicionais',
-        name: 'Frango com Catupiry',
-        img: 'assets/img/pizza brasileira.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        name: 'Frango c/ Catupiry',
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Frango e requeijão cremoso'
+        description: 'A campeã absoluta de pedidos: peito de frango desfiado suculento e bem temperado, coberto com autêntico requeijão cremoso.'
     },
     {
         id: 15,
         category: 'Pizzas Tradicionais',
         name: 'Fiorentina',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [62.90, 69.90, 86.90, 93.90],
+        img: 'assets/img/pizza brasileira.png',
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Presunto, champignon e azeitona preta'
+        description: 'Elegante e suave: presunto cozido fatiado de alta qualidade, cogumelos champignon frescos e azeitonas pretas selecionadas.'
     },
     {
         id: 16,
         category: 'Pizzas Tradicionais',
         name: 'La Bella',
         img: 'assets/img/pizza calabresa.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Tomates, manjericão, parmesão e alho frito'
+        description: 'A receita exclusiva da casa: tomates maduros, folhas frescas de manjericão, queijo parmesão gratinado e alho frito crocante.'
     },
     {
         id: 17,
         category: 'Pizzas Tradicionais',
         name: 'Presunto c/ Catupiry',
-        img: 'assets/img/pizza brasileira.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Presunto e requeijão cremoso'
+        description: 'Textura macia e sabor aconchegante: presunto de primeira linha fatiado com generosa camada de requeijão cremoso.'
     },
     {
         id: 18,
         category: 'Pizzas Tradicionais',
         name: 'Presunto c/ Champignon',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [62.90, 69.90, 86.90, 93.90],
+        img: 'assets/img/pizza brasileira.png',
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Presunto e champignon'
+        description: 'Equilíbrio sofisticado: presunto cozido especial harmonizado com lâminas de cogumelos champignon frescos sobre muçarela.'
     },
     {
         id: 19,
         category: 'Pizzas Tradicionais',
         name: '3 Porquinhos',
         img: 'assets/img/pizza calabresa.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Calabresa, presunto e bacon'
+        description: 'A favorita dos apaixonados por carne: trio irresistível de calabresa artesanal, presunto nobre e cubos de bacon bem crocantes.'
     },
     {
         id: 20,
         category: 'Pizzas Tradicionais',
         name: 'Portuguesa',
         img: 'assets/img/pizza brasileira.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Presunto, calabresa, pimentão, azeitona preta, ovo e cebola'
+        description: 'Rica em tradição e sabor: presunto, fatias de calabresa, pimentão fresco, azeitonas pretas, ovos cozidos e cebola fatiada.'
     },
     {
         id: 21,
         category: 'Pizzas Tradicionais',
         name: 'Quatro Queijos',
         img: 'assets/img/pizza frango catupiry.webp',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Gorgonzola, requeijão cremoso e parmesão'
+        description: 'Explosão de sabor e cremosidade: fusão equilibrada de muçarela, gorgonzola encorpado, requeijão cremoso e parmesão ralado.'
     },
     {
         id: 22,
         category: 'Pizzas Tradicionais',
         name: 'Romanesca',
         img: 'assets/img/pizza calabresa.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Presunto, champignon, bacon e requeijão cremoso'
+        description: 'Receita nobre e encorpada: presunto fatiado, champignon fresco, bacon crocante e autêntico requeijão cremoso.'
     },
     {
         id: 23,
         category: 'Pizzas Tradicionais',
-        name: "Salaminho D'Itália",
+        name: 'Salaminho d\'Itália',
         img: 'assets/img/pizza brasileira.png',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Salaminho e cebola'
+        description: 'Sabor refinado italiano: finas fatias de salaminho italiano curado com anéis suaves de cebola sobre base de muçarela.'
     },
     {
         id: 24,
         category: 'Pizzas Tradicionais',
         name: 'Siciliana',
         img: 'assets/img/pizza frango catupiry.webp',
-        price: [62.90, 69.90, 86.90, 93.90],
+        price: [67.90, 75.90, 91.90, 99.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Calabresa, champignon e alho'
+        description: 'Tradição rústica do sul da Itália: calabresa fatiada, lâminas de champignon fresco e toque especial de alho aromático.'
+    },
+    {
+        id: 2401,
+        category: 'Pizzas Tradicionais',
+        name: 'Brasileira',
+        img: 'assets/img/pizza brasileira.png',
+        price: [67.90, 75.90, 91.90, 99.90],
+        sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
+        description: 'O melhor do sabor nacional: muçarela especial derretida, palmito macio, ovos cozidos fatiados, milho fresco, ervilhas selecionadas e orégano.'
     },
 
-    // --- CATEGORIA 3: R$ 68,90 à R$ 96,90 ---
+    // --- PIZZAS ESPECIAIS (25 a 51) ---
     {
         id: 25,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'À Moda do Pizzaiolo',
         img: 'assets/img/pizza calabresa.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Lombo canadense, champignon e provolone'
+        description: 'Criação exclusiva do mestre: fatias de lombo canadense nobre, champignon fresco e queijo provolone defumado gratinado.'
     },
     {
         id: 26,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'À Moda do Cheff',
         img: 'assets/img/pizza brasileira.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Calabresa, bacon, tomate e cebola'
+        description: 'Receita autoral marcante: calabresa defumada, bacon crocante, rodelas de tomate fresco e cebola fatiada sobre muçarela.'
     },
     {
         id: 27,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Gorgonzola',
         img: 'assets/img/pizza frango catupiry.webp',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Gorgonzola e champignon'
+        description: 'Para paladares exigentes: queijo gorgonzola de sabor marcante combinado com lâminas de cogumelos champignon frescos sobre muçarela.'
     },
     {
         id: 28,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Imperial',
         img: 'assets/img/pizza calabresa.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Lombo canadense, palmito, champignon, ervilha e tomate'
+        description: 'Uma verdadeira experiência gastronômica: lombo canadense nobre, palmito macio, champignon, ervilhas frescas e tomate.'
     },
     {
         id: 29,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Italiana',
         img: 'assets/img/pizza brasileira.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Calabresa, bacon, requeijão cremoso e cebola'
+        description: 'Sabor rústico e acolhedor: calabresa fatiada, bacon crocante, requeijão cremoso derretido e anéis de cebola fresca.'
     },
     {
         id: 30,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Lombo Canadense c/ Catupiry',
         img: 'assets/img/pizza frango catupiry.webp',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Lombo canadense e requeijão cremoso'
+        description: 'Maciez e cremosidade: fatias nobres de lombo canadense cobertas com generosa camada de legítimo requeijão cremoso.'
     },
     {
         id: 31,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Lombo à Moda',
         img: 'assets/img/pizza calabresa.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Lombo canadense, champignon, ovo, requeijão cremoso e azeitonas pretas'
+        description: 'Combinação nobre e completa: lombo canadense, champignon, ovos cozidos, requeijão cremoso e azeitonas pretas selecionadas.'
     },
     {
         id: 32,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Lombo Canadense',
         img: 'assets/img/pizza brasileira.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Lombo canadense e azeitona preta'
+        description: 'Sabor refinado e levemente defumado: lombo canadense fatiado de alta qualidade harmonizado com azeitonas pretas sobre muçarela.'
     },
     {
         id: 33,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Mista',
         img: 'assets/img/pizza frango catupiry.webp',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Presunto, calabresa, tomate e azeitona preta'
+        description: 'A união dos sabores favoritos: presunto fatiado, calabresa dourada no forno, rodelas de tomate fresco e azeitonas pretas.'
     },
     {
         id: 34,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Napolitana',
         img: 'assets/img/pizza calabresa.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Tomate, parmesão e azeitona preta'
+        description: 'Simplicidade clássica e refinada: fatias de tomate fresco suculento, queijo parmesão gratinado e azeitonas pretas sobre muçarela.'
     },
     {
         id: 35,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Palmito c/ Champignon',
         img: 'assets/img/pizza brasileira.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Palmito e champignon'
+        description: 'Leve e sofisticada: pedaços macios de palmito nobre combinados com lâminas de cogumelos champignon frescos sobre queijo muçarela.'
     },
     {
         id: 36,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Peito de Peru c/ Catupiry',
         img: 'assets/img/pizza frango catupiry.webp',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Peito de peru e requeijão cremoso'
+        description: 'Opção leve e incrivelmente cremosa: peito de peru defumado fatiado com cobertura generosa de requeijão cremoso.'
     },
     {
         id: 37,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Peito de Peru c/ Champignon',
         img: 'assets/img/pizza calabresa.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Peito de peru defumado, champignon, bacon, parmesão e requeijão cremoso'
+        description: 'Combinação premium: peito de peru defumado, champignon fresco, bacon crocante, parmesão gratinado e requeijão cremoso.'
     },
     {
         id: 38,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Peito de Peru c/ Palmito',
         img: 'assets/img/pizza brasileira.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Peito de peru e palmito'
+        description: 'Sabor suave e textura impecável: fatias finas de peito de peru defumado harmonizadas com pedaços macios de palmito nobre.'
     },
     {
         id: 39,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Pepperoni',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [68.90, 76.90, 89.90, 96.90],
+        img: 'assets/img/pizza calabresa.png',
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Pepperoni, azeitona preta e cebola'
+        description: 'Intensa e irresistível: generosas fatias de pepperoni levemente apimentado, azeitonas pretas e anéis de cebola sobre muçarela.'
     },
     {
         id: 40,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Presunto c/ Ovos',
-        img: 'assets/img/pizza calabresa.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        img: 'assets/img/pizza brasileira.png',
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Presunto, ovo, champignon e azeitona preta'
+        description: 'Clássica e reconfortante: presunto de primeira linha, ovos cozidos picados, champignon e azeitonas pretas sobre muçarela.'
     },
     {
         id: 41,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Primavera',
-        img: 'assets/img/pizza brasileira.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Presunto, palmito, champignon e provolone'
+        description: 'Cores e sabores frescos: presunto fatiado, palmito macio, champignon laminado e queijo provolone defumado gratinado.'
     },
     {
         id: 42,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Saborosa',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [68.90, 76.90, 89.90, 96.90],
+        img: 'assets/img/pizza calabresa.png',
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Peito de peru, tomate, alho poró, cebola e requeijão cremoso'
+        description: 'Harmonia surpreendente: peito de peru defumado, tomate fresco, alho-poró refogado, cebola e requeijão cremoso.'
     },
     {
         id: 43,
-        category: 'Pizzas Tradicionais',
-        name: 'Tomate Sêco c/ Rúcula',
-        img: 'assets/img/pizza calabresa.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        category: 'Pizzas Especiais',
+        name: 'Tomate Seco c/ Rúcula',
+        img: 'assets/img/pizza brasileira.png',
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Tomate seco e rúcula'
+        description: 'Contraste gourmet perfeito: tomates secos artesanais com folhas frescas de rúcula sobre queijo muçarela derretido.'
     },
     {
         id: 44,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Vitello',
-        img: 'assets/img/pizza brasileira.png',
-        price: [68.90, 76.90, 89.90, 96.90],
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Lombo canadense, ovo, alho frito, parmesão e requeijão cremoso'
+        description: 'Receita refinada da casa: lombo canadense, ovos cozidos, alho frito crocante, parmesão gratinado e requeijão cremoso.'
     },
-
-    // --- CATEGORIA 4: R$ 73,90 à R$ 103,90 ---
     {
         id: 45,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Brócolis',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [73.90, 77.90, 96.90, 103.90],
+        img: 'assets/img/pizza calabresa.png',
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Gorgonzola e brócolis'
+        description: 'Sabor marcante e nutritivo: buquês frescos de brócolis refogados no azeite combinados com queijo gorgonzola encorpado.'
     },
     {
         id: 46,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: '5 Queijos',
-        img: 'assets/img/pizza calabresa.png',
-        price: [73.90, 77.90, 96.90, 103.90],
+        img: 'assets/img/pizza brasileira.png',
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Gorgonzola, provolone, requeijão cremoso e parmesão'
+        description: 'O paraíso dos queijos: harmonia cremosa de muçarela, provolone defumado, gorgonzola, requeijão cremoso e parmesão.'
     },
     {
         id: 47,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Requintada',
-        img: 'assets/img/pizza brasileira.png',
-        price: [73.90, 77.90, 96.90, 103.90],
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [75.90, 83.90, 99.90, 107.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Peito de peru, lombo canadense, tomate, palmito, parmesão e rúcula'
+        description: 'Experiência de alta gastronomia: peito de peru, lombo canadense, tomate fresco, palmito, parmesão gratinado e rúcula.'
     },
-
-    // --- CATEGORIA 5: R$ 75,90 à R$ 105,90 ---
     {
         id: 48,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Camarão c/ Catupiry',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [75.90, 82.90, 99.90, 105.90],
+        img: 'assets/img/pizza calabresa.png',
+        price: [87.90, 98.90, 117.90, 127.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Camarão e requeijão cremoso'
+        description: 'Sofisticação do mar: camarões selecionados e salteados no azeite, cobertos com legítimo requeijão cremoso.'
     },
     {
         id: 49,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Camarão do Cheff',
-        img: 'assets/img/pizza calabresa.png',
-        price: [75.90, 82.90, 99.90, 105.90],
+        img: 'assets/img/pizza brasileira.png',
+        price: [87.90, 98.90, 117.90, 127.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Camarão, alho poró e tomate'
+        description: 'Especialidade exclusiva: camarões suculentos puxados no azeite com alho-poró refogado e cubos de tomate fresco.'
     },
     {
         id: 50,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Shitake 1',
-        img: 'assets/img/pizza brasileira.png',
-        price: [75.90, 82.90, 99.90, 105.90],
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [87.90, 98.90, 117.90, 127.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Shitake refogado, alho poró e azeitona preta'
+        description: 'Sabor umami incomparável: cogumelos shitake frescos refogados no azeite, alho-poró suave e azeitonas pretas.'
     },
     {
         id: 51,
-        category: 'Pizzas Tradicionais',
+        category: 'Pizzas Especiais',
         name: 'Shitake 2',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [75.90, 82.90, 99.90, 105.90],
+        img: 'assets/img/pizza calabresa.png',
+        price: [87.90, 98.90, 117.90, 127.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'Shitake refogado, gorgonzola, alho poró e azeitona preta'
+        description: 'Explosão gastronômica gourmet: cogumelos shitake refogados no azeite, queijo gorgonzola encorpado, alho-poró e azeitonas pretas.'
     },
 
-    // --- PIZZAS DOCES: R$ 44,90 à R$ 54,90 (Apenas Média e Grande) ---
+    // --- PIZZAS DOCES (52 a 59) ---
     {
         id: 52,
         category: 'Pizzas Doces',
         name: 'Banana c/ Canela',
-        img: 'assets/img/pizza calabresa.png',
-        price: [44.90, 49.90],
-        sizes: ['Média 30 cm', 'Grande 35 cm'],
-        description: 'Muçarela, banana, canela e açúcar'
+        img: 'assets/img/pizza brasileira.png',
+        price: [59.90, 68.90, 81.90, 89.90],
+        sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
+        description: 'Doce e perfumada: fatias de banana fresca caramelizadas com açúcar e canela aromática sobre queijo muçarela derretido.'
     },
     {
         id: 53,
         category: 'Pizzas Doces',
         name: 'Brigadeiro',
-        img: 'assets/img/pizza brasileira.png',
-        price: [47.90, 51.90],
-        sizes: ['Média 30 cm', 'Grande 35 cm'],
-        description: 'Chocolate e granulado'
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [59.90, 68.90, 81.90, 89.90],
+        sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
+        description: 'A sobremesa mais amada: generosa camada de brigadeiro cremoso artesanal coberto com granulado de chocolate nobre.'
     },
     {
         id: 54,
         category: 'Pizzas Doces',
         name: 'Brigadeiro Especial',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [49.90, 54.90],
-        sizes: ['Média 30 cm', 'Grande 35 cm'],
-        description: 'Chocolate, granulado e muçarela'
+        img: 'assets/img/pizza calabresa.png',
+        price: [59.90, 68.90, 81.90, 89.90],
+        sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
+        description: 'Contraste doce e salgado irresistível: brigadeiro de panela artesanal, granulado crocante e muçarela derretida.'
     },
     {
         id: 55,
         category: 'Pizzas Doces',
         name: 'Chocolate c/ Banana',
-        img: 'assets/img/pizza calabresa.png',
-        price: [47.90, 51.90],
-        sizes: ['Média 30 cm', 'Grande 35 cm'],
-        description: 'Chocolate e banana'
+        img: 'assets/img/pizza brasileira.png',
+        price: [59.90, 68.90, 81.90, 89.90],
+        sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
+        description: 'Combinação clássica que conforta: chocolate cremoso meio amargo derretido com fatias doces de banana fresca.'
     },
     {
         id: 56,
         category: 'Pizzas Doces',
         name: 'Chocolate c/ Morango',
-        img: 'assets/img/pizza brasileira.png',
-        price: [49.90, 54.90],
-        sizes: ['Média 30 cm', 'Grande 35 cm'],
-        description: 'Chocolate e morango'
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [59.90, 68.90, 81.90, 89.90],
+        sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
+        description: 'A queridinha das sobremesas: chocolate nobre derretido coberto com pedaços frescos de morangos selecionados.'
     },
     {
         id: 57,
         category: 'Pizzas Doces',
         name: 'Festa',
-        img: 'assets/img/pizza frango catupiry.webp',
-        price: [49.90, 54.90],
-        sizes: ['Média 30 cm', 'Grande 35 cm'],
-        description: 'Chocolate e confete de chocolate'
+        img: 'assets/img/pizza calabresa.png',
+        price: [59.90, 68.90, 81.90, 89.90],
+        sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
+        description: 'Alegre e crocante: chocolate cremoso coberto com confeitos coloridos crocantes de chocolate confeitado.'
     },
     {
         id: 58,
         category: 'Pizzas Doces',
         name: 'Prestígio',
-        img: 'assets/img/pizza calabresa.png',
-        price: [49.90, 54.90],
-        sizes: ['Média 30 cm', 'Grande 35 cm'],
-        description: 'Chocolate e coco ralado'
+        img: 'assets/img/pizza brasileira.png',
+        price: [59.90, 68.90, 81.90, 89.90],
+        sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
+        description: 'Clássico tropical inconfundível: chocolate nobre derretido com generosa cobertura de coco ralado fresco.'
     },
     {
         id: 59,
         category: 'Pizzas Doces',
         name: 'Romeu e Julieta',
-        img: 'assets/img/pizza brasileira.png',
-        price: [44.90, 49.90],
-        sizes: ['Média 30 cm', 'Grande 35 cm'],
-        description: 'Goiabada cremosa e requeijão cremoso'
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: [59.90, 68.90, 81.90, 89.90],
+        sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
+        description: 'O par perfeito da doçura: goiabada cremosa cascão combinada com autêntico requeijão cremoso suave.'
     },
 
-    // --- PIZZAS GOURMET: R$ 98,90 à R$ 104,90 (Apenas Grande) ---
+    // --- PIZZAS GOURMET (60 a 66 - Pomodori Pelati, Muçarela de Búfala, 35cm) ---
     {
         id: 60,
         category: 'Pizzas Gourmet',
         name: 'Abobrinha Natural',
-        img: 'assets/img/pizza frango catupiry.webp',
+        img: 'assets/img/pizza calabresa.png',
         price: [98.90],
         sizes: ['Grande 35 cm'],
-        description: 'Abobrinha fresca, alho poró, requeijão cremoso, pesto e manjericão'
+        description: 'Delicada e aromática: abobrinha fresca laminada, alho-poró, requeijão cremoso, molho pesto artesanal e manjericão fresco sobre muçarela de búfala.'
     },
     {
         id: 61,
         category: 'Pizzas Gourmet',
         name: 'Burrata',
-        img: 'assets/img/pizza calabresa.png',
+        img: 'assets/img/pizza brasileira.png',
         price: [98.90],
         sizes: ['Grande 35 cm'],
-        description: 'Tomate cereja, burrata, manjericão, pesto e orégano'
+        description: 'Suprema sofisticação italiana: tomates cereja doces, burrata artesanal cremosa, manjericão fresco, molho pesto e orégano sobre pomodori pelati e muçarela de búfala.'
     },
     {
         id: 62,
         category: 'Pizzas Gourmet',
         name: 'Caprese',
-        img: 'assets/img/pizza brasileira.png',
+        img: 'assets/img/pizza frango catupiry.webp',
         price: [98.90],
         sizes: ['Grande 35 cm'],
-        description: 'Tomate cereja, azeitona preta e manjericão'
+        description: 'Frescor e tradição mediterrânea: muçarela de búfala nobre, tomates cereja suculentos, azeitonas pretas e folhas frescas de manjericão.'
     },
     {
         id: 63,
@@ -582,7 +584,7 @@ let pizzaJson = [
         img: 'assets/img/pizza frango catupiry.webp',
         price: [98.90],
         sizes: ['Grande 35 cm'],
-        description: 'Gorgonzola, pêra e um leve toque de geleia de pimenta'
+        description: 'Harmonia agridoce espetacular: queijo gorgonzola encorpado, lâminas de pêra fresca e um leve toque especial de geleia de pimenta sobre muçarela de búfala.'
     },
     {
         id: 64,
@@ -591,7 +593,7 @@ let pizzaJson = [
         img: 'assets/img/pizza calabresa.png',
         price: [104.90],
         sizes: ['Grande 35 cm'],
-        description: 'Cubos de muçarela de bufúla, tomate cereja e manjericão'
+        description: 'Autêntica e nobre: cubos de muçarela de búfala artesanal, tomates cereja doces e folhas frescas de manjericão colhidas no dia.'
     },
     {
         id: 65,
@@ -600,7 +602,7 @@ let pizzaJson = [
         img: 'assets/img/pizza brasileira.png',
         price: [104.90],
         sizes: ['Grande 35 cm'],
-        description: 'Presunto serrano, parmesão e rúcula'
+        description: 'Elegância da charcutaria nobre: fatias finíssimas de presunto serrano tipo parma, queijo parmesão ralado na hora e folhas frescas de rúcula sobre base de búfala.'
     },
     {
         id: 66,
@@ -609,26 +611,32 @@ let pizzaJson = [
         img: 'assets/img/pizza frango catupiry.webp',
         price: [104.90],
         sizes: ['Grande 35 cm'],
-        description: 'Peito de peru, alho poró, tomate cereja, azeitona preta, manjericão e orégano'
+        description: 'Criação autoral refinada: peito de peru defumado, alho-poró, tomates cereja doces, azeitonas pretas, manjericão fresco e orégano sobre pomodori pelati e muçarela de búfala.'
     },
+
+    // --- COMBOS FIXOS ---
     {
         id: 67,
         category: 'Combos',
+        comboId: 101,
         name: 'Combo Super + Doce + Refri',
-        img: '',
+        img: 'assets/img/banner1 1.webp',
         price: [120.00],
-        sizes: ['1 Super + 1 Média Doce 30cm + 1 Refri'],
-        description: 'Combo 01: 1 Super + 1 Média Doce 30cm + 1 Refri'
+        sizes: ['1 Super + 1 Média Doce + 1 Refri 2L'],
+        description: '1 Super Salgada (40cm) + 1 Média Doce (30cm) + 1 Refrigerante 2L'
     },
     {
         id: 68,
         category: 'Combos',
+        comboId: 102,
         name: 'Combo 2 Grandes + Refri',
-        img: '',
+        img: 'assets/img/banner2 1.webp',
         price: [120.00],
-        sizes: ['2 Grandes + Refri'],
-        description: 'Combo 02: 2 Grandes + Refri'
+        sizes: ['2 Grandes + Refri 2L'],
+        description: '2 Pizzas Grandes Tradicionais (35cm) + 1 Refrigerante 2L'
     },
+
+    // --- BEBIDAS ---
     {
         id: 69,
         category: 'Bebidas',
@@ -636,7 +644,7 @@ let pizzaJson = [
         img: 'assets/img/logo.webp',
         price: [8.00, 14.00],
         sizes: ['600ml', '2L'],
-        description: 'Refrigerante Coca-Cola geladinho'
+        description: 'Refrigerante Coca-Cola original geladinho e refrescante.'
     },
     {
         id: 70,
@@ -645,7 +653,7 @@ let pizzaJson = [
         img: 'assets/img/logo.webp',
         price: [8.00, 14.00],
         sizes: ['600ml', '2L'],
-        description: 'Refrigerante Pepsi geladinho'
+        description: 'Refrigerante Pepsi sabor marcante geladinho e refrescante.'
     },
     {
         id: 71,
@@ -654,7 +662,7 @@ let pizzaJson = [
         img: 'assets/img/logo.webp',
         price: [8.00, 14.00],
         sizes: ['600ml', '2L'],
-        description: 'Refrigerante Guaraná Antarctica geladinho'
+        description: 'Refrigerante Guaraná Antarctica original da Amazônia geladinho.'
     },
     {
         id: 72,
@@ -663,6 +671,100 @@ let pizzaJson = [
         img: 'assets/img/logo.webp',
         price: [8.00, 14.00],
         sizes: ['600ml', '2L'],
-        description: 'Refrigerante Sprite geladinho'
+        description: 'Refrigerante Sprite sabor limão bem geladinho e refrescante.'
+    }
+];
+
+// ==========================================================================
+// ESTRUTURA DE DADOS DOS COMBOS DINÂMICOS (Regras, Sabores e Promoções)
+// ==========================================================================
+let combosJson = [
+    {
+        id: 101,
+        code: 'combo_super_doce_refri',
+        name: 'Combo Super + Doce + Refri',
+        category: 'Combos',
+        img: 'assets/img/banner1 1.webp',
+        price: 120.00,
+        description: '1 Super Salgada (40cm) + 1 Média Doce (30cm) + 1 Refrigerante 2L',
+        rules: {
+            pizzas: [
+                { size: 'G', sizeIndex: 2, sizeName: 'Super (40cm)', category: ['Pizzas Tradicionais'], label: '1ª Pizza Salgada Super (40cm)' },
+                { size: 'P', sizeIndex: 0, sizeName: 'Média (30cm)', category: ['Pizzas Doces'], label: '2ª Pizza Doce Média (30cm)' }
+            ],
+            drinks: [
+                { size: '2L', sizeIndex: 1, label: 'Refrigerante 2L' }
+            ]
+        }
+    },
+    {
+        id: 102,
+        code: 'combo_2_grandes_refri',
+        name: 'Combo 2 Grandes + Refri',
+        category: 'Combos',
+        img: 'assets/img/banner2 1.webp',
+        price: 120.00,
+        description: '2 Pizzas Grandes Tradicionais (35cm) + 1 Refrigerante 2L',
+        rules: {
+            pizzas: [
+                { size: 'M', sizeIndex: 1, sizeName: 'Grande (35cm)', category: ['Pizzas Tradicionais'], label: '1ª Pizza Grande (35cm)' },
+                { size: 'M', sizeIndex: 1, sizeName: 'Grande (35cm)', category: ['Pizzas Tradicionais'], label: '2ª Pizza Grande (35cm)' }
+            ],
+            drinks: [
+                { size: '2L', sizeIndex: 1, label: 'Refrigerante 2L' }
+            ]
+        }
+    },
+    // Promoção de Terça-feira: La Bella em Dobro (ativa às terças - diaDaSemana === 2)
+    {
+        id: 201,
+        code: 'promo_terca_2_medias',
+        name: 'La Bella em Dobro - 2 Médias',
+        category: 'PromocaoTerca',
+        dayOfWeek: 2, // Terça-feira
+        img: 'assets/img/pizza calabresa.png',
+        price: 109.90,
+        description: '2 Pizzas Médias Tradicionais por R$ 109,90',
+        rules: {
+            pizzas: [
+                { size: 'P', sizeIndex: 0, sizeName: 'Média (30cm)', category: ['Pizzas Tradicionais'], label: '1ª Pizza Média (30cm)' },
+                { size: 'P', sizeIndex: 0, sizeName: 'Média (30cm)', category: ['Pizzas Tradicionais'], label: '2ª Pizza Média (30cm)' }
+            ],
+            drinks: []
+        }
+    },
+    {
+        id: 202,
+        code: 'promo_terca_2_grandes',
+        name: 'La Bella em Dobro - 2 Grandes',
+        category: 'PromocaoTerca',
+        dayOfWeek: 2, // Terça-feira
+        img: 'assets/img/pizza brasileira.png',
+        price: 109.90,
+        description: '2 Pizzas Grandes Tradicionais por R$ 109,90',
+        rules: {
+            pizzas: [
+                { size: 'M', sizeIndex: 1, sizeName: 'Grande (35cm)', category: ['Pizzas Tradicionais'], label: '1ª Pizza Grande (35cm)' },
+                { size: 'M', sizeIndex: 1, sizeName: 'Grande (35cm)', category: ['Pizzas Tradicionais'], label: '2ª Pizza Grande (35cm)' }
+            ],
+            drinks: []
+        }
+    },
+    {
+        id: 203,
+        code: 'promo_terca_2_super',
+        name: 'La Bella em Dobro - 2 Super',
+        category: 'PromocaoTerca',
+        dayOfWeek: 2, // Terça-feira
+        img: 'assets/img/pizza frango catupiry.webp',
+        price: 109.90,
+        description: '2 Pizzas Super Tradicionais por R$ 109,90',
+        rules: {
+            pizzas: [
+                { size: 'G', sizeIndex: 2, sizeName: 'Super (40cm)', category: ['Pizzas Tradicionais'], label: '1ª Pizza Super (40cm)' },
+                { size: 'G', sizeIndex: 2, sizeName: 'Super (40cm)', category: ['Pizzas Tradicionais'], label: '2ª Pizza Super (40cm)' }
+            ],
+            drinks: []
+        }
     }
 ];
