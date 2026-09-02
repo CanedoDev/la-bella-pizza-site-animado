@@ -1,0 +1,14 @@
+# Ambientes de Desenvolvimento e IDEs
+.vscode/
+.idea/
+
+# Agentes e Automações de IA Locais
+.agent/
+
+# Dependências e Builds (caso venham a ser adicionadas)
+node_modules/
+
+# Arquivos Temporários de Sistema Operacional
+.DS_Store
+Thumbs.db
+*.log

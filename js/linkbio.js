@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Corrige viewport no Mobile
     setVH();
 
-    // Verifica se o loader global está ativo para sincronizar as animações (2.4s é o tempo da TL do loader)
+    // Verifica se o loader global está ativo para sincronizar as animações (~1.35s é o tempo da TL do loader)
     const loader = document.getElementById("global-loader");
-    const baseDelay = (loader && !loader.classList.contains("hidden")) ? 2.4 : 0;
+    const baseDelay = (loader && !loader.classList.contains("hidden")) ? 1.35 : 0;
 
     // 1. ANIMAR A ENTRADA DA MINHOCA (GROW SVG WORM)
     const isMobile = window.innerWidth <= 768;
@@ -26,9 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Animação de crescimento elástico único no load
         gsap.to(wormPath, {
             strokeDashoffset: 0,
-            duration: 1.8,
+            duration: 1.4,
             ease: "power2.out",
-            delay: baseDelay + 0.1
+            delay: baseDelay + 0.05
         });
     }
 
@@ -38,29 +38,29 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.from(".bio-title, .bio-subtitle", {
         opacity: 0,
         y: 20,
-        duration: 0.8,
-        stagger: 0.1,
+        duration: 0.6,
+        stagger: 0.08,
         ease: "power2.out",
-        delay: baseDelay + 0.5
+        delay: baseDelay + 0.05
     });
 
     // Animação Elástica dos Botões (O "estilo elástico" da marca)
     gsap.from(".bio-btn", {
         opacity: 0,
         scale: 0.7,
-        y: 40,
-        duration: 1.2,
+        y: 35,
+        duration: 0.9,
         ease: "elastic.out(1, 0.75)",
-        stagger: 0.15,
-        delay: baseDelay + 0.6
+        stagger: 0.08,
+        delay: baseDelay + 0.1
     });
 
     // Animação de Entrada do Rodapé
     gsap.from(".bio-footer", {
         opacity: 0,
-        duration: 0.8,
+        duration: 0.6,
         ease: "power2.out",
-        delay: baseDelay + 1.3
+        delay: baseDelay + 0.35
     });
 
 

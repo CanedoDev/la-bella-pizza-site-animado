@@ -641,7 +641,7 @@ let pizzaJson = [
         id: 69,
         category: 'Bebidas',
         name: 'Coca-Cola',
-        img: 'assets/img/logo.webp',
+        img: 'assets/img/logo-la-bella-pizza.webp',
         price: [8.00, 14.00],
         sizes: ['600ml', '2L'],
         description: 'Refrigerante Coca-Cola original geladinho e refrescante.'
@@ -650,7 +650,7 @@ let pizzaJson = [
         id: 70,
         category: 'Bebidas',
         name: 'Pepsi',
-        img: 'assets/img/logo.webp',
+        img: 'assets/img/logo-la-bella-pizza.webp',
         price: [8.00, 14.00],
         sizes: ['600ml', '2L'],
         description: 'Refrigerante Pepsi sabor marcante geladinho e refrescante.'
@@ -659,7 +659,7 @@ let pizzaJson = [
         id: 71,
         category: 'Bebidas',
         name: 'Guaraná Antarctica',
-        img: 'assets/img/logo.webp',
+        img: 'assets/img/logo-la-bella-pizza.webp',
         price: [8.00, 14.00],
         sizes: ['600ml', '2L'],
         description: 'Refrigerante Guaraná Antarctica original da Amazônia geladinho.'
@@ -668,7 +668,7 @@ let pizzaJson = [
         id: 72,
         category: 'Bebidas',
         name: 'Sprite',
-        img: 'assets/img/logo.webp',
+        img: 'assets/img/logo-la-bella-pizza.webp',
         price: [8.00, 14.00],
         sizes: ['600ml', '2L'],
         description: 'Refrigerante Sprite sabor limão bem geladinho e refrescante.'

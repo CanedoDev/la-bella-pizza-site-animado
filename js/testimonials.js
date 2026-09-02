@@ -7,27 +7,42 @@ const STARS_HTML = `
     <img src="assets/img/estrela-avaliacao.svg" alt="Avaliação 5 estrelas" class="star-svg">
 `;
 
-// Dados dos depoimentos
+// Dados dos depoimentos reais do Google Maps
 const testimonials = [
     {
-        text: "A melhor pizza que já comi na vida! Massa fininha, crocante e o recheio é generoso. Voltarei sempre!",
-        author: "Ana Paula M."
+        text: "Confesso que estou arrependida... Arrependida de nunca ter ido antes nessa pizzaria! Que pizza maravilhosa, massa fina, recheio na medida e ambiente muito acolhedor. O atendimento do Sr. Edu foi fantástico, nos apresentou vários azeites que deixaram tudo ainda mais saboroso!",
+        author: "Juliana Mulano",
+        badge: "Avaliação 5 estrelas no Google"
     },
     {
-        text: "Atendimento impecável e pizza maravilhosa. A de Quatro Queijos derreteu meu coração. Recomendo demais!",
-        author: "Carlos R."
+        text: "The best pizza I've ever eaten! Pizza was amazing, really delicious. We got few olive oils to taste. The owner Eduardo explained everything about his pizzas and offered a special pizza to try. Best service ever!",
+        author: "Adam Adamek",
+        badge: "Avaliação 5 estrelas no Google"
     },
     {
-        text: "Cada mordida parecia um abraço quente num dia frio. A melhor pizza artesanal de Petrópolis!",
-        author: "Marina K."
+        text: "Minhas pizzas chegaram bem quentes e saborosas. O refri, bem gelado. Valeu! Nota dez em comida, serviço e entrega!",
+        author: "Kelly Soares",
+        badge: "Local Guide · Google"
     },
     {
-        text: "A massa de fermentação lenta faz toda a diferença. Sabor incrível, deu pra sentir a qualidade dos ingredientes.",
-        author: "Bruno S."
+        text: "Pizza deliciosa, ambiente limpíssimo, ótimo atendimento e preço justo. Recomendo muito para quem visita ou mora em Petrópolis!",
+        author: "Lucymeri Valente",
+        badge: "Local Guide · Google"
     },
     {
-        text: "Pedi pelo delivery e chegou quentinha e perfeita. A Calabresa é simplesmente irresistível. Já pedi três vezes esse mês!",
-        author: "Fernanda L."
+        text: "Pizza muito gostosa, fiz o pedido e em 15 minutos já podia buscar. Atendimento rápido, eficiente e pizza de qualidade máxima!",
+        author: "Felippe Nunes",
+        badge: "Local Guide · Google"
+    },
+    {
+        text: "Melhor pizza da vida! E o atendimento é maravilhoso. Pode ir, que não vão se arrepender :)",
+        author: "Crias2022 Dias",
+        badge: "Avaliação 5 estrelas no Google"
+    },
+    {
+        text: "PIZZA MARAVILHOSA 😋 Achei pelo Google pelas ótimas avaliações. Com certeza voltarei quando estiver em Petrópolis! Massa de fermentação natural, recheio delicioso e atendimento top!",
+        author: "Camilla Rocha",
+        badge: "Local Guide · Google"
     }
 ];
 
@@ -41,8 +56,21 @@ function buildSlide(data) {
         <div class="stars-row">${STARS_HTML}</div>
         <p class="testimonial-text">"${data.text}"</p>
         <span class="testimonial-author">${data.author}</span>
+        ${data.badge ? `<span class="testimonial-badge" style="display:block; font-size:12px; opacity:0.8; margin-top:2px;">${data.badge}</span>` : ''}
     `;
     return slide;
+}
+
+function updateTrackHeight(track, slide) {
+    if (!track || !slide) return;
+    const slideHeight = slide.offsetHeight;
+    if (slideHeight > 0) {
+        gsap.to(track, {
+            minHeight: Math.max(280, slideHeight + 45),
+            duration: 0.35,
+            ease: "power2.out"
+        });
+    }
 }
 
 function showTestimonial(index, direction = 1) {
@@ -55,6 +83,11 @@ function showTestimonial(index, direction = 1) {
     // Posição inicial fora da tela
     gsap.set(newSlide, { x: direction * 80, opacity: 0 });
     track.appendChild(newSlide);
+
+    // Ajusta altura do container para nunca cortar as estrelas
+    requestAnimationFrame(() => {
+        updateTrackHeight(track, newSlide);
+    });
 
     const oldSlide = track.querySelector('.testimonial-slide:first-child');
 
@@ -85,7 +118,11 @@ function initTestimonials() {
     if (!track) return;
 
     // Renderiza o primeiro sem animação
-    track.appendChild(buildSlide(testimonials[0]));
+    const firstSlide = buildSlide(testimonials[0]);
+    track.appendChild(firstSlide);
+    requestAnimationFrame(() => {
+        updateTrackHeight(track, firstSlide);
+    });
 
     document.querySelector('.testimonial-btn-next').addEventListener('click', () => {
         currentTestimonial = (currentTestimonial + 1) % testimonials.length;

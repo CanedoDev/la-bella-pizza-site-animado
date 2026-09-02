@@ -70,7 +70,7 @@ const abrirModalCombo = (combo) => {
     // 1. Imagem do Combo à esquerda
     const comboImg = modalBody.querySelector('.comboBig img');
     if (comboImg) {
-        comboImg.src = combo.img || 'assets/img/banner1 1.webp';
+        comboImg.src = combo.img || 'assets/img/banner-promocao-combo-pizza.webp';
         comboImg.alt = combo.name;
     }
 
@@ -266,7 +266,7 @@ const confirmarAdicaoCombo = () => {
         comboCode: comboAtualModal.code,
         name: comboAtualModal.name,
         dynamicName: dynamicName,
-        img: comboAtualModal.img || 'assets/img/banner1 1.webp',
+        img: comboAtualModal.img || 'assets/img/banner-promocao-combo-pizza.webp',
         price: precoCombo,
         originalPrice: precoOriginal,
         discount: desconto,
@@ -378,7 +378,7 @@ const detectarEAplicarCombos = (carrinhoAtual) => {
                         comboCode: combo.code,
                         name: combo.name,
                         dynamicName: dynamicName,
-                        img: combo.img || 'assets/img/banner1 1.webp',
+                        img: combo.img || 'assets/img/banner-promocao-combo-pizza.webp',
                         price: combo.price,
                         originalPrice: precoOriginalSoma,
                         discount: Math.max(0, precoOriginalSoma - combo.price),

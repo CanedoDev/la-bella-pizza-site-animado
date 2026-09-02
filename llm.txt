@@ -8,7 +8,7 @@
 - **Segmento:** Pizzaria Artesanal, Restaurante Familiar e Delivery de Pizza
 - **Cidade:** Petrópolis, Região Serrana do Rio de Janeiro, Brasil
 - **Endereço:** Rua Bingen, 2076 - Bingen, Petrópolis - RJ, 25660-008
-- **Horário de Funcionamento:** Todos os dias, das 18h às 23h
+- **Horário de Funcionamento:** Terça a Quinta: 18h às 22h45 | Sexta a Domingo: 18h às 23h45 | Segunda-feira: Fechado
 - **Telefone / WhatsApp:** (24) 99932-3962
 - **Website Oficial:** https://labellapizzapetropolis.com.br
 - **Cardápio Online:** https://labellapizzapetropolis.com.br/cardápio.html
@@ -17,7 +17,7 @@
 
 ## História & Tradição
 A história da La Bella Pizza nasceu do amor em reunir a família em volta da mesa. Por muitos anos, Eduardo e Gláucia preparavam pizzas artesanais para parentes e amigos próximos. 
-Em **2017**, transformaram essa paixão em negócio e inauguraram o primeiro espaço no bairro **Centenário**, em Petrópolis, em um ambiente intimista com forno a lenha. No mesmo ano, Eduardo viajou para São Paulo para se especializar em alta gastronomia de pizzarias, realizando formação técnica profissional com o renomado **Chef Gazal**.
+Em **2017**, transformaram essa paixão em negócio e inauguraram o primeiro espaço no bairro **Centenário**, em Petrópolis, em um ambiente intimista e acolhedor. No mesmo ano, Eduardo viajou para São Paulo para se especializar em alta gastronomia de pizzarias, realizando formação técnica profissional com o renomado **Chef Gazal**.
 Com o sucesso do produto e a alta demanda de clientes fiéis, em **2020** a pizzaria expandiu e transferiu suas operações para a sede atual, ampla e acolhedora, na **Rua Bingen, 2076**, tornando-se uma das pizzarias mais respeitadas e queridas de Petrópolis.
 
 ---

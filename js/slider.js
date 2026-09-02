@@ -12,8 +12,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
             modalSlug: "calabresa",
             desc: "Clássica e intensa, com calabresa selecionada, queijo derretido e um toque artesanal que equilibra sabor e textura.",
             img: "assets/img/pizza-calabresa.png",
-            experiencia: ["Picante", "Muito recheio", "Combina<br>com vinho"],
-            ingredientes: ["Mozzarela", "Calabresa", "Molho de<br>Tomate"],
+            experiencia: [
+                "Levemente<br>picante",
+                "Recheio farto<br>& artesanal",
+                "Combina com<br>Vinho Tinto"
+            ],
+            ingredientes: [
+                { name: "Mozzarela", icon: "assets/img/icone-mozzarela.svg" },
+                { name: "Calabresa", icon: "assets/img/icone-calabresa.svg" },
+                { name: "Molho de<br>Tomate", icon: "assets/img/icone-molho-tomate.svg" }
+            ],
             rotation: -18.857
         },
         {
@@ -21,8 +29,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
             modalSlug: "frango-c-catupiry",
             desc: "A união perfeita do frango desfiado suculento com a cremosidade do autêntico requeijão, assada ao ponto ideal.",
             img: "assets/img/pizza-frango-catupiry.webp",
-            experiencia: ["Cremosa", "Muito recheio", "Saborosa"],
-            ingredientes: ["Frango", "Requeijão Cremoso", "Azeitonas"],
+            experiencia: [
+                "Suave &<br>cremosa",
+                "Massa leve (48h)<br>& muito recheio",
+                "Combina com<br>Vinho Branco"
+            ],
+            ingredientes: [
+                { name: "Frango<br>Desfiado", icon: "assets/img/icone-frango.svg" },
+                { name: "Requeijão<br>Cremoso", icon: "assets/img/icone-requeijao.svg" },
+                { name: "Azeitonas<br>Pretas", icon: "assets/img/icone-azeitonas.svg" }
+            ],
             rotation: -18.857
         },
         {
@@ -30,8 +46,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
             modalSlug: "la-bella",
             desc: "A receita exclusiva da casa: tomates maduros, folhas frescas de manjericão, queijo parmesão gratinado e alho frito crocante.",
             img: "assets/img/pizza-calabresa.png",
-            experiencia: ["Exclusiva", "Aromática", "Combina<br>com vinho"],
-            ingredientes: ["Tomates", "Manjericão", "Parmesão & Alho"],
+            experiencia: [
+                "Aromática &<br>fresca",
+                "Borda crocante<br>& queijo tostado",
+                "Combina com<br>Vinho Seco"
+            ],
+            ingredientes: [
+                { name: "Tomates<br>Maduros", icon: "assets/img/icone-tomate-ingrediente.svg" },
+                { name: "Manjericão<br>Fresco", icon: "assets/img/icone-manjericao.svg" },
+                { name: "Parmesão &<br>Alho Frito", icon: "assets/img/icone-alho.svg" }
+            ],
             rotation: -18.857
         },
         {
@@ -39,8 +63,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
             modalSlug: "parma",
             desc: "Elegância da charcutaria nobre: fatias finíssimas de presunto tipo parma, queijo parmesão ralado na hora e folhas frescas de rúcula.",
             img: "assets/img/pizza-brasileira.png",
-            experiencia: ["Gourmet", "Sofisticada", "Combina<br>com vinho"],
-            ingredientes: ["Presunto Parma", "Parmesão", "Rúcula Fresca"],
+            experiencia: [
+                "Sabor nobre &<br>equilibrado",
+                "Massa fininha<br>& crocante",
+                "Combina com<br>Espumante Brut"
+            ],
+            ingredientes: [
+                { name: "Presunto<br>Parma", icon: "assets/img/icone-presunto-parma.svg" },
+                { name: "Parmesão<br>Ralado", icon: "assets/img/icone-parmesao.svg" },
+                { name: "Rúcula<br>Fresca", icon: "assets/img/icone-rucula.svg" }
+            ],
             rotation: -18.857
         }
     ];
@@ -54,7 +86,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         desc: document.querySelector('.pizza-desc'),
         img: document.querySelector('.pizza-main-img'),
         expSpans: document.querySelectorAll('.features-group:first-of-type .feature-item span'),
-        ingSpans: document.querySelectorAll('.features-group:last-of-type .feature-item span'),
+        ingItems: document.querySelectorAll('.features-group:last-of-type .feature-item'),
         dots: document.querySelectorAll('.dot'),
         btnNext: document.querySelector('button[aria-label="Próxima"]'),
         btnPrev: document.querySelector('button[aria-label="Anterior"]'),
@@ -114,7 +146,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const descSplitOld = new SplitText(".pizza-desc .old-text", { type: "words" });
         const descSplitNew = new SplitText(".pizza-desc .new-text", { type: "words" });
 
-        const smallTextElements = [...DOM.expSpans, ...DOM.ingSpans];
+        const smallTextElements = [...DOM.expSpans, ...DOM.ingItems];
 
         // Setup initial state for New elements entering
         gsap.set([titleSplitNew.words, descSplitNew.words], { y: 20, opacity: 0 });
@@ -151,9 +183,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // 4. --- UPDATE DOM FOR SPANS/IMG OVERLAY ---
         tl.add(() => {
             // Spans da Experiência
-            DOM.expSpans.forEach((span, i) => { if (nextData.experiencia[i]) span.innerHTML = nextData.experiencia[i]; });
-            // Spans dos Ingredientes
-            DOM.ingSpans.forEach((span, i) => { if (nextData.ingredientes[i]) span.innerHTML = nextData.ingredientes[i]; });
+            DOM.expSpans.forEach((span, i) => { 
+                if (nextData.experiencia[i]) span.innerHTML = nextData.experiencia[i]; 
+            });
+            // Itens dos Ingredientes (Texto + Ícone correspondente)
+            DOM.ingItems.forEach((item, i) => { 
+                if (nextData.ingredientes[i]) {
+                    const span = item.querySelector('span');
+                    const img = item.querySelector('.feature-icon');
+                    if (span) span.innerHTML = nextData.ingredientes[i].name;
+                    if (img) {
+                        img.src = nextData.ingredientes[i].icon;
+                        img.alt = nextData.ingredientes[i].name.replace(/<br>/g, ' ');
+                    }
+                }
+            });
             // Imagem
             DOM.img.src = nextData.img;
             // Atualizar Dots
