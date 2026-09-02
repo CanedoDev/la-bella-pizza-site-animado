@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!loader) return;
 
     // Checa se a página acabou de carregar do zero e o loader está presente
-    // Como o cliente solicitou, o loader roda de forma limpa e muito rápida em todas as páginas.
+    // O loader roda de forma ultrarrápida e limpa em todas as páginas.
 
     // Verifica se o GSAP foi carregado
     if (typeof gsap === "undefined") {
         console.warn("GSAP não encontrado. O loader será ocultado sem animação.");
         loader.classList.add("hidden");
-        setTimeout(() => loader.remove(), 600);
+        setTimeout(() => loader.remove(), 300);
         return;
     }
 
@@ -26,15 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
             // Oculta o loader suavemente via CSS opacity
             loader.classList.add("hidden");
             
-            // Remove do DOM após a transição CSS (0.6s) terminar para limpar memória
-            setTimeout(() => loader.remove(), 600);
+            // Remove do DOM após a transição CSS (0.3s) terminar para limpar memória
+            setTimeout(() => loader.remove(), 300);
         }
     });
 
     // 1. A Pizza é "devorada" em círculo (alterando stroke-dashoffset de 0 a 158 na máscara)
     tl.to(".eat-circle", {
         strokeDashoffset: 158,
-        duration: 0.9, // Rápido, não irrita o usuário
+        duration: 0.35,
         ease: "power2.inOut"
     })
     
@@ -42,17 +42,17 @@ document.addEventListener("DOMContentLoaded", () => {
     .to(".pizza-svg", {
         opacity: 0,
         scale: 0.5,
-        duration: 0.2
-    }, "-=0.1")
+        duration: 0.1
+    }, "-=0.05")
     
-    // 3. EXPLOSÃO DA LOGO ELÁSTICA (Gelatina!)
+    // 3. EXPLOSÃO DA LOGO ELÁSTICA (Gelatina rápida)
     .to(".loader-logo", {
         scale: 1,
         opacity: 1,
-        duration: 1.2,
-        ease: "elastic.out(1, 0.4)" // O famoso e delicioso efeito elástico
-    }, "-=0.1")
+        duration: 0.45,
+        ease: "elastic.out(1, 0.5)"
+    }, "-=0.05")
     
-    // 4. Pausa minúscula dramática de contemplação para o usuário ler a marca
-    .to({}, { duration: 0.3 }); 
+    // 4. Pausa ultracurta para finalizar
+    .to({}, { duration: 0.05 }); 
 });

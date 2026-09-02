@@ -1,0 +1,25 @@
+# robots.txt para La Bella Pizza Petrópolis
+# https://labellapizzapetropolis.com.br
+
+User-agent: *
+Allow: /
+
+# Motores de Inteligência Artificial e GEO (Generative Engine Optimization)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Mapeamento do Site e Contexto para LLMs
+Sitemap: https://labellapizzapetropolis.com.br/sitemap.xml
+# Contexto para IAs: https://labellapizzapetropolis.com.br/llm.txt

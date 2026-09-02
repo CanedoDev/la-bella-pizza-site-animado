@@ -44,7 +44,7 @@
         min-height: calc(var(--vh, 1vh) * 100);
         max-height: calc(var(--vh, 1vh) * 110);
         overflow: hidden;
-        background-image: url(../assets/img/bg\ hero\ mob.webp);
+        background-image: url('../assets/img/bg-hero-mob.webp');
         background-size: cover;
         background-position: center;
         padding-top: 80px;
@@ -297,7 +297,7 @@
     }
 
     .promocao-bg {
-        background-image: url(../assets/img/bg\ promo\ mob.webp);
+        background-image: url('../assets/img/bg-promocao-mob.webp');
         background-size: cover;
         background-position: center;
     }

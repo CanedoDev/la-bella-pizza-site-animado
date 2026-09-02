@@ -154,7 +154,7 @@ body {
 /* Hero Section Styles */
 .hero-section {
     padding: 50px 0;
-    background-image: url(../assets/img/bg\ hero.webp);
+    background-image: url('../assets/img/bg-hero.webp');
     background-size: cover;
     background-position: center;
     position: relative;
@@ -1156,7 +1156,7 @@ body {
 .footer {
     position: relative;
     color: #ffffff;
-    background-image: url("../assets/img/bg footer.webp");
+    background-image: url("../assets/img/bg-footer.webp");
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
@@ -1469,6 +1469,29 @@ footer {
 .footer-content .bottom a:hover {
     opacity: 0.8;
     color: #ffebee;
+}
+
+.footer-credits {
+    text-align: center;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.3px;
+}
+
+.footer-credits a {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+.footer-credits a:hover {
+    opacity: 0.8;
 }
 
 

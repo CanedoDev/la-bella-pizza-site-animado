@@ -341,7 +341,7 @@ const atualizarCarrinho = () => {
             if (itemDoCarrinho.isCombo) {
                 // Item é um Combo Dinâmico
                 cartItem.classList.add('is-combo')
-                cartItem.querySelector('.cart--item img').src = itemDoCarrinho.img || 'assets/img/banner1 1.webp'
+                cartItem.querySelector('.cart--item img').src = itemDoCarrinho.img || 'assets/img/banner-promocao-combo-pizza.webp'
 
                 const precoOriginalItem = (itemDoCarrinho.originalPrice || itemDoCarrinho.price) * itemDoCarrinho.qt
                 const precoFinalItem = itemDoCarrinho.price * itemDoCarrinho.qt
@@ -366,7 +366,7 @@ const atualizarCarrinho = () => {
                 let pizzaItem = pizzaJson.find((item) => item.id == itemDoCarrinho.id)
                 let pizzaName = pizzaItem ? `${pizzaItem.name} (${itemDoCarrinho.size})` : `Item (${itemDoCarrinho.size})`
 
-                cartItem.querySelector('.cart--item img').src = pizzaItem ? pizzaItem.img : 'assets/img/logo.webp'
+                cartItem.querySelector('.cart--item img').src = pizzaItem ? pizzaItem.img : 'assets/img/logo-la-bella-pizza.webp'
                 cartItem.querySelector('.cart--item-nome').innerHTML = pizzaName
                 cartItem.querySelector('.cart--item--qt').innerHTML = itemDoCarrinho.qt
 
@@ -865,7 +865,15 @@ const carregarPizzas = () => {
 
             combosTerca.forEach((combo, idx) => {
                 let comboItem = seleciona('.models .card').cloneNode(true);
-                comboItem.classList.add('combos', 'card-red');
+                const coresTerca = ['card-red', 'card-white', 'card-green'];
+                const corTerca = coresTerca[idx % coresTerca.length];
+                comboItem.classList.add('combos', corTerca);
+
+                if (corTerca === 'card-white') {
+                    const btnCard = comboItem.querySelector('.card-btn');
+                    if (btnCard) btnCard.classList.add('btn-outline');
+                }
+
                 comboItem.querySelector(".card-pizza-img").src = combo.img;
                 comboItem.querySelector(".card-title").innerHTML = combo.name;
                 comboItem.querySelector(".card-price").innerHTML = `R$ ${combo.price.toFixed(2).replace('.', ',')}`;

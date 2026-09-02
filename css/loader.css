@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.6s ease, visibility 0.6s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     overflow: hidden;
 }
 
@@ -51,4 +51,18 @@
     position: absolute;
     opacity: 0; /* Começa invisível */
     transform: scale(0); /* Começa microscópica */
+}
+
+/* Crédito discreto no rodapé do loader */
+.loader-credits {
+    position: absolute;
+    bottom: 24px;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    color: #888888;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    opacity: 0.75;
+    text-align: center;
+    pointer-events: none;
 }
