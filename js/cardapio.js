@@ -24,6 +24,250 @@ const formatoMonetario = (valor) => {
     }
 }
 
+// ==========================================================================
+// DETECTOR DE FERIADOS E VÉSPERAS (BRASILAPI + MUNICIPAIS DE PETRÓPOLIS + FALLBACK MATEMÁTICO)
+// ==========================================================================
+const feriadosCache = {};
+
+// 1. Algoritmo Meeus/Jones/Butcher para cálculo perpétuo de Páscoa (Fallback offline ou anos futuros)
+function calcularPascoa(ano) {
+    const a = ano % 19;
+    const b = Math.floor(ano / 100);
+    const c = ano % 100;
+    const d = Math.floor(b / 4);
+    const e = b % 4;
+    const f = Math.floor((b + 8) / 25);
+    const g = Math.floor((b - f + 1) / 3);
+    const h = (19 * a + b - d - g + 15) % 30;
+    const i = Math.floor(c / 4);
+    const k = c % 4;
+    const l = (32 + 2 * e + 2 * i - h - k) % 7;
+    const m = Math.floor((a + 11 * h + 22 * l) / 451);
+    const mes = Math.floor((h + l - 7 * m + 114) / 31);
+    const dia = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(ano, mes - 1, dia);
+}
+
+// 2. Feriados Municipais de Petrópolis - RJ (Fixos por lei municipal)
+function getFeriadosPetropolis() {
+    return ['16/03', '29/06']; // Aniversário de Petrópolis e Chegada dos Colonos Alemães
+}
+
+// 3. Fallback algorítmico perpétuo (garante funcionamento para qualquer ano mesmo offline)
+function getFeriadosFallbackAno(ano) {
+    const feriados = [];
+    const fmt = (d, m) => String(d).padStart(2, '0') + '/' + String(m).padStart(2, '0');
+
+    // Feriados Nacionais Fixos (Leis Federais)
+    feriados.push(fmt(1, 1));   // Confraternização Universal
+    feriados.push(fmt(21, 4));  // Tiradentes
+    feriados.push(fmt(1, 5));   // Dia do Trabalho
+    feriados.push(fmt(7, 9));   // Independência do Brasil
+    feriados.push(fmt(12, 10)); // Nossa Senhora Aparecida
+    feriados.push(fmt(2, 11));  // Finados
+    feriados.push(fmt(15, 11)); // Proclamação da República
+    feriados.push(fmt(20, 11)); // Dia da Consciência Negra (Lei 14.759/2023)
+    feriados.push(fmt(25, 12)); // Natal
+
+    // Feriados Municipais de Petrópolis
+    feriados.push(...getFeriadosPetropolis());
+
+    // Feriados Móveis astronômicos calculados via Páscoa
+    const pascoa = calcularPascoa(ano);
+
+    // Carnaval (Segunda e Terça-feira)
+    const carnavalSeg = new Date(pascoa);
+    carnavalSeg.setDate(pascoa.getDate() - 48);
+    feriados.push(fmt(carnavalSeg.getDate(), carnavalSeg.getMonth() + 1));
+
+    const carnavalTer = new Date(pascoa);
+    carnavalTer.setDate(pascoa.getDate() - 47);
+    feriados.push(fmt(carnavalTer.getDate(), carnavalTer.getMonth() + 1));
+
+    // Sexta-feira Santa / Paixão de Cristo (-2 dias da Páscoa)
+    const sextaSanta = new Date(pascoa);
+    sextaSanta.setDate(pascoa.getDate() - 2);
+    feriados.push(fmt(sextaSanta.getDate(), sextaSanta.getMonth() + 1));
+
+    // Páscoa
+    feriados.push(fmt(pascoa.getDate(), pascoa.getMonth() + 1));
+
+    // Corpus Christi (+60 dias da Páscoa)
+    const corpusChristi = new Date(pascoa);
+    corpusChristi.setDate(pascoa.getDate() + 60);
+    feriados.push(fmt(corpusChristi.getDate(), corpusChristi.getMonth() + 1));
+
+    return Array.from(new Set(feriados));
+}
+
+// 4. Integração com a API Pública Oficial (BrasilAPI) com cache inteligente em localStorage
+async function sincronizarFeriadosBrasilAPI(ano) {
+    if (!ano) ano = new Date().getFullYear();
+    const cacheKey = `feriados_brasilapi_${ano}`;
+
+    try {
+        const cacheLocal = localStorage.getItem(cacheKey);
+        if (cacheLocal) {
+            feriadosCache[ano] = JSON.parse(cacheLocal);
+        }
+    } catch (e) {}
+
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+        const response = await fetch(`https://brasilapi.com.br/api/feriados/v1/${ano}`, {
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+            const dados = await response.json();
+            const feriadosFormatados = dados.map(item => {
+                const parts = item.date.split('-');
+                return parts[2] + '/' + parts[1];
+            });
+
+            // Adiciona os feriados municipais de Petrópolis
+            getFeriadosPetropolis().forEach(f => {
+                if (!feriadosFormatados.includes(f)) feriadosFormatados.push(f);
+            });
+
+            feriadosCache[ano] = feriadosFormatados;
+            try {
+                localStorage.setItem(cacheKey, JSON.stringify(feriadosFormatados));
+            } catch (e) {}
+            return feriadosFormatados;
+        }
+    } catch (err) {
+        console.warn(`[La Bella Pizza] BrasilAPI offline/timeout para ${ano}. Utilizando fallback algorítmico perpétuo.`, err);
+    }
+
+    return getFeriadosAno(ano);
+}
+
+function getFeriadosAno(ano) {
+    if (feriadosCache[ano] && feriadosCache[ano].length > 0) {
+        return feriadosCache[ano];
+    }
+
+    try {
+        const cacheLocal = localStorage.getItem(`feriados_brasilapi_${ano}`);
+        if (cacheLocal) {
+            feriadosCache[ano] = JSON.parse(cacheLocal);
+            return feriadosCache[ano];
+        }
+    } catch (e) {}
+
+    return getFeriadosFallbackAno(ano);
+}
+
+// Inicia sincronização com a BrasilAPI em segundo plano
+(function initFeriados() {
+    const anoAtual = new Date().getFullYear();
+    sincronizarFeriadosBrasilAPI(anoAtual);
+    sincronizarFeriadosBrasilAPI(anoAtual + 1);
+})();
+
+function isFeriadoOuVespera(dateObj) {
+    const data = dateObj || new Date();
+    const ano = data.getFullYear();
+    const feriados = getFeriadosAno(ano);
+    const fmt = (dia, m) => String(dia).padStart(2, '0') + '/' + String(m).padStart(2, '0');
+
+    const diaHoje = fmt(data.getDate(), data.getMonth() + 1);
+    if (feriados.includes(diaHoje)) {
+        return true;
+    }
+
+    const amanha = new Date(data);
+    amanha.setDate(data.getDate() + 1);
+    const feriadosAmanha = (amanha.getFullYear() === ano) ? feriados : getFeriadosAno(amanha.getFullYear());
+    const diaAmanha = fmt(amanha.getDate(), amanha.getMonth() + 1);
+
+    return feriadosAmanha.includes(diaAmanha);
+}
+
+const getPromocaoStatus = () => {
+    const agora = typeof getDiaAtualData === 'function' ? getDiaAtualData() : new Date();
+    const ehFeriadoOuVespera = isFeriadoOuVespera(agora);
+    const diaDaSemana = typeof getDiaAtual === 'function' ? getDiaAtual() : agora.getDay();
+    return {
+        diaDaSemana,
+        ehFeriadoOuVespera,
+        tercaFeira: (diaDaSemana === 2) && !ehFeriadoOuVespera,
+        quartaFeira: (diaDaSemana === 3) && !ehFeriadoOuVespera
+    };
+};
+
+window.isFeriadoOuVespera = isFeriadoOuVespera;
+window.getPromocaoStatus = getPromocaoStatus;
+window.sincronizarFeriadosBrasilAPI = sincronizarFeriadosBrasilAPI;
+
+// ==========================================================================
+// GERENCIADOR DE HISTÓRICO PARA MODAIS (INTERCEPTAÇÃO DO BOTÃO VOLTAR)
+// ==========================================================================
+let modalStack = [];
+let ignorarProximoPopstate = false;
+
+window.pushModalState = (tipoModal) => {
+    if (modalStack[modalStack.length - 1] !== tipoModal) {
+        history.pushState({ modalOpen: tipoModal }, '');
+        modalStack.push(tipoModal);
+    }
+};
+
+window.popModalState = (tipoModal) => {
+    const idx = modalStack.lastIndexOf(tipoModal);
+    if (idx > -1) {
+        modalStack.splice(idx, 1);
+        ignorarProximoPopstate = true;
+        history.back();
+    }
+};
+
+window.addEventListener('popstate', () => {
+    if (ignorarProximoPopstate) {
+        ignorarProximoPopstate = false;
+        return;
+    }
+
+    const checkoutArea = document.querySelector('.checkoutWindowArea');
+    const comboArea = document.querySelector('.comboWindowArea');
+    const pizzaArea = document.querySelector('.pizzaWindowArea');
+    const cartAside = document.querySelector('aside');
+
+    // 1. Checkout aberto: fecha checkout e retorna suavemente pro carrinho
+    if (checkoutArea && checkoutArea.style.display === 'flex' && checkoutArea.style.opacity !== '0') {
+        modalStack = modalStack.filter(m => m !== 'checkout');
+        fecharCheckout(false);
+        setTimeout(() => {
+            mostrarCarrinho();
+        }, 300);
+        return;
+    }
+
+    // 2. Modal de Combo aberto: fecha modal
+    if (comboArea && comboArea.style.display === 'flex') {
+        modalStack = modalStack.filter(m => m !== 'combo');
+        if (typeof fecharModalCombo === 'function') fecharModalCombo(false);
+        return;
+    }
+
+    // 3. Modal de Pizza individual aberto: fecha modal
+    if (pizzaArea && pizzaArea.style.display === 'flex') {
+        modalStack = modalStack.filter(m => m !== 'pizza');
+        fecharModal(false);
+        return;
+    }
+
+    // 4. Carrinho aberto: fecha carrinho
+    if (cartAside && cartAside.classList.contains('show')) {
+        modalStack = modalStack.filter(m => m !== 'cart');
+        esconderCarrinho(false);
+        return;
+    }
+});
+
 const abrirModal = () => {
     const area = seleciona('.pizzaWindowArea');
     const body = seleciona('.pizzaWindowBody');
@@ -41,10 +285,10 @@ const abrirModal = () => {
         { scale: 1, opacity: 1, duration: 0.9, ease: "elastic.out(1, 0.4)" }
     );
 
-
+    window.pushModalState('pizza');
 }
 
-const fecharModal = () => {
+const fecharModal = (syncHistory = true) => {
     const area = seleciona('.pizzaWindowArea');
     const body = seleciona('.pizzaWindowBody');
 
@@ -66,6 +310,10 @@ const fecharModal = () => {
             area.style.display = 'none';
         }
     });
+
+    if (syncHistory) {
+        window.popModalState('pizza');
+    }
 }
 
 const botoesFechar = () => {
@@ -156,6 +404,18 @@ const pegarKey = (e) => {
     return key
 }
 
+const atualizarBonusRefri = () => {
+    const bonusRefriEl = seleciona('.pizzaInfo--bonusRefri')
+    const selectedSize = seleciona('.pizzaInfo--size.selected')
+    if (!bonusRefriEl) return
+    const key = selectedSize ? selectedSize.getAttribute('data-key') : ''
+    if (key === 'S' || key === 'MX') {
+        bonusRefriEl.style.display = 'flex'
+    } else {
+        bonusRefriEl.style.display = 'none'
+    }
+}
+
 const preencherTamanhos = (key) => {
     let currentSelected = seleciona('.pizzaInfo--size.selected')
     if (currentSelected) currentSelected.classList.remove('selected')
@@ -175,31 +435,29 @@ const preencherTamanhos = (key) => {
     } else {
         allSizes[0].classList.add('selected')
     }
+
+    atualizarBonusRefri()
 }
 
 const atualizaPreco = () => {
-    //pega qual size ta com .selected(pega o index dele) e armazena em sizeIndex pra poder chamar
-    //no price[]
     let sizeIndex = [...selecionaTodos('.pizzaInfo--size')].findIndex(size => size.classList.contains('selected'))
-    //uas modalkey pq senao ia ter que botar parametro key, inclusive podia ter usado menos parametro key
-    //e mais modalkey
-    let precoBase = pizzaJson[modalKey].price[sizeIndex]
+    let precoOriginal = pizzaJson[modalKey].price[sizeIndex]
 
-    let diaDaSemana = new Date().getDay()
-    let quartaFeira = (diaDaSemana === 4)
+    const { quartaFeira } = getPromocaoStatus()
+    let descontoPromo = 0
 
     if (quartaFeira && sizeIndex === 1) {
         if (pizzaPromoQuartaUm.includes(pizzaJson[modalKey].id)) {
-            precoBase -= 10
+            descontoPromo = 10
         } else if (pizzaPromoQuartaDois.includes(pizzaJson[modalKey].id)) {
-            precoBase -= 11
+            descontoPromo = 11
         }
     }
 
-    let total = precoBase * quantPizzas
+    // Regra da casa: o desconto promocional é aplicado em apenas 1 pizza
+    let total = Math.max(0, (precoOriginal * quantPizzas) - descontoPromo)
 
     seleciona('.pizzaInfo--actualPrice').innerHTML = formatoReal(total)
-
 }
 
 const escolherTamanho = (key) => {
@@ -209,6 +467,7 @@ const escolherTamanho = (key) => {
 
             size.classList.add('selected')
 
+            atualizarBonusRefri()
             atualizaPreco()
         })
     })
@@ -233,44 +492,83 @@ const mudarQuantidadeModal = () => {
 
 }
 
+const mostrarCarrinho = (syncHistory = true) => {
+    seleciona('aside').classList.add('show');
+    if (syncHistory) {
+        window.pushModalState('cart');
+    }
+};
+
+const esconderCarrinho = (syncHistory = true) => {
+    seleciona('aside').classList.remove('show');
+    if (syncHistory) {
+        window.popModalState('cart');
+    }
+};
+
 const abrirCarrinho = () => {
     if (cart.length > 0) {
-        seleciona('aside').classList.add('show')
+        mostrarCarrinho();
     }
     seleciona('.menu-openner').addEventListener('click', () => {
-        seleciona('aside').classList.add('show')
-    })
-}
+        mostrarCarrinho();
+    });
+};
 
 const fecharCarrinho = () => {
     // 1. Fechar clicando no 'X'
     seleciona('.menu-closer').addEventListener('click', () => {
-        seleciona('aside').classList.remove('show')
-    })
+        esconderCarrinho();
+    });
 
     // 2. A MÁGICA: Fechar clicando fora do Carrinho
     document.addEventListener('click', (e) => {
-        const carrinhoAberto = seleciona('aside').classList.contains('show')
+        const carrinhoAberto = seleciona('aside').classList.contains('show');
 
         if (carrinhoAberto) {
-            if (!document.body.contains(e.target)) return
+            if (!document.body.contains(e.target)) return;
             // Verifica se o lugar que clicamos NÃO está dentro do Carrinho
-            const clicouForaDoCarrinho = !e.target.closest('aside')
+            const clicouForaDoCarrinho = !e.target.closest('aside');
             // Proteção para não fechar o carrinho exatamente na hora que apertamos um botão de abrir ele
-            const clicouNoBotaoAbrirCarrinho = e.target.closest('.menu-openner')
-            const clicouNoAdicionar = e.target.closest('.pizzaInfo--addButton')
+            const clicouNoBotaoAbrirCarrinho = e.target.closest('.menu-openner');
+            const clicouNoAdicionar = e.target.closest('.pizzaInfo--addButton');
 
             if (clicouForaDoCarrinho && !clicouNoBotaoAbrirCarrinho && !clicouNoAdicionar) {
-                seleciona('aside').classList.remove('show')
+                esconderCarrinho();
             }
         }
-    })
+    });
 
     // 3. Fechar pelo botão de pedir mais pizzas
-    const pedirMaisBtn = seleciona('.cart--pedirmais')
+    const pedirMaisBtn = seleciona('.cart--pedirmais');
     if (pedirMaisBtn) {
         pedirMaisBtn.addEventListener('click', () => {
-            seleciona('aside').classList.remove('show')
+            esconderCarrinho();
+        });
+    }
+};
+
+const mostrarPopupAvisoPromo = () => {
+    const popup = seleciona('#promoAlertModal')
+    if (popup) {
+        popup.style.display = 'flex'
+        popup.style.opacity = '1'
+    }
+}
+
+const configurarPopupAvisoPromo = () => {
+    const popup = seleciona('#promoAlertModal')
+    const btnClose = seleciona('#promoAlertCloseBtn')
+    if (btnClose && popup) {
+        btnClose.addEventListener('click', () => {
+            popup.style.display = 'none'
+        })
+    }
+    if (popup) {
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) {
+                popup.style.display = 'none'
+            }
         })
     }
 }
@@ -278,15 +576,32 @@ const fecharCarrinho = () => {
 const adicionarNoCarrinho = () => {
     seleciona('.pizzaInfo--addButton').addEventListener('click', () => {
 
-        // O 'size' é a letra ('P', 'M', 'G', 'Mx') pra salvar no carrinho e ficar bonito na tela depois
+        // O 'size' é a letra ('M', 'G', 'S', 'MX') pra salvar no carrinho e ficar bonito na tela depois
         let size = seleciona('.pizzaInfo--size.selected').getAttribute('data-key')
 
-        // O 'sizeIndex' é o NÚMERO (0, 1, 2, 3) obrigatório para conseguir puxar o preço do array [P, M, G, Mx]!
+        // O 'sizeIndex' é o NÚMERO (0, 1, 2, 3) obrigatório para conseguir puxar o preço do array [M, G, S, MX]!
         let sizeIndex = [...selecionaTodos('.pizzaInfo--size')].findIndex(size => size.classList.contains('selected'))
 
         let price = pizzaJson[modalKey].price[sizeIndex]
 
         let identificador = pizzaJson[modalKey].id + 't' + size
+
+        // Verifica se é pizza promocional de quarta-feira
+        const { quartaFeira } = getPromocaoStatus()
+        const ehPromoAtual = quartaFeira && (size === 'G' || sizeIndex === 1) &&
+            (pizzaPromoQuartaUm.includes(pizzaJson[modalKey].id) || pizzaPromoQuartaDois.includes(pizzaJson[modalKey].id))
+
+        if (ehPromoAtual) {
+            const promoExistente = cart.reduce((acc, it) => {
+                const eh = quartaFeira && (it.size === 'G' || it.sizeIndex === 1) &&
+                    (pizzaPromoQuartaUm.includes(it.id) || pizzaPromoQuartaDois.includes(it.id))
+                return eh ? acc + it.qt : acc
+            }, 0)
+
+            if (promoExistente >= 1 || quantPizzas > 1) {
+                mostrarPopupAvisoPromo()
+            }
+        }
 
         let enderecoDaPizza = cart.findIndex((item) => !item.isCombo && item.identificador == identificador)
 
@@ -310,9 +625,9 @@ const adicionarNoCarrinho = () => {
             detectarEAplicarCombos(cart)
         }
 
-        fecharModal()
-        abrirCarrinho()
-        atualizarCarrinho()
+        fecharModal(false);
+        mostrarCarrinho();
+        atualizarCarrinho();
 
     })
 }
@@ -322,8 +637,9 @@ const atualizarCarrinho = () => {
     let desconto = 0
     let total = 0
 
-    const diaDaSemana = typeof getDiaAtual === 'function' ? getDiaAtual() : new Date().getDay()
-    const quartaFeira = (diaDaSemana === 3 || diaDaSemana === 4)
+    const { quartaFeira } = getPromocaoStatus()
+    let descontoPromoAplicado = false
+    let totalPizzasPromoNoCarrinho = 0
 
     // Roda a detecção automática de combos para agrupar itens elegíveis
     if (typeof detectarEAplicarCombos === 'function') {
@@ -332,7 +648,7 @@ const atualizarCarrinho = () => {
 
     if (cart.length > 0) {
         seleciona('aside').classList.add('show')
-        //so pra limpar por seguranca, dps adicionamos dnv
+        // Limpa para remontar a visualização
         seleciona('.cart').innerHTML = ''
 
         cart.forEach((itemDoCarrinho) => {
@@ -366,18 +682,33 @@ const atualizarCarrinho = () => {
                 let pizzaItem = pizzaJson.find((item) => item.id == itemDoCarrinho.id)
                 let pizzaName = pizzaItem ? `${pizzaItem.name} (${itemDoCarrinho.size})` : `Item (${itemDoCarrinho.size})`
 
+                let refriBadge = ''
+                if (itemDoCarrinho.size === 'S' || itemDoCarrinho.size === 'MX') {
+                    refriBadge = `<div class="cart--item-refri">Acompanha Refri 2L Grátis</div>`
+                }
+
                 cartItem.querySelector('.cart--item img').src = pizzaItem ? pizzaItem.img : 'assets/img/logo-la-bella-pizza.webp'
-                cartItem.querySelector('.cart--item-nome').innerHTML = pizzaName
+                cartItem.querySelector('.cart--item-nome').innerHTML = `
+                    <div>${pizzaName}</div>
+                    ${refriBadge}
+                `
                 cartItem.querySelector('.cart--item--qt').innerHTML = itemDoCarrinho.qt
 
                 let itemTotal = itemDoCarrinho.qt * itemDoCarrinho.price
                 subtotal += itemTotal
 
-                if (quartaFeira && itemDoCarrinho.size === 'M') {
-                    if (pizzaPromoQuartaUm.includes(itemDoCarrinho.id)) {
-                        desconto += (itemDoCarrinho.qt * 10)
-                    } else if (pizzaPromoQuartaDois.includes(itemDoCarrinho.id)) {
-                        desconto += (itemDoCarrinho.qt * 11)
+                const ehItemPromo = quartaFeira && (itemDoCarrinho.size === 'G' || itemDoCarrinho.sizeIndex === 1) &&
+                    (pizzaPromoQuartaUm.includes(itemDoCarrinho.id) || pizzaPromoQuartaDois.includes(itemDoCarrinho.id))
+
+                if (ehItemPromo) {
+                    totalPizzasPromoNoCarrinho += itemDoCarrinho.qt
+                    if (!descontoPromoAplicado) {
+                        if (pizzaPromoQuartaUm.includes(itemDoCarrinho.id)) {
+                            desconto += 10
+                        } else if (pizzaPromoQuartaDois.includes(itemDoCarrinho.id)) {
+                            desconto += 11
+                        }
+                        descontoPromoAplicado = true
                     }
                 }
             }
@@ -385,6 +716,11 @@ const atualizarCarrinho = () => {
             seleciona('.menu-openner span').innerHTML = cart.length
 
             cartItem.querySelector('.cart--item-qtmais').addEventListener('click', () => {
+                const ehItemPromo = quartaFeira && (itemDoCarrinho.size === 'G' || itemDoCarrinho.sizeIndex === 1) &&
+                    (pizzaPromoQuartaUm.includes(itemDoCarrinho.id) || pizzaPromoQuartaDois.includes(itemDoCarrinho.id))
+                if (ehItemPromo) {
+                    mostrarPopupAvisoPromo()
+                }
                 itemDoCarrinho.qt++
                 atualizarCarrinho()
             })
@@ -404,6 +740,12 @@ const atualizarCarrinho = () => {
             seleciona('.cart').append(cartItem)
         })
 
+        // Alerta de promoção no carrinho caso haja mais de 1 pizza promocional adicionada
+        const promoAlertEl = seleciona('.cart--promo-alert')
+        if (promoAlertEl) {
+            promoAlertEl.style.display = totalPizzasPromoNoCarrinho > 1 ? 'block' : 'none'
+        }
+
         total = Math.max(0, subtotal - desconto)
 
         seleciona('.menu-openner span').innerHTML = cart.length
@@ -411,6 +753,10 @@ const atualizarCarrinho = () => {
         seleciona('.desconto span:last-child').innerHTML = formatoReal(desconto)
         seleciona('.total span:last-child').innerHTML = formatoReal(total)
     } else {
+        const promoAlertEl = seleciona('.cart--promo-alert')
+        if (promoAlertEl) {
+            promoAlertEl.style.display = 'none'
+        }
         seleciona('aside').classList.remove('show')
         seleciona('.cart').innerHTML = ''
         seleciona('.menu-openner span').innerHTML = 0
@@ -429,8 +775,8 @@ const capturarDadosDoPedido = () => {
         total: 0
     }
 
-    const diaDaSemana = typeof getDiaAtual === 'function' ? getDiaAtual() : new Date().getDay()
-    const quartaFeira = (diaDaSemana === 3 || diaDaSemana === 4)
+    const { quartaFeira } = getPromocaoStatus()
+    let descontoPromoAplicado = false
 
     cart.forEach((itemDoCarrinho) => {
         if (itemDoCarrinho.isCombo) {
@@ -446,7 +792,8 @@ const capturarDadosDoPedido = () => {
                 quantidade: itemDoCarrinho.qt,
                 preco: itemDoCarrinho.price,
                 totalPizza: precoFinal,
-                desconto: economia
+                desconto: economia,
+                brindeRefri: false
             })
 
             pedido.subtotal += precoOriginal
@@ -458,6 +805,22 @@ const capturarDadosDoPedido = () => {
             let pizzasQt = itemDoCarrinho.qt
             let pizzaPrice = itemDoCarrinho.price
             let pizzaTotal = pizzasQt * pizzaPrice
+            let itemDesconto = 0
+
+            const ehItemPromo = quartaFeira && (itemDoCarrinho.size === 'G' || itemDoCarrinho.sizeIndex === 1) &&
+                (pizzaPromoQuartaUm.includes(itemDoCarrinho.id) || pizzaPromoQuartaDois.includes(itemDoCarrinho.id))
+
+            if (ehItemPromo && !descontoPromoAplicado) {
+                if (pizzaPromoQuartaUm.includes(itemDoCarrinho.id)) {
+                    itemDesconto = 10
+                } else if (pizzaPromoQuartaDois.includes(itemDoCarrinho.id)) {
+                    itemDesconto = 11
+                }
+                descontoPromoAplicado = true
+                pedido.desconto += itemDesconto
+            }
+
+            const brindeRefri = (itemDoCarrinho.size === 'S' || itemDoCarrinho.size === 'MX')
 
             pedido.itens.push({
                 isCombo: false,
@@ -466,18 +829,11 @@ const capturarDadosDoPedido = () => {
                 quantidade: pizzasQt,
                 preco: pizzaPrice,
                 totalPizza: pizzaTotal,
-                desconto: 0
+                desconto: itemDesconto,
+                brindeRefri: brindeRefri
             })
 
             pedido.subtotal += pizzaTotal
-
-            if (quartaFeira && itemDoCarrinho.size === 'M') {
-                if (pizzaPromoQuartaUm.includes(itemDoCarrinho.id)) {
-                    pedido.desconto += (itemDoCarrinho.qt * 10)
-                } else if (pizzaPromoQuartaDois.includes(itemDoCarrinho.id)) {
-                    pedido.desconto += (itemDoCarrinho.qt * 11)
-                }
-            }
         }
     })
     
@@ -486,30 +842,36 @@ const capturarDadosDoPedido = () => {
 }
 
 const abrirCheckout = () => {
-    // 1. Oculta o carrinho lateral
-    seleciona('aside').classList.remove('show')
+    // 1. Oculta o carrinho lateral sem desincronizar histórico
+    esconderCarrinho(false);
 
     // 2 e 3. Prepara pro fade-in invisível
-    seleciona('.checkoutWindowArea').style.opacity = 0
-    seleciona('.checkoutWindowArea').style.display = 'flex'
+    seleciona('.checkoutWindowArea').style.opacity = 0;
+    seleciona('.checkoutWindowArea').style.display = 'flex';
 
     // 4. Animação mágica de pulo dps de 200ms
     setTimeout(() => {
-        seleciona('.checkoutWindowArea').style.opacity = 1
+        seleciona('.checkoutWindowArea').style.opacity = 1;
         // Assim que a tela aparecer inteira, joga o cursor de digitação direto pro campo do Nome!
-        seleciona('#checkout-nome').focus()
-    }, 200)
-}
+        seleciona('#checkout-nome').focus();
+    }, 200);
 
-const fecharCheckout = () => {
+    window.pushModalState('checkout');
+};
+
+const fecharCheckout = (syncHistory = true) => {
     // 1. O Form desliza pra ficar invisível primeiro
-    seleciona('.checkoutWindowArea').style.opacity = 0
+    seleciona('.checkoutWindowArea').style.opacity = 0;
 
     // 2. A gente dá 500ms de tempo pro Fade-out acontecer e tira a janela do site
     setTimeout(() => {
-        seleciona('.checkoutWindowArea').style.display = 'none'
-    }, 500)
-}
+        seleciona('.checkoutWindowArea').style.display = 'none';
+    }, 500);
+
+    if (syncHistory) {
+        window.popModalState('checkout');
+    }
+};
 
 const configurarCheckout = () => {
     // === MÁGICA DO ENTER PARA PULAR DE LINHA ===
@@ -530,18 +892,18 @@ const configurarCheckout = () => {
     })
 
     seleciona('.checkoutInfo--cancelMobileButton').addEventListener('click', () => {
-        fecharCheckout()
+        fecharCheckout();
         setTimeout(() => {
-            seleciona('aside').classList.add('show')
-        }, 300)
-    })
+            mostrarCarrinho();
+        }, 300);
+    });
 
     seleciona('.checkoutInfo--cancelButton').addEventListener('click', () => {
-        fecharCheckout()
+        fecharCheckout();
         setTimeout(() => {
-            seleciona('aside').classList.add('show')
-        }, 300)
-    })
+            mostrarCarrinho();
+        }, 300);
+    });
 
     // 1. O VIGIA DO CEP (Fora do botão confirmar!)
     let campoCep = seleciona('#checkout-cep')
@@ -596,9 +958,9 @@ const configurarCheckout = () => {
 
         let pedido = capturarDadosDoPedido()
 
-        let mensagem = `🍕 *NOVO PEDIDO - LA BELLA PIZZA* 🍕\n`
+        let mensagem = `*NOVO PEDIDO - LA BELLA PIZZA*\n`
         mensagem += `━━━━━━━━━━━━━━━━━━━━\n\n`
-        mensagem += `📋 *ITENS DO PEDIDO:*\n\n`
+        mensagem += `*ITENS DO PEDIDO:*\n\n`
 
         pedido.itens.forEach((item) => {
             if (item.isCombo) {
@@ -613,12 +975,19 @@ const configurarCheckout = () => {
                 mensagem += `\n\n`
             } else {
                 mensagem += `• *${item.nome}* (${item.tamanho}) - ${item.quantidade}x\n`
-                mensagem += `  ↳ Valor: ${formatoReal(item.totalPizza)}\n\n`
+                if (item.brindeRefri) {
+                    mensagem += `  ↳ *Acompanha Refrigerante 2L Grátis*\n`
+                }
+                mensagem += `  ↳ Valor: ${formatoReal(item.totalPizza)}`
+                if (item.desconto > 0) {
+                    mensagem += ` _(Desconto: -${formatoReal(item.desconto)})_`
+                }
+                mensagem += `\n\n`
             }
         })
 
         mensagem += `━━━━━━━━━━━━━━━━━━━━\n`
-        mensagem += `💵 *RESUMO FINANCEIRO:*\n`
+        mensagem += `*RESUMO FINANCEIRO:*\n`
         mensagem += `• *Subtotal:* ${formatoReal(pedido.subtotal)}\n`
         if (pedido.desconto > 0) {
             mensagem += `• *Desconto / Economia:* -${formatoReal(pedido.desconto)}\n`
@@ -626,7 +995,7 @@ const configurarCheckout = () => {
         mensagem += `• *TOTAL DO PEDIDO:* *${formatoReal(pedido.total)}*\n`
         mensagem += `━━━━━━━━━━━━━━━━━━━━\n\n`
 
-        mensagem += `📍 *DADOS PARA ENTREGA:*\n`
+        mensagem += `*DADOS PARA ENTREGA:*\n`
         mensagem += `• *Nome:* ${nomePessoa}\n`
         mensagem += `• *Telefone:* ${telefonePessoa}\n`
         mensagem += `• *Endereço:* ${enderecoPessoa}, Nº ${numeroCasaPessoa} - ${bairroPessoa}\n`
@@ -732,34 +1101,53 @@ const filtro = () => {
 
             // 3. Recarrega a vitrine
             carregarPizzas();
+
+            // 4. Rola suavemente até o topo absoluto da página (início de tudo)
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     });
 }
 
 const carregarPizzas = () => {
     let grid = seleciona('.cards-grid');
+
+    // Mata ScrollTriggers anteriores que estavam dentro do grid para evitar triggers órfãos
+    if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.getAll().forEach(st => {
+            if (st.trigger && grid.contains(st.trigger)) {
+                st.kill();
+            }
+        });
+    }
+
     grid.innerHTML = '';
 
+    const { diaDaSemana, ehFeriadoOuVespera, tercaFeira, quartaFeira } = getPromocaoStatus();
+
     const promoSection = document.querySelector('.promocao');
-    if (promoSection && window.location.href.includes('card')) {
-        if (termoAtual !== '' || categoriaAtual !== 'all') {
+    if (promoSection) {
+        if (termoAtual !== '' || categoriaAtual !== 'all' || (!tercaFeira && !quartaFeira)) {
             promoSection.style.display = 'none';
         } else {
             promoSection.style.display = '';
         }
     }
 
-    const diaDaSemana = typeof getDiaAtual === 'function' ? getDiaAtual() : new Date().getDay();
-    const tercaFeira = (diaDaSemana === 2);
-    const quartaFeira = (diaDaSemana === 3 || diaDaSemana === 4);
-
     // Listas separadas
     let pizzasPromo = [];
     let pizzasNormais = [];
 
+    // O bloco destacado "Ofertas do Dia" só é separado na visão geral ("Todos" e sem busca ativa).
+    // Se o usuário clicar em uma categoria específica (ex: Tradicionais), o destaque na frente some
+    // e todas as pizzas daquela categoria são agrupadas normalmente!
+    const destacarOfertasDoDia = quartaFeira && categoriaAtual === 'all' && termoAtual === '';
+
     // Mapeamos para não perder o index original (que é vital para o modal abrir a pizza certa)
     pizzaJson.forEach((item, originalIndex) => {
-        let ehPromo = quartaFeira && (pizzaPromoQuartaUm.includes(item.id) || pizzaPromoQuartaDois.includes(item.id));
+        let ehPromo = destacarOfertasDoDia && (pizzaPromoQuartaUm.includes(item.id) || pizzaPromoQuartaDois.includes(item.id));
         if (ehPromo) {
             pizzasPromo.push({ item, index: originalIndex });
         } else {
@@ -782,6 +1170,7 @@ const carregarPizzas = () => {
         }
 
         let pizzaItem = seleciona('.models .card').cloneNode(true);
+        pizzaItem.removeAttribute('data-st-active');
         pizzaItem.classList.add(categoriaSlug);
 
         // Se NÃO for a seção de promoção, renderizamos os títulos de categoria padrão
@@ -859,12 +1248,13 @@ const carregarPizzas = () => {
         if (combosTerca.length > 0 && (categoriaAtual === 'all' || categoriaAtual === 'combos')) {
             let tituloTerca = document.createElement('h2');
             tituloTerca.classList.add('category-title');
-            tituloTerca.innerHTML = "La Bella em Dobro 🔥";
+            tituloTerca.innerHTML = "La Bella em Dobro";
             grid.append(tituloTerca);
             if (window.animateTitle) window.animateTitle(tituloTerca);
 
             combosTerca.forEach((combo, idx) => {
                 let comboItem = seleciona('.models .card').cloneNode(true);
+                comboItem.removeAttribute('data-st-active');
                 const coresTerca = ['card-red', 'card-white', 'card-green'];
                 const corTerca = coresTerca[idx % coresTerca.length];
                 comboItem.classList.add('combos', corTerca);
@@ -904,9 +1294,10 @@ const carregarPizzas = () => {
 
         if (temPromoPraMostrar) {
             let tituloPromo = document.createElement('h2');
-            tituloPromo.classList.add('category-title');
+            tituloPromo.classList.add('category-title', 'ofertas-do-dia');
             tituloPromo.innerHTML = "Ofertas do Dia";
             grid.append(tituloPromo);
+            if (window.animateTitle) window.animateTitle(tituloPromo);
 
             pizzasPromo.forEach(obj => desenharCard(obj, true));
         }
@@ -914,6 +1305,11 @@ const carregarPizzas = () => {
 
     // 3. Renderiza as pizzas Normais e Combos regulares em seguida
     pizzasNormais.forEach(obj => desenharCard(obj, false));
+
+    // Atualiza as métricas do ScrollTrigger após recriar os elementos do grid
+    if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+    }
 }
 
 const promocoes = () => {
@@ -975,5 +1371,6 @@ atualizarCarrinho()
 fecharCarrinho()
 enviarPedido()
 limparCarrinho()
+configurarPopupAvisoPromo()
 tratarParametrosURL()
 

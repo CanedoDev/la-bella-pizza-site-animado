@@ -103,9 +103,13 @@
 
     <aside>
         <div class="cart--area">
-            <div class="menu-closer">❌</div>
+            <div class="menu-closer">&times;</div>
             <h1>Suas Pizzas</h1>
             <div class="cart"></div>
+            <div class="cart--promo-alert" style="display: none;">
+                <span class="promo-alert-badge">Aviso Promocional</span>
+                <p>O desconto de quarta-feira foi aplicado em <strong>1 pizza</strong>. Pizzas promocionais adicionais seguem o valor de tabela normal.</p>
+            </div>
             <div class="cart--details">
                 <div class="cart--totalitem subtotal">
                     <span>Subtotal</span>
@@ -155,7 +159,7 @@
         </nav>
     </header>
     <main>
-        <section class="promocao" style="padding-top: 100px; padding-bottom: 20px; margin-bottom: 20px;">
+        <section class="promocao" style="padding-top: 15px; padding-bottom: 15px; margin-bottom: 15px;">
             <div class="promocao-container">
                 <div class="promo-slider">
                     <div class="promo-slides">
@@ -186,11 +190,31 @@
         </section>
 
         <section class="cardapio">
-            <div class="cardapio-container" style="padding-top: 10px;">
+            <div class="cardapio-container">
                 <h2 class="section-title">Cardápio</h2>
+
+                <!-- QUADRO DE ADENDOS & REGRAS DA CASA (COMPACTO E DIRETO) -->
+                <div class="cardapio-adendo">
+                    <div class="adendo-grid">
+                        <div class="adendo-item">
+                            <span class="adendo-label">Horários:</span> Ter a Qui e Dom: 18h às 23h | Sex, Sáb e Vésperas: 18h às 00h
+                        </div>
+                        <div class="adendo-item">
+                            <span class="adendo-label">Brinde:</span> Pizzas Super (40cm) e Max (45cm) acompanham Refri 2L grátis
+                        </div>
+                        <div class="adendo-item">
+                            <span class="adendo-label">Promoções:</span> Válidas apenas nos dias indicados (exceto feriados e vésperas) - máx. 1 por pedido
+                        </div>
+                        <div class="adendo-item">
+                            <span class="adendo-label">Fidelidade:</span> Troca de 10 selos por 1 pizza média de Ter a Qui (exceto feriados e vésperas)
+                        </div>
+                    </div>
+                </div>
+
                 <div class="category-buttons-box">
                     <div class="category-button pizzas-todas active" data-filter ='all'>Todos</div>
                     <div class="category-button pizzas-tradicionais" data-filter ='pizzas-tradicionais'>Tradicionais</div>
+                    <div class="category-button pizzas-especiais" data-filter ='pizzas-especiais'>Especiais</div>
                     <div class="category-button pizzas-doces" data-filter ='pizzas-doces'>Doces</div>
                     <div class="category-button pizzas-gourmet" data-filter ='pizzas-gourmet'>Gourmet</div>
                     <div class="category-button combos" data-filter ='combos'>Combos</div>
@@ -212,13 +236,16 @@
                     <div class="pizzaTag">TRADICIONAL</div>
                     <h1>--</h1>
                     <div class="pizzaInfo--desc">--</div>
+                    <div class="pizzaInfo--bonusRefri" style="display: none;">
+                        <span class="bonus-text">Esta pizza acompanha <strong>Refrigerante 2L Grátis</strong></span>
+                    </div>
                     <div class="pizzaInfo--sizearea">
                         <div class="pizzaInfo--sector">Tamanho</div>
                         <div class="pizzaInfo--sizes">
-                            <div data-key="P" class="pizzaInfo--size selected">MÉDIA <span>--</span></div>
-                            <div data-key="M" class="pizzaInfo--size">GRANDE <span>--</span></div>
-                            <div data-key="G" class="pizzaInfo--size">SUPER <span>--</span></div>
-                            <div data-key="Mx" class="pizzaInfo--size ">MAX <span>--</span></div>
+                            <div data-key="M" class="pizzaInfo--size selected">MÉDIA <span>--</span></div>
+                            <div data-key="G" class="pizzaInfo--size">GRANDE <span>--</span></div>
+                            <div data-key="S" class="pizzaInfo--size">SUPER <span>--</span></div>
+                            <div data-key="MX" class="pizzaInfo--size ">MAX <span>--</span></div>
                         </div>
                     </div>
                     <div class="pizzaInfo--pricearea">
@@ -306,6 +333,18 @@
                 </div>
             </div>
         </div>
+
+        <!-- Popup Informativo de Limite da Promoção (1 por pedido) -->
+        <div class="promo-alert-overlay" id="promoAlertModal" style="display: none;">
+            <div class="promo-alert-card">
+                <h3>Regra de Promoção</h3>
+                <p>O desconto especial é válido para <strong>apenas 1 pizza promocional por pedido</strong>.</p>
+                <div class="promo-alert-explanation">
+                    A primeira pizza promocional recebeu o desconto especial. Unidades promocionais adicionais foram mantidas com o preço regular de cardápio.
+                </div>
+                <button type="button" class="promo-alert-btn" id="promoAlertCloseBtn">Entendi, continuar</button>
+            </div>
+        </div>
     </main>
     <footer id="contato">
         <div class="bg-footer"><img src="assets/img/bg-footer.webp" alt="Ambiente acolhedor La Bella Pizza"></div>
@@ -346,9 +385,9 @@
                     </div>
                 </div>
                 <div class="bottom">
-                    <div class="telefone">📞 <strong>Telefone:</strong> <a href="tel:+5524999323962">(24) 99932-3962</a></div>
-                    <div class="endereco">📍 <strong>Endereço:</strong> <a href="https://maps.google.com/?q=Pizzaria+La+Bella,+Rua+Bingen,+2076+-+Bingen,+Petr%C3%B3polis+-+RJ,+25660-008" target="_blank" rel="noopener noreferrer">Pizzaria La Bella, Bingen, 2076, Petrópolis - RJ, 25660-008</a></div>
-                    <div class="horario">🕐 <strong>Horários:</strong> Ter a Qui: 18h às 22h45 | Sex a Dom: 18h às 23h45 | Seg: Fechado</div>
+                    <div class="telefone"><strong>Telefone:</strong> <a href="tel:+5524999323962">(24) 99932-3962</a></div>
+                    <div class="endereco"><strong>Endereço:</strong> <a href="https://maps.google.com/?q=Pizzaria+La+Bella,+Rua+Bingen,+2076+-+Bingen,+Petr%C3%B3polis+-+RJ,+25660-008" target="_blank" rel="noopener noreferrer">Pizzaria La Bella, Bingen, 2076, Petrópolis - RJ, 25660-008</a></div>
+                    <div class="horario"><strong>Horários:</strong> Ter a Qui e Dom: 18h às 23h | Sex a Sáb e Vésperas: 18h às 00h | Seg: Fechado</div>
                 </div>
                 <div class="footer-credits">
                     <a href="https://canedoweb.vercel.app/" target="_blank" rel="noopener noreferrer">Desenvolvido por Canedo Web Studio</a>

@@ -20,8 +20,10 @@ const getDiaAtual = () => {
  */
 const obterCombosAtivos = () => {
     const dia = getDiaAtual();
+    const ehFeriado = (typeof window.isFeriadoOuVespera === 'function') ? window.isFeriadoOuVespera() : false;
     return combosJson.filter(combo => {
         if (combo.dayOfWeek !== undefined && combo.dayOfWeek !== null) {
+            if (ehFeriado) return false;
             return combo.dayOfWeek === dia;
         }
         return true;
@@ -54,6 +56,112 @@ const obterBebidasParaRegra = (regraBebida) => {
 const formatarBRL = (valor) => {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 };
+
+// ==========================================================================
+// SEARCHABLE DROPDOWNS PARA OS COMBOS
+// ==========================================================================
+const inicializarSearchableSelects = (container) => {
+    const customSelects = container.querySelectorAll('.combo-searchable-select');
+
+    customSelects.forEach(customSelect => {
+        const trigger = customSelect.querySelector('.combo-select-trigger');
+        const menu = customSelect.querySelector('.combo-dropdown-menu');
+        const searchInput = customSelect.querySelector('.combo-search-input');
+        const optionsList = customSelect.querySelector('.combo-options-list');
+        const noResults = customSelect.querySelector('.combo-no-results');
+        const nativeSelect = customSelect.querySelector('select');
+        const selectedText = customSelect.querySelector('.combo-selected-text');
+
+        // Abre / Fecha dropdown
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const estaAberto = customSelect.classList.contains('is-open');
+
+            // Fecha outros dropdowns abertos
+            document.querySelectorAll('.combo-searchable-select.is-open').forEach(s => {
+                if (s !== customSelect) {
+                    s.classList.remove('is-open');
+                    const m = s.querySelector('.combo-dropdown-menu');
+                    if (m) m.style.display = 'none';
+                }
+            });
+
+            if (estaAberto) {
+                customSelect.classList.remove('is-open');
+                menu.style.display = 'none';
+            } else {
+                customSelect.classList.add('is-open');
+                menu.style.display = 'flex';
+                searchInput.value = '';
+                optionsList.querySelectorAll('.combo-option-item').forEach(opt => {
+                    opt.style.display = 'flex';
+                });
+                if (noResults) noResults.style.display = 'none';
+                setTimeout(() => searchInput.focus(), 50);
+            }
+        });
+
+        // Filtragem ao digitar no campo de busca
+        searchInput.addEventListener('input', (e) => {
+            e.stopPropagation();
+            const termo = searchInput.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+            const items = optionsList.querySelectorAll('.combo-option-item');
+            let visiveis = 0;
+
+            items.forEach(item => {
+                const searchTarget = (item.getAttribute('data-search') || item.innerText).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                if (termo === '' || searchTarget.includes(termo)) {
+                    item.style.display = 'flex';
+                    visiveis++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            if (noResults) {
+                noResults.style.display = visiveis === 0 ? 'block' : 'none';
+            }
+        });
+
+        // Previne fechamento ao clicar dentro do input de busca
+        searchInput.addEventListener('click', (e) => e.stopPropagation());
+
+        // Clique em opção
+        optionsList.querySelectorAll('.combo-option-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const valor = item.getAttribute('data-value');
+                const nome = item.querySelector('.option-name').innerText;
+                const preco = item.querySelector('.option-price').innerText;
+
+                // Atualiza select nativo
+                nativeSelect.value = valor;
+                nativeSelect.dispatchEvent(new Event('change'));
+
+                // Atualiza texto visível
+                selectedText.innerText = `${nome} (${preco})`;
+                optionsList.querySelectorAll('.combo-option-item').forEach(opt => opt.classList.remove('selected'));
+                item.classList.add('selected');
+
+                // Fecha menu
+                customSelect.classList.remove('is-open');
+                menu.style.display = 'none';
+            });
+        });
+    });
+};
+
+// Fecha dropdowns ao clicar fora
+if (!window.comboDropdownListenerAdded) {
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.combo-searchable-select.is-open').forEach(s => {
+            s.classList.remove('is-open');
+            const m = s.querySelector('.combo-dropdown-menu');
+            if (m) m.style.display = 'none';
+        });
+    });
+    window.comboDropdownListenerAdded = true;
+}
 
 // ==========================================================================
 // MODAL DE SELEÇÃO E CUSTOMIZAÇÃO DE COMBO (Design Oficial La Bella Pizza)
@@ -97,17 +205,46 @@ const abrirModalCombo = (combo) => {
             slotDiv.className = 'combo-slot-group';
 
             let optionsHtml = '';
-            pizzasDisponiveis.forEach(pizza => {
+            let customItemsHtml = '';
+            let defaultText = '';
+
+            pizzasDisponiveis.forEach((pizza, pIdx) => {
                 const precoAvulso = pizza.price[regraPizza.sizeIndex];
-                optionsHtml += `<option value="${pizza.id}" data-price="${precoAvulso}">${pizza.name} (${formatarBRL(precoAvulso)})</option>`;
+                const itemFormatado = `${pizza.name} (${formatarBRL(precoAvulso)})`;
+                if (pIdx === 0) defaultText = itemFormatado;
+                const isSelected = pIdx === 0 ? 'selected' : '';
+                optionsHtml += `<option value="${pizza.id}" data-price="${precoAvulso}">${itemFormatado}</option>`;
+
+                const searchClean = (pizza.name + ' ' + (pizza.description || '')).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                customItemsHtml += `
+                    <div class="combo-option-item ${isSelected}" data-value="${pizza.id}" data-price="${precoAvulso}" data-search="${searchClean}">
+                        <span class="option-name">${pizza.name}</span>
+                        <span class="option-price">${formatarBRL(precoAvulso)}</span>
+                    </div>
+                `;
             });
 
             slotDiv.innerHTML = `
                 <div class="comboInfo--sector">${regraPizza.label || `Pizza ${index + 1}`}</div>
                 <div class="combo-select-wrapper">
-                    <select class="combo-select-pizza" data-slot-index="${index}" data-size="${regraPizza.size}" data-size-index="${regraPizza.sizeIndex}" data-size-name="${regraPizza.sizeName}">
-                        ${optionsHtml}
-                    </select>
+                    <div class="combo-searchable-select" data-slot-index="${index}">
+                        <div class="combo-select-trigger" tabindex="0">
+                            <span class="combo-selected-text">${defaultText}</span>
+                            <span class="combo-select-arrow">&#9662;</span>
+                        </div>
+                        <div class="combo-dropdown-menu" style="display: none;">
+                            <div class="combo-search-box">
+                                <input type="text" class="combo-search-input" placeholder="Buscar sabor (ex: calabresa, frango)..." autocomplete="off" />
+                            </div>
+                            <div class="combo-options-list">
+                                ${customItemsHtml}
+                            </div>
+                            <div class="combo-no-results" style="display: none;">Nenhum sabor encontrado</div>
+                        </div>
+                        <select class="combo-select-pizza" style="display: none;" data-slot-index="${index}" data-size="${regraPizza.size}" data-size-index="${regraPizza.sizeIndex}" data-size-name="${regraPizza.sizeName}">
+                            ${optionsHtml}
+                        </select>
+                    </div>
                 </div>
             `;
             selectionsContainer.appendChild(slotDiv);
@@ -122,23 +259,55 @@ const abrirModalCombo = (combo) => {
             slotDiv.className = 'combo-slot-group';
 
             let optionsHtml = '';
-            bebidasDisponiveis.forEach(bebida => {
+            let customItemsHtml = '';
+            let defaultText = '';
+
+            bebidasDisponiveis.forEach((bebida, bIdx) => {
                 const drinkSizeIndex = bebida.sizes.indexOf(regraBebida.size) >= 0 ? bebida.sizes.indexOf(regraBebida.size) : (regraBebida.sizeIndex !== undefined ? regraBebida.sizeIndex : 1);
                 const precoBebida = bebida.price[drinkSizeIndex] || bebida.price[bebida.price.length - 1];
-                optionsHtml += `<option value="${bebida.id}" data-price="${precoBebida}">${bebida.name} ${regraBebida.size} (${formatarBRL(precoBebida)})</option>`;
+                const itemFormatado = `${bebida.name} ${regraBebida.size} (${formatarBRL(precoBebida)})`;
+                if (bIdx === 0) defaultText = itemFormatado;
+                const isSelected = bIdx === 0 ? 'selected' : '';
+                optionsHtml += `<option value="${bebida.id}" data-price="${precoBebida}">${itemFormatado}</option>`;
+
+                const searchClean = (bebida.name + ' ' + regraBebida.size).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                customItemsHtml += `
+                    <div class="combo-option-item ${isSelected}" data-value="${bebida.id}" data-price="${precoBebida}" data-search="${searchClean}">
+                        <span class="option-name">${bebida.name} ${regraBebida.size}</span>
+                        <span class="option-price">${formatarBRL(precoBebida)}</span>
+                    </div>
+                `;
             });
 
             slotDiv.innerHTML = `
                 <div class="comboInfo--sector">${regraBebida.label || `Bebida ${index + 1}`}</div>
                 <div class="combo-select-wrapper">
-                    <select class="combo-select-drink" data-slot-index="${index}" data-size="${regraBebida.size}">
-                        ${optionsHtml}
-                    </select>
+                    <div class="combo-searchable-select" data-slot-index="${index}">
+                        <div class="combo-select-trigger" tabindex="0">
+                            <span class="combo-selected-text">${defaultText}</span>
+                            <span class="combo-select-arrow">&#9662;</span>
+                        </div>
+                        <div class="combo-dropdown-menu" style="display: none;">
+                            <div class="combo-search-box">
+                                <input type="text" class="combo-search-input" placeholder="Buscar bebida (ex: coca, guaraná)..." autocomplete="off" />
+                            </div>
+                            <div class="combo-options-list">
+                                ${customItemsHtml}
+                            </div>
+                            <div class="combo-no-results" style="display: none;">Nenhuma bebida encontrada</div>
+                        </div>
+                        <select class="combo-select-drink" style="display: none;" data-slot-index="${index}" data-size="${regraBebida.size}">
+                            ${optionsHtml}
+                        </select>
+                    </div>
                 </div>
             `;
             selectionsContainer.appendChild(slotDiv);
         });
     }
+
+    // Inicializa lógica interativa dos Searchable Selects
+    inicializarSearchableSelects(selectionsContainer);
 
     // Atualiza resumo financeiro
     atualizarResumoPrecoCombo();
@@ -155,9 +324,13 @@ const abrirModalCombo = (combo) => {
         { scale: 0.4, opacity: 0 },
         { scale: 1, opacity: 1, duration: 0.8, ease: "elastic.out(1, 0.4)" }
     );
+
+    if (typeof window.pushModalState === 'function') {
+        window.pushModalState('combo');
+    }
 };
 
-const fecharModalCombo = () => {
+const fecharModalCombo = (syncHistory = true) => {
     const modalArea = document.querySelector('.comboWindowArea');
     const modalBody = document.querySelector('.comboWindowBody');
 
@@ -172,6 +345,10 @@ const fecharModalCombo = () => {
             comboAtualModal = null;
         }
     });
+
+    if (syncHistory && typeof window.popModalState === 'function') {
+        window.popModalState('combo');
+    }
 };
 
 /**
@@ -277,14 +454,15 @@ const confirmarAdicaoCombo = () => {
 
     cart.push(comboCartItem);
 
-    fecharModalCombo();
+    fecharModalCombo(false);
     
     // Abre explicitamente o carrinho na lateral
-    const aside = document.querySelector('aside');
-    if (aside) {
-        aside.classList.add('show');
+    if (typeof mostrarCarrinho === 'function') {
+        mostrarCarrinho();
+    } else {
+        const aside = document.querySelector('aside');
+        if (aside) aside.classList.add('show');
     }
-    if (typeof abrirCarrinho === 'function') abrirCarrinho();
     if (typeof atualizarCarrinho === 'function') atualizarCarrinho();
 };
 
@@ -418,7 +596,7 @@ const tentarCombinarItensParaCombo = (combo, itensAvulsos) => {
             const categoriaMatch = regraPizza.category.includes(item.category);
             
             // Compatibilidade inteligente de tamanho de pizza:
-            // 'P' (Média 30cm, index 0), 'M' (Grande 35cm, index 1), 'G' (Super 40cm, index 2), 'Mx' (Max 45cm, index 3)
+            // 'M' (Média 30cm, index 0), 'G' (Grande 35cm, index 1), 'S' (Super 40cm, index 2), 'MX' (Max 45cm, index 3)
             const sizeMatch = (item.size === regraPizza.size) || 
                               (item.sizeIndex !== undefined && item.sizeIndex === regraPizza.sizeIndex);
 
@@ -449,9 +627,9 @@ const tentarCombinarItensParaCombo = (combo, itensAvulsos) => {
                 const ehBebida = (item.category === 'Bebidas');
 
                 // Compatibilidade de refrigerante:
-                // '2L' ou index 1 ou 'M' (segundo botão de tamanho do modal)
-                const is2L = (regraBebida.size === '2L') && (item.size === '2L' || item.size === 'M' || item.sizeIndex === 1 || item.size === 'Grande 35 cm');
-                const is600ml = (regraBebida.size === '600ml') && (item.size === '600ml' || item.size === 'P' || item.sizeIndex === 0 || item.size === 'Média 30 cm');
+                // '2L' ou index 1 ou 'G'/'M' (botão de tamanho correspondente)
+                const is2L = (regraBebida.size === '2L') && (item.size === '2L' || item.size === 'G' || item.size === 'M' || item.sizeIndex === 1 || item.size === 'Grande 35 cm');
+                const is600ml = (regraBebida.size === '600ml') && (item.size === '600ml' || item.size === 'M' || item.size === 'P' || item.sizeIndex === 0 || item.size === 'Média 30 cm');
                 const sizeMatch = is2L || is600ml || (item.size === regraBebida.size);
 
                 if (ehBebida && sizeMatch) {

@@ -2,7 +2,18 @@
     display: none;
 }
 
+/* Espaçamento para o cabeçalho fixo no topo */
+main {
+    padding-top: 95px;
+}
 
+.cardapio-container {
+    padding-top: 10px;
+}
+
+.cardapio-container .section-title {
+    margin-bottom: 20px;
+}
 
 /* Consertando o botão do card branco duplicado */
 .card-white .card-btn {
@@ -1048,11 +1059,12 @@ aside.show {
 }
 
 .comboPriceArea {
-    background: #f8faf8;
-    border-radius: 14px;
+    background: rgba(100, 185, 95, 0.14);
+    border: 2px solid #4a9d46;
+    border-radius: 10px;
     padding: 12px 16px;
-    border: 1px solid #e0ebe0;
-    margin-top: 4px;
+    margin-top: 10px;
+    box-shadow: none;
 }
 
 .comboPriceLabels {
@@ -1065,23 +1077,165 @@ aside.show {
 
 .comboOriginalPrice {
     font-size: 13px;
-    color: #888888;
+    color: #555555;
 }
 
 .comboFinalPrice {
     font-size: 24px;
-    color: #333333;
+    color: #222222;
     font-weight: 700;
 }
 
 .comboSavingsBadge {
-    background-color: #64B95F;
+    background-color: #4a9d46;
     color: #ffffff;
     font-size: 11px;
     font-weight: 700;
     padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+}
+
+/* =========================================
+   SEARCHABLE SELECT PARA COMBOS
+========================================= */
+.combo-searchable-select {
+    position: relative;
+    width: 100%;
+}
+
+.combo-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: #ffffff;
+    border: 1.5px solid #d5dbdb;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333333;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    user-select: none;
+}
+
+.combo-select-trigger:hover,
+.combo-select-trigger:focus,
+.combo-searchable-select.is-open .combo-select-trigger {
+    border-color: #C1443C;
+    box-shadow: 0 0 0 3px rgba(193, 68, 60, 0.12);
+}
+
+.combo-selected-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.combo-select-arrow {
+    font-size: 12px;
+    color: #888888;
+    margin-left: 8px;
+    transition: transform 0.2s ease;
+}
+
+.combo-searchable-select.is-open .combo-select-arrow {
+    transform: rotate(180deg);
+}
+
+.combo-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background: #ffffff;
+    border: 1.5px solid #d5dbdb;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    max-height: 250px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.combo-search-box {
+    padding: 8px 10px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.combo-search-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    background: #ffffff;
+    color: #333333;
+    box-sizing: border-box;
+}
+
+.combo-search-input:focus {
+    border-color: #C1443C;
+}
+
+.combo-options-list {
+    overflow-y: auto;
+    max-height: 190px;
+}
+
+.combo-option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    cursor: pointer;
+    border-bottom: 1px solid #f6f6f6;
+    transition: background 0.15s;
+}
+
+.combo-option-item:last-child {
+    border-bottom: none;
+}
+
+.combo-option-item:hover {
+    background: #fdf5f4;
+    color: #C1443C;
+}
+
+.combo-option-item.selected {
+    background: #faecea;
+    color: #C1443C;
+    font-weight: 700;
+}
+
+.combo-option-item .option-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 8px;
+}
+
+.combo-option-item .option-price {
+    font-size: 12.5px;
+    color: #666666;
+    white-space: nowrap;
+}
+
+.combo-option-item.selected .option-price {
+    color: #C1443C;
+}
+
+.combo-no-results {
+    padding: 14px;
+    text-align: center;
+    font-size: 12.5px;
+    color: #888888;
 }
 
 .comboInfo--addButton {
@@ -1220,5 +1374,205 @@ aside.show {
     .comboPriceLabels {
         flex-direction: column;
         align-items: flex-start;
+    }
+}
+
+/* =========================================
+   QUADRO DE ADENDOS & REGRAS DA CASA (COMPACTO E DISCRETO)
+========================================= */
+.cardapio-adendo {
+    max-width: 1100px;
+    width: 92%;
+    margin: 0 auto 16px;
+    background: #fdfdfd;
+    border: 1.5px solid #4a9d46;
+    border-radius: 8px;
+    padding: 10px 16px;
+    box-shadow: none;
+}
+
+.adendo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 18px;
+}
+
+.adendo-item {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #555555;
+}
+
+.adendo-label {
+    font-weight: 700;
+    color: #222222;
+    margin-right: 4px;
+}
+
+/* =========================================
+   BRINDE REFRI 2L NO MODAL DE PIZZA
+========================================= */
+.pizzaInfo--bonusRefri {
+    margin: 8px 0 10px;
+    padding: 8px 12px;
+    background: #e2f2df; /* todo verde sólido clarinho */
+    border: 1.5px solid #4a9d46; /* borda inteira, não pontilhada */
+    border-radius: 8px;
+    animation: none; /* não pulsa */
+    display: flex;
+    align-items: center;
+}
+
+.bonus-text {
+    font-size: 12.5px;
+    color: #1a5317;
+    line-height: 1.35;
+    font-weight: 500;
+}
+
+.bonus-text strong {
+    color: #113c0f;
+    font-weight: 700;
+}
+
+/* =========================================
+   AVISOS NO CARRINHO
+========================================= */
+.cart--promo-alert {
+    margin: 12px 0 6px;
+    padding: 10px 14px;
+    background: #fff9e6;
+    border: 1px solid #f5b041;
+    border-left: 4px solid #d68910;
+    border-radius: 10px;
+}
+
+.promo-alert-badge {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #b9770e;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.cart--promo-alert p {
+    font-size: 12px;
+    color: #7d5208;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.cart--item-refri {
+    font-size: 11px;
+    color: #2e7d32;
+    font-weight: 700;
+    background: #e8f5e9;
+    padding: 2px 7px;
+    border-radius: 6px;
+    margin-top: 4px;
+    display: inline-block;
+    border: 1px solid #c8e6c9;
+}
+
+/* =========================================
+   POPUP DE ALERTA PROMOCIONAL
+========================================= */
+.promo-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease;
+}
+
+.promo-alert-card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 32px 28px;
+    max-width: 440px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    animation: popInAlert 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popInAlert {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.promo-alert-icon {
+    font-size: 44px;
+    margin-bottom: 12px;
+}
+
+.promo-alert-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #C1443C;
+    margin: 0 0 10px;
+}
+
+.promo-alert-card p {
+    font-size: 14px;
+    color: #444444;
+    line-height: 1.5;
+    margin: 0 0 14px;
+}
+
+.promo-alert-explanation {
+    background: #fef8eb;
+    border-left: 4px solid #f39c12;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #7d5208;
+    text-align: left;
+    border-radius: 6px;
+    margin-bottom: 22px;
+    line-height: 1.4;
+}
+
+.promo-alert-btn {
+    background: #C1443C;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(193, 68, 60, 0.3);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.promo-alert-btn:hover {
+    background: #a93730;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .cardapio-adendo {
+        padding: 8px 12px;
+        margin: 0 auto 14px;
+        width: 92%;
+    }
+
+    .adendo-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
     }
 }
