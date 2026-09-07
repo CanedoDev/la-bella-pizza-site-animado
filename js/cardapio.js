@@ -212,10 +212,24 @@ window.addEventListener('popstate', () => {
         return;
     }
 
+    const flavorArea = document.querySelector('.flavorPickerWindowArea');
+    const meioArea = document.querySelector('.meioWindowArea');
     const checkoutArea = document.querySelector('.checkoutWindowArea');
     const comboArea = document.querySelector('.comboWindowArea');
     const pizzaArea = document.querySelector('.pizzaWindowArea');
     const cartAside = document.querySelector('aside');
+
+    if (flavorArea && flavorArea.style.display === 'flex') {
+        modalStack = modalStack.filter(m => m !== 'flavorPicker');
+        if (typeof fecharFlavorPicker === 'function') fecharFlavorPicker(false);
+        return;
+    }
+
+    if (meioArea && meioArea.style.display === 'flex') {
+        modalStack = modalStack.filter(m => m !== 'meio');
+        if (typeof fecharModalMeioAMeio === 'function') fecharModalMeioAMeio(false);
+        return;
+    }
 
     if (checkoutArea && checkoutArea.style.display === 'flex' && checkoutArea.style.opacity !== '0') {
         modalStack = modalStack.filter(m => m !== 'checkout');
@@ -319,6 +333,36 @@ const botoesFechar = () => {
         btnAddCombo.onclick = () => {
             if (typeof confirmarAdicaoCombo === 'function') confirmarAdicaoCombo()
         }
+    }
+
+    selecionaTodos('.meioInfo--cancelButton, .meioInfo--cancelMobileButton').forEach((item) => {
+        item.addEventListener('click', () => {
+            if (typeof fecharModalMeioAMeio === 'function') fecharModalMeioAMeio()
+        })
+    })
+
+    const meioArea = seleciona('.meioWindowArea')
+    if (meioArea) {
+        meioArea.addEventListener('click', (e) => {
+            if (e.target.classList.contains('meioWindowArea')) {
+                if (typeof fecharModalMeioAMeio === 'function') fecharModalMeioAMeio()
+            }
+        })
+    }
+
+    selecionaTodos('.flavorPickerCloseBtn, .flavorPickerBackBtn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            if (typeof fecharFlavorPicker === 'function') fecharFlavorPicker()
+        })
+    })
+
+    const flavorArea = seleciona('.flavorPickerWindowArea')
+    if (flavorArea) {
+        flavorArea.addEventListener('click', (e) => {
+            if (e.target.classList.contains('flavorPickerWindowArea')) {
+                if (typeof fecharFlavorPicker === 'function') fecharFlavorPicker()
+            }
+        })
     }
 }
 
@@ -550,7 +594,14 @@ const adicionarNoCarrinho = () => {
 
         let price = pizzaJson[modalKey].price[sizeIndex]
 
-        let identificador = pizzaJson[modalKey].id + 't' + size
+        let refriEscolhido = null;
+        if (size === 'S' || size === 'MX') {
+            const selectRefriEl = seleciona('.pizzaInfo--refriSelect');
+            const refriVal = selectRefriEl ? selectRefriEl.value : 'Coca-Cola 2L';
+            refriEscolhido = `${refriVal} (Grátis)`;
+        }
+
+        let identificador = pizzaJson[modalKey].id + 't' + size + (refriEscolhido ? '_' + refriEscolhido.replace(/\s+/g, '_') : '')
 
         const { quartaFeira } = getPromocaoStatus()
         const ehPromoAtual = quartaFeira && (size === 'G' || sizeIndex === 1) &&
@@ -579,7 +630,8 @@ const adicionarNoCarrinho = () => {
                 size: size,
                 sizeIndex: sizeIndex,
                 qt: quantPizzas,
-                price: price
+                price: price,
+                refrigerante: refriEscolhido
             }
             cart.push(pizzaNoCarrinho)
         }
@@ -639,6 +691,27 @@ const atualizarCarrinho = () => {
 
                 subtotal += precoOriginalItem
                 desconto += economiaItem
+            } else if (itemDoCarrinho.isMeioAMeio) {
+
+                cartItem.classList.add('is-meio-a-meio')
+                cartItem.querySelector('.cart--item img').src = 'assets/img/pizzas/pizza-calabresa.webp'
+
+                let refriBadge = ''
+                if (itemDoCarrinho.refrigerante) {
+                    refriBadge = `<div class="cart--item-refri">Acompanha: Refri 2L (${itemDoCarrinho.refrigerante})</div>`
+                }
+
+                cartItem.querySelector('.cart--item-nome').innerHTML = `
+                    <span class="cart--item-tag-combo" style="background: linear-gradient(135deg, #DE4E45 50%, #64B95F 50%);">Meio a Meio</span>
+                    <div class="cart--item-combo-title">Pizza Meio a Meio (${itemDoCarrinho.sizeName || itemDoCarrinho.size})</div>
+                    <div class="cart--item-combo-sub">½ ${itemDoCarrinho.sabor1.name} + ½ ${itemDoCarrinho.sabor2.name}</div>
+                    ${refriBadge}
+                `
+                cartItem.querySelector('.cart--item--qt').innerHTML = itemDoCarrinho.qt
+
+                let itemTotal = itemDoCarrinho.qt * itemDoCarrinho.price
+                subtotal += itemTotal
+
             } else {
 
                 let pizzaItem = pizzaJson.find((item) => item.id == itemDoCarrinho.id)
@@ -646,7 +719,8 @@ const atualizarCarrinho = () => {
 
                 let refriBadge = ''
                 if (itemDoCarrinho.size === 'S' || itemDoCarrinho.size === 'MX') {
-                    refriBadge = `<div class="cart--item-refri">Acompanha Refri 2L Grátis</div>`
+                    const nomeRefri = itemDoCarrinho.refrigerante || 'Refri 2L Grátis'
+                    refriBadge = `<div class="cart--item-refri">Acompanha: ${nomeRefri}</div>`
                 }
 
                 cartItem.querySelector('.cart--item img').src = pizzaItem ? pizzaItem.img : 'assets/img/logo-la-bella-pizza.webp'
@@ -781,17 +855,20 @@ const capturarDadosDoPedido = () => {
                 pedido.desconto += itemDesconto
             }
 
-            const brindeRefri = (itemDoCarrinho.size === 'S' || itemDoCarrinho.size === 'MX')
+            const brindeRefri = (itemDoCarrinho.size === 'S' || itemDoCarrinho.size === 'MX') || !!itemDoCarrinho.refrigerante
 
             pedido.itens.push({
                 isCombo: false,
-                nome: pizzaName,
-                tamanho: pizzaSize,
+                isMeioAMeio: !!itemDoCarrinho.isMeioAMeio,
+                nome: itemDoCarrinho.isMeioAMeio ? `Pizza Meio a Meio (${itemDoCarrinho.sizeName || itemDoCarrinho.size})` : pizzaName,
+                detalhes: itemDoCarrinho.isMeioAMeio ? `½ ${itemDoCarrinho.sabor1.name} + ½ ${itemDoCarrinho.sabor2.name}` : '',
+                tamanho: itemDoCarrinho.sizeName || itemDoCarrinho.size,
                 quantidade: pizzasQt,
                 preco: pizzaPrice,
                 totalPizza: pizzaTotal,
                 desconto: itemDesconto,
-                brindeRefri: brindeRefri
+                brindeRefri: brindeRefri,
+                refrigeranteNome: itemDoCarrinho.refrigerante || ''
             })
 
             pedido.subtotal += pizzaTotal
@@ -928,10 +1005,21 @@ const configurarCheckout = () => {
                     mensagem += ` _(Economia: ${formatoReal(item.desconto)})_`
                 }
                 mensagem += `\n\n`
+            } else if (item.isMeioAMeio) {
+                mensagem += `• *${item.nome}* (${item.quantidade}x)\n`
+                if (item.detalhes) {
+                    mensagem += `  ↳ ${item.detalhes}\n`
+                }
+                if (item.brindeRefri) {
+                    const refriTxt = (item.refrigeranteNome && !item.refrigeranteNome.includes('Refrigerante')) ? `Refrigerante ${item.refrigeranteNome}` : (item.refrigeranteNome || 'Refrigerante 2L Grátis');
+                    mensagem += `  ↳ *Brinde:* ${refriTxt}\n`
+                }
+                mensagem += `  ↳ Valor: ${formatoReal(item.totalPizza)}\n\n`
             } else {
                 mensagem += `• *${item.nome}* (${item.tamanho}) - ${item.quantidade}x\n`
                 if (item.brindeRefri) {
-                    mensagem += `  ↳ *Acompanha Refrigerante 2L Grátis*\n`
+                    const refriTxt = (item.refrigeranteNome && !item.refrigeranteNome.includes('Refrigerante')) ? `Refrigerante ${item.refrigeranteNome}` : (item.refrigeranteNome || 'Refrigerante 2L Grátis');
+                    mensagem += `  ↳ *Brinde:* ${refriTxt}\n`
                 }
                 mensagem += `  ↳ Valor: ${formatoReal(item.totalPizza)}`
                 if (item.desconto > 0) {
@@ -1097,6 +1185,46 @@ const carregarPizzas = () => {
     });
 
     let ultimaCategoria = '';
+    let cardMeioInserido = false;
+
+    const desenharCardMeioAMeio = () => {
+        if (cardMeioInserido) return;
+        if (categoriaAtual === 'combos' || categoriaAtual === 'bebidas') return;
+
+        if (termoAtual !== '') {
+            const t = termoAtual.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const palavrasChave = ['meio', 'misto', 'mista', 'metade', 'dois', 'sabores', 'personalizada', 'custom', 'pizza'];
+            const bate = palavrasChave.some(p => p.includes(t) || t.includes(p));
+            if (!bate) return;
+        }
+
+        let cardItem = seleciona('.models .card').cloneNode(true);
+        cardItem.removeAttribute('data-st-active');
+        cardItem.classList.add('card-white', 'card-meio-a-meio');
+
+        const pizzaImg = cardItem.querySelector(".card-pizza-img");
+        pizzaImg.src = 'assets/img/pizzas/pizza-calabresa.webp';
+        pizzaImg.alt = 'Pizza Meio a Meio Artesanal';
+        pizzaImg.loading = "lazy";
+        pizzaImg.decoding = "async";
+        pizzaImg.width = 200;
+        pizzaImg.height = 135;
+
+        cardItem.querySelector(".card-title").innerHTML = "Meio a Meio";
+        cardItem.querySelector(".card-price").innerHTML = "A partir de R$ 54,90";
+
+        const cardBtn = cardItem.querySelector('.card-btn');
+        cardBtn.innerText = "Montar Pizza";
+        cardBtn.setAttribute('aria-label', 'Montar pizza meio a meio');
+        cardBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            abrirModalMeioAMeio();
+        });
+
+        grid.append(cardItem);
+        cardMeioInserido = true;
+        if (window.observeCard) window.observeCard(cardItem);
+    };
 
     const desenharCard = ({ item, index }, ehPromoSection) => {
         const categoriaSlug = item.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
@@ -1122,6 +1250,10 @@ const carregarPizzas = () => {
                 titulo.innerHTML = ultimaCategoria;
                 grid.append(titulo);
                 if (window.animateTitle) window.animateTitle(titulo);
+
+                if (!cardMeioInserido && categoriaAtual !== 'combos' && categoriaAtual !== 'bebidas') {
+                    desenharCardMeioAMeio();
+                }
             }
         }
 
@@ -1334,15 +1466,689 @@ const tratarParametrosURL = () => {
     }
 }
 
-carregarPizzas()
-filtro()
-pesquisar()
-abrirCarrinho()
-mudarQuantidadeModal()
-adicionarNoCarrinho()
-atualizarCarrinho()
-fecharCarrinho()
-enviarPedido()
-limparCarrinho()
-configurarPopupAvisoPromo()
-tratarParametrosURL()
+/* ==========================================================================
+   PIZZA MEIO A MEIO & SELETOR DE SABORES (MODAL DEDICADO)
+   ========================================================================== */
+
+let meioState = {
+    sabor1: null,
+    sabor2: null,
+    sizeIndex: 1, // 0: Média (30cm), 1: Grande (35cm), 2: Super (40cm), 3: Max (45cm)
+    sizeKey: 'G',
+    sizeName: 'Grande (35 cm)',
+    qt: 1,
+    refrigerante: 'Coca-Cola 2L'
+};
+
+const tamanhosMeio = [
+    { key: 'M', name: 'Média (30 cm)', index: 0, hasSoda: false },
+    { key: 'G', name: 'Grande (35 cm)', index: 1, hasSoda: false },
+    { key: 'S', name: 'Super (40 cm)', index: 2, hasSoda: true },
+    { key: 'MX', name: 'Max (45 cm)', index: 3, hasSoda: true }
+];
+
+const obterPrecoPizzaNoTamanho = (pizza, sizeIndex) => {
+    if (!pizza || !pizza.price || !pizza.price.length) return 0;
+    if (typeof pizza.price[sizeIndex] !== 'undefined') {
+        return pizza.price[sizeIndex];
+    }
+    // Caso o sabor não tenha o tamanho especificado (ex: doces até 35cm ou gourmet 35cm),
+    // o preço prevalecente utiliza o maior valor disponível desse sabor sem travar o tamanho
+    return pizza.price[pizza.price.length - 1];
+};
+
+const atualizarPrecoMeio = () => {
+    if (!meioState.sabor1 || !meioState.sabor2) return;
+
+    const preco1 = obterPrecoPizzaNoTamanho(meioState.sabor1, meioState.sizeIndex);
+    const preco2 = obterPrecoPizzaNoTamanho(meioState.sabor2, meioState.sizeIndex);
+    const precoPrevalecente = Math.max(preco1, preco2);
+
+    const nomePrevalecente = preco1 >= preco2 ? meioState.sabor1.name : meioState.sabor2.name;
+
+    const actualPriceEl = seleciona('.meioInfo--actualPrice');
+    const prevailingNameEl = seleciona('.meioInfo--prevailingName');
+
+    if (actualPriceEl) actualPriceEl.innerText = formatoReal(precoPrevalecente);
+    if (prevailingNameEl) prevailingNameEl.innerText = `${nomePrevalecente} (${formatoReal(precoPrevalecente)})`;
+
+    // Atualizar preços nos cards de cada metade
+    const slot1PriceEl = document.querySelector('.meio-slot[data-slot-index="0"] .meio-slot-price');
+    const slot2PriceEl = document.querySelector('.meio-slot[data-slot-index="1"] .meio-slot-price');
+    if (slot1PriceEl) slot1PriceEl.innerText = formatoReal(preco1);
+    if (slot2PriceEl) slot2PriceEl.innerText = formatoReal(preco2);
+
+    // Bônus refrigerante: Super (40cm) e Max (45cm)
+    const bonusRefriEl = seleciona('.meioInfo--bonusRefri');
+    if (bonusRefriEl) {
+        bonusRefriEl.style.display = (meioState.sizeIndex >= 2) ? 'flex' : 'none';
+    }
+};
+
+const atualizarSlotsMeioUI = () => {
+    if (!meioState.sabor1 || !meioState.sabor2) return;
+
+    const slot0 = document.querySelector('.meio-slot[data-slot-index="0"]');
+    const slot1 = document.querySelector('.meio-slot[data-slot-index="1"]');
+
+    if (slot0) {
+        const img = slot0.querySelector('.meio-slot-img');
+        const name = slot0.querySelector('.meio-slot-name');
+        if (img) img.src = meioState.sabor1.img;
+        if (name) name.innerText = meioState.sabor1.name;
+    }
+    if (slot1) {
+        const img = slot1.querySelector('.meio-slot-img');
+        const name = slot1.querySelector('.meio-slot-name');
+        if (img) img.src = meioState.sabor2.img;
+        if (name) name.innerText = meioState.sabor2.name;
+    }
+
+    atualizarPrecoMeio();
+};
+
+const abrirModalMeioAMeio = () => {
+    if (!meioState.sabor1) {
+        meioState.sabor1 = pizzaJson.find(p => p.id === 1) || pizzaJson[0];
+    }
+    if (!meioState.sabor2) {
+        meioState.sabor2 = pizzaJson.find(p => p.id === 4) || pizzaJson[1] || pizzaJson[0];
+    }
+    meioState.qt = 1;
+    const qtEl = seleciona('.meioInfo--qt');
+    if (qtEl) qtEl.innerText = 1;
+
+    meioState.sizeIndex = 1;
+    meioState.sizeKey = 'G';
+    meioState.sizeName = 'Grande (35 cm)';
+
+    selecionaTodos('.meioInfo--size').forEach(btn => {
+        btn.classList.toggle('selected', btn.getAttribute('data-key') === 'G');
+    });
+
+    const refriSelect = seleciona('#meio-refri-select');
+    if (refriSelect) meioState.refrigerante = refriSelect.value;
+
+    atualizarSlotsMeioUI();
+
+    const area = seleciona('.meioWindowArea');
+    const body = seleciona('.meioWindowBody');
+    if (area && body) {
+        area.style.display = 'flex';
+        gsap.to(area, { opacity: 1, duration: 0.3 });
+        gsap.fromTo(body,
+            { scale: 0.8, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.4)" }
+        );
+        window.pushModalState('meio');
+    }
+};
+
+const fecharModalMeioAMeio = (syncHistory = true) => {
+    const area = seleciona('.meioWindowArea');
+    const body = seleciona('.meioWindowBody');
+    if (!area) return;
+
+    gsap.to(body, {
+        scale: 0.85,
+        opacity: 0,
+        duration: 0.25,
+        ease: "power2.in"
+    });
+
+    gsap.to(area, {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: () => {
+            area.style.display = 'none';
+        }
+    });
+
+    if (syncHistory) {
+        window.popModalState('meio');
+    }
+};
+
+const adicionarMeioAoCarrinho = () => {
+    if (!meioState.sabor1 || !meioState.sabor2) return;
+
+    const preco1 = obterPrecoPizzaNoTamanho(meioState.sabor1, meioState.sizeIndex);
+    const preco2 = obterPrecoPizzaNoTamanho(meioState.sabor2, meioState.sizeIndex);
+    const precoFinal = Math.max(preco1, preco2);
+
+    const temRefri = (meioState.sizeIndex >= 2);
+    let refriEscolhido = null;
+    if (temRefri) {
+        const selectRefriEl = seleciona('.meioInfo--refriSelect');
+        const refriVal = selectRefriEl ? selectRefriEl.value : 'Coca-Cola 2L';
+        refriEscolhido = `${refriVal} (Grátis)`;
+    }
+
+    const idsOrdenados = [meioState.sabor1.id, meioState.sabor2.id].sort((a, b) => a - b).join('-');
+    const identificador = `meio@${idsOrdenados}@${meioState.sizeKey}@${refriEscolhido || 'semRefri'}`;
+
+    const itemExistenteIndex = cart.findIndex(item => item.identificador === identificador);
+
+    if (itemExistenteIndex > -1) {
+        cart[itemExistenteIndex].qt += meioState.qt;
+    } else {
+        cart.push({
+            identificador: identificador,
+            isMeioAMeio: true,
+            id: meioState.sabor1.id,
+            name: `Pizza Meio a Meio (${meioState.sizeName})`,
+            sabor1: {
+                id: meioState.sabor1.id,
+                name: meioState.sabor1.name,
+                img: meioState.sabor1.img,
+                category: meioState.sabor1.category,
+                price: preco1
+            },
+            sabor2: {
+                id: meioState.sabor2.id,
+                name: meioState.sabor2.name,
+                img: meioState.sabor2.img,
+                category: meioState.sabor2.category,
+                price: preco2
+            },
+            size: meioState.sizeKey,
+            sizeIndex: meioState.sizeIndex,
+            sizeName: meioState.sizeName,
+            price: precoFinal,
+            qt: meioState.qt,
+            refrigerante: refriEscolhido
+        });
+    }
+
+    fecharModalMeioAMeio();
+    atualizarCarrinho();
+    mostrarCarrinho();
+};
+
+const configurarModalMeioAMeio = () => {
+    // Seleção de tamanho
+    selecionaTodos('.meioInfo--size').forEach(btn => {
+        btn.addEventListener('click', () => {
+            selecionaTodos('.meioInfo--size').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const key = btn.getAttribute('data-key');
+            const sIndex = parseInt(btn.getAttribute('data-size-index'));
+            meioState.sizeKey = key;
+            meioState.sizeIndex = sIndex;
+            const sizeObj = tamanhosMeio.find(t => t.key === key);
+            meioState.sizeName = sizeObj ? sizeObj.name : 'Grande (35 cm)';
+            atualizarPrecoMeio();
+        });
+    });
+
+    // Quantidade
+    const btnMenos = seleciona('.meioInfo--qtmenos');
+    const btnMais = seleciona('.meioInfo--qtmais');
+    const qtEl = seleciona('.meioInfo--qt');
+
+    if (btnMenos) {
+        btnMenos.addEventListener('click', () => {
+            if (meioState.qt > 1) {
+                meioState.qt--;
+                if (qtEl) qtEl.innerText = meioState.qt;
+            }
+        });
+    }
+
+    if (btnMais) {
+        btnMais.addEventListener('click', () => {
+            meioState.qt++;
+            if (qtEl) qtEl.innerText = meioState.qt;
+        });
+    }
+
+    // Botão Adicionar
+    const btnAdd = seleciona('.meioInfo--addButton');
+    if (btnAdd) {
+        btnAdd.addEventListener('click', adicionarMeioAoCarrinho);
+    }
+
+    // Slots individuais
+    const slot0 = document.querySelector('.meio-slot[data-slot-index="0"]');
+    const slot1 = document.querySelector('.meio-slot[data-slot-index="1"]');
+
+    if (slot0) {
+        slot0.addEventListener('click', () => {
+            if (typeof window.abrirSeletorSaboresUnico === 'function') {
+                window.abrirSeletorSaboresUnico({
+                    title: "Escolha a 1ª Metade",
+                    stepText: "1ª Metade",
+                    subtitle: "Toque no sabor para selecionar",
+                    allowedCategories: [],
+                    sizeIndex: meioState.sizeIndex,
+                    selectedId: meioState.sabor1 ? meioState.sabor1.id : null,
+                    onSelect: (pizza) => {
+                        meioState.sabor1 = pizza;
+                        atualizarSlotsMeioUI();
+                    }
+                });
+            }
+        });
+    }
+
+    if (slot1) {
+        slot1.addEventListener('click', () => {
+            if (typeof window.abrirSeletorSaboresUnico === 'function') {
+                window.abrirSeletorSaboresUnico({
+                    title: "Escolha a 2ª Metade",
+                    stepText: "2ª Metade",
+                    subtitle: "Toque no sabor para selecionar",
+                    allowedCategories: [],
+                    sizeIndex: meioState.sizeIndex,
+                    selectedId: meioState.sabor2 ? meioState.sabor2.id : null,
+                    onSelect: (pizza) => {
+                        meioState.sabor2 = pizza;
+                        atualizarSlotsMeioUI();
+                    }
+                });
+            }
+        });
+    }
+
+    // Botão "Escolher os 2 Sabores"
+    const btnChooseAll = seleciona('.meioInfo--slotsArea .meio-choose-all-btn');
+    if (btnChooseAll) {
+        btnChooseAll.addEventListener('click', () => {
+            if (typeof window.iniciarFluxoSelecaoSabores === 'function') {
+                window.iniciarFluxoSelecaoSabores({
+                    steps: [
+                        {
+                            title: "Escolha a 1ª Metade",
+                            stepText: "Passo 1 de 2",
+                            subtitle: "Selecione o sabor da primeira metade",
+                            allowedCategories: [],
+                            sizeIndex: meioState.sizeIndex,
+                            selectedId: meioState.sabor1 ? meioState.sabor1.id : null
+                        },
+                        {
+                            title: "Escolha a 2ª Metade",
+                            stepText: "Passo 2 de 2",
+                            subtitle: "Selecione o sabor da segunda metade",
+                            allowedCategories: [],
+                            sizeIndex: meioState.sizeIndex,
+                            selectedId: meioState.sabor2 ? meioState.sabor2.id : null
+                        }
+                    ],
+                    onComplete: (sabores) => {
+                        if (sabores[0]) meioState.sabor1 = sabores[0];
+                        if (sabores[1]) meioState.sabor2 = sabores[1];
+                        atualizarSlotsMeioUI();
+                    }
+                });
+            }
+        });
+    }
+};
+
+/* ==========================================================================
+   MODAL DE SELEÇÃO DE SABORES (Cards Simplificados, Filtro, Pesquisa)
+   ========================================================================== */
+
+let flavorPickerState = {
+    isOpen: false,
+    activeStepIndex: 0,
+    steps: [],
+    selectedFlavors: [],
+    currentFilterCat: 'all',
+    searchTerm: '',
+    onSelectCallback: null,
+    onCompleteCallback: null
+};
+
+const abrirModalFlavorPicker = () => {
+    const area = seleciona('.flavorPickerWindowArea');
+    const body = seleciona('.flavorPickerWindowBody');
+    if (!area || !body) return;
+
+    flavorPickerState.isOpen = true;
+    flavorPickerState.currentFilterCat = 'all';
+    flavorPickerState.searchTerm = '';
+
+    const searchInput = seleciona('#flavorPickerSearch');
+    if (searchInput) searchInput.value = '';
+    const searchClear = seleciona('.flavorPickerSearchClear');
+    if (searchClear) searchClear.style.display = 'none';
+
+    area.style.display = 'flex';
+    gsap.to(area, { opacity: 1, duration: 0.3 });
+    gsap.fromTo(body,
+        { scale: 0.85, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.4, ease: "power2.out" }
+    );
+
+    window.pushModalState('flavorPicker');
+    atualizarEtapaFlavorPicker();
+};
+
+const fecharFlavorPicker = (syncHistory = true) => {
+    const area = seleciona('.flavorPickerWindowArea');
+    const body = seleciona('.flavorPickerWindowBody');
+    if (!area) return;
+
+    gsap.to(body, {
+        scale: 0.85,
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.in"
+    });
+
+    gsap.to(area, {
+        opacity: 0,
+        duration: 0.25,
+        onComplete: () => {
+            area.style.display = 'none';
+            flavorPickerState.isOpen = false;
+        }
+    });
+
+    if (syncHistory) {
+        window.popModalState('flavorPicker');
+    }
+};
+
+const atualizarEtapaFlavorPicker = () => {
+    const currentStep = flavorPickerState.steps[flavorPickerState.activeStepIndex];
+    if (!currentStep) return;
+
+    // Atualizar Header
+    const stepEl = seleciona('.flavorPickerStep');
+    const titleEl = seleciona('.flavorPickerTitle');
+    const subtitleEl = seleciona('.flavorPickerSubtitle');
+
+    if (stepEl) stepEl.innerText = currentStep.stepText || `Passo ${flavorPickerState.activeStepIndex + 1} de ${flavorPickerState.steps.length}`;
+    if (titleEl) titleEl.innerText = currentStep.title || 'Escolha o Sabor';
+    if (subtitleEl) subtitleEl.innerText = currentStep.subtitle || 'Toque no sabor para selecionar';
+
+    // Gerenciar visibilidade das abas de categoria conforme allowedCategories
+    const catButtons = selecionaTodos('.flavor-cat-btn');
+    const allowed = currentStep.allowedCategories || [];
+
+    catButtons.forEach(btn => {
+        const cat = btn.getAttribute('data-cat');
+        if (allowed.length > 0) {
+            if (cat === 'all') {
+                btn.style.display = '';
+                btn.innerText = (allowed.length === 1 && allowed[0] === 'Pizzas Doces') ? 'Todas Doces' : 'Todas';
+            } else if (allowed.includes(cat)) {
+                btn.style.display = '';
+            } else {
+                btn.style.display = 'none';
+            }
+        } else {
+            btn.style.display = '';
+            if (cat === 'all') btn.innerText = 'Todas';
+        }
+    });
+
+    // Resetar aba ativa para 'all'
+    catButtons.forEach(b => b.classList.remove('active'));
+    const btnAll = document.querySelector('.flavor-cat-btn[data-cat="all"]');
+    if (btnAll) btnAll.classList.add('active');
+    flavorPickerState.currentFilterCat = 'all';
+
+    renderizarCardsSabores();
+};
+
+const renderizarCardsSabores = () => {
+    const grid = seleciona('.flavor-mini-grid');
+    const noResultsEl = seleciona('.flavor-no-results');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    const currentStep = flavorPickerState.steps[flavorPickerState.activeStepIndex];
+    if (!currentStep) return;
+
+    const allowed = currentStep.allowedCategories || [];
+    const sizeIndex = (typeof currentStep.sizeIndex !== 'undefined') ? currentStep.sizeIndex : 1;
+    const selectedId = currentStep.selectedId || (flavorPickerState.selectedFlavors[flavorPickerState.activeStepIndex] ? flavorPickerState.selectedFlavors[flavorPickerState.activeStepIndex].id : null);
+
+    const normalizar = str => (str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const termoBusca = normalizar(flavorPickerState.searchTerm);
+
+    // Filtrar pizzas reais (excluir Bebidas e Combos)
+    const pizzasFiltradas = pizzaJson.filter(item => {
+        if (item.category === 'Bebidas' || item.category === 'Combos') return false;
+
+        // Se houver restrição de categorias
+        if (allowed.length > 0 && !allowed.includes(item.category)) return false;
+
+        // Filtro da aba selecionada
+        if (flavorPickerState.currentFilterCat !== 'all' && item.category !== flavorPickerState.currentFilterCat) return false;
+
+        // Filtro de pesquisa
+        if (termoBusca !== '') {
+            const nomeMatch = normalizar(item.name).includes(termoBusca);
+            const descMatch = normalizar(item.description).includes(termoBusca);
+            const catMatch = normalizar(item.category).includes(termoBusca);
+            if (!nomeMatch && !descMatch && !catMatch) return false;
+        }
+
+        return true;
+    });
+
+    if (pizzasFiltradas.length === 0) {
+        if (noResultsEl) noResultsEl.style.display = 'block';
+    } else {
+        const todasCores = ['card-red', 'card-white', 'card-green'];
+
+        // Determinar dinamicamente o número de colunas do grid
+        let numCols = 3;
+        const compCols = window.getComputedStyle(grid).gridTemplateColumns;
+        if (compCols && compCols !== 'none') {
+            const parsedCols = compCols.trim().split(/\s+/).filter(Boolean).length;
+            if (parsedCols > 0) numCols = parsedCols;
+        } else {
+            const w = grid.clientWidth || window.innerWidth;
+            numCols = w < 650 ? 1 : (w < 980 ? 2 : 3);
+        }
+
+        // Algoritmo de intercalação 2D aleatório:
+        // Garante que nenhum card seja da mesma cor que o vizinho da esquerda NEM que o vizinho de cima (coluna)
+        const coresAtribuidas = [];
+        pizzasFiltradas.forEach((_, idx) => {
+            const col = idx % numCols;
+            const row = Math.floor(idx / numCols);
+
+            const corEsquerda = col > 0 ? coresAtribuidas[idx - 1] : null;
+            const corCima = row > 0 ? coresAtribuidas[idx - numCols] : null;
+
+            const opcoesValidas = todasCores.filter(c => c !== corEsquerda && c !== corCima);
+            const corEscolhida = opcoesValidas[Math.floor(Math.random() * opcoesValidas.length)];
+            coresAtribuidas.push(corEscolhida);
+        });
+
+        pizzasFiltradas.forEach((pizza, index) => {
+            const preco = obterPrecoPizzaNoTamanho(pizza, sizeIndex);
+            const isSelected = selectedId === pizza.id;
+            const cor = coresAtribuidas[index];
+
+            const card = document.createElement('div');
+            card.className = `flavor-mini-card ${cor} ${isSelected ? 'selected' : ''}`;
+            card.setAttribute('data-id', pizza.id);
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('aria-label', `Selecionar ${pizza.name} - ${formatoReal(preco)}`);
+
+            const categoriaSimplificada = pizza.category.replace('Pizzas ', '');
+
+            card.innerHTML = `
+                <div class="flavor-mini-img-wrap">
+                    <img src="${pizza.img}" alt="${pizza.name}" loading="lazy" />
+                </div>
+                <div class="flavor-mini-info">
+                    <span class="flavor-mini-cat">${categoriaSimplificada}</span>
+                    <h4 class="flavor-mini-name">${pizza.name}</h4>
+                    <p class="flavor-mini-desc">${pizza.description || ''}</p>
+                    <div class="flavor-mini-bottom">
+                        <span class="flavor-mini-price">${formatoReal(preco)}</span>
+                        <span class="flavor-mini-select-btn">${isSelected ? 'Selecionado &#10003;' : 'Selecionar'}</span>
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                selecionarSaborAtual(pizza);
+            });
+
+            grid.appendChild(card);
+        });
+    }
+};
+
+const selecionarSaborAtual = (pizza) => {
+    flavorPickerState.selectedFlavors[flavorPickerState.activeStepIndex] = pizza;
+
+    // Se é seleção única
+    if (flavorPickerState.onSelectCallback) {
+        flavorPickerState.onSelectCallback(pizza);
+        fecharFlavorPicker();
+        return;
+    }
+
+    // Se é fluxo multi-passos
+    const proximoPasso = flavorPickerState.activeStepIndex + 1;
+    if (proximoPasso < flavorPickerState.steps.length) {
+        flavorPickerState.activeStepIndex = proximoPasso;
+        flavorPickerState.searchTerm = '';
+        const searchInput = seleciona('#flavorPickerSearch');
+        if (searchInput) searchInput.value = '';
+        const searchClear = seleciona('.flavorPickerSearchClear');
+        if (searchClear) searchClear.style.display = 'none';
+
+        const listArea = seleciona('.flavorPickerListArea');
+        if (listArea) {
+            gsap.fromTo(listArea, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.25 });
+        }
+
+        atualizarEtapaFlavorPicker();
+    } else {
+        // Concluiu todos os passos
+        if (flavorPickerState.onCompleteCallback) {
+            flavorPickerState.onCompleteCallback(flavorPickerState.selectedFlavors);
+        }
+        fecharFlavorPicker();
+    }
+};
+
+const voltarEtapaFlavorPicker = () => {
+    if (flavorPickerState.activeStepIndex > 0) {
+        flavorPickerState.activeStepIndex--;
+        flavorPickerState.searchTerm = '';
+        const searchInput = seleciona('#flavorPickerSearch');
+        if (searchInput) searchInput.value = '';
+        const searchClear = seleciona('.flavorPickerSearchClear');
+        if (searchClear) searchClear.style.display = 'none';
+
+        const listArea = seleciona('.flavorPickerListArea');
+        if (listArea) {
+            gsap.fromTo(listArea, { opacity: 0, y: -15 }, { opacity: 1, y: 0, duration: 0.25 });
+        }
+
+        atualizarEtapaFlavorPicker();
+    } else {
+        fecharFlavorPicker();
+    }
+};
+
+const configurarFlavorPicker = () => {
+    // Pesquisa
+    const searchInput = seleciona('#flavorPickerSearch');
+    const searchClear = seleciona('.flavorPickerSearchClear');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            flavorPickerState.searchTerm = e.target.value;
+            if (searchClear) {
+                searchClear.style.display = flavorPickerState.searchTerm.length > 0 ? 'flex' : 'none';
+            }
+            renderizarCardsSabores();
+        });
+    }
+
+    if (searchClear) {
+        searchClear.addEventListener('click', () => {
+            flavorPickerState.searchTerm = '';
+            if (searchInput) searchInput.value = '';
+            searchClear.style.display = 'none';
+            renderizarCardsSabores();
+        });
+    }
+
+    // Abas de categorias
+    selecionaTodos('.flavor-cat-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            selecionaTodos('.flavor-cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            flavorPickerState.currentFilterCat = btn.getAttribute('data-cat');
+            renderizarCardsSabores();
+        });
+    });
+
+    // Botão Voltar
+    const backBtn = seleciona('.flavorPickerBackBtn');
+    if (backBtn) {
+        backBtn.addEventListener('click', voltarEtapaFlavorPicker);
+    }
+};
+
+// Expor funções globais para os outros scripts (ex: combos.js)
+window.abrirModalMeioAMeio = abrirModalMeioAMeio;
+window.fecharModalMeioAMeio = fecharModalMeioAMeio;
+window.fecharFlavorPicker = fecharFlavorPicker;
+window.abrirSeletorSaboresUnico = (options) => {
+    flavorPickerState = {
+        isOpen: true,
+        activeStepIndex: 0,
+        steps: [
+            {
+                title: options.title || 'Escolha o Sabor',
+                stepText: options.stepText || '1 de 1',
+                subtitle: options.subtitle || 'Toque no sabor para selecionar',
+                allowedCategories: options.allowedCategories || [],
+                sizeIndex: (typeof options.sizeIndex !== 'undefined') ? options.sizeIndex : 1,
+                selectedId: options.selectedId || null
+            }
+        ],
+        selectedFlavors: [],
+        currentFilterCat: 'all',
+        searchTerm: '',
+        onSelectCallback: options.onSelect || null,
+        onCompleteCallback: null
+    };
+    abrirModalFlavorPicker();
+};
+window.iniciarFluxoSelecaoSabores = (options) => {
+    flavorPickerState = {
+        isOpen: true,
+        activeStepIndex: 0,
+        steps: options.steps || [],
+        selectedFlavors: [],
+        currentFilterCat: 'all',
+        searchTerm: '',
+        onSelectCallback: null,
+        onCompleteCallback: options.onComplete || null
+    };
+    abrirModalFlavorPicker();
+};
+
+botoesFechar();
+carregarPizzas();
+filtro();
+pesquisar();
+abrirCarrinho();
+mudarQuantidadeModal();
+adicionarNoCarrinho();
+atualizarCarrinho();
+fecharCarrinho();
+enviarPedido();
+limparCarrinho();
+configurarPopupAvisoPromo();
+tratarParametrosURL();
+configurarModalMeioAMeio();
+configurarFlavorPicker();

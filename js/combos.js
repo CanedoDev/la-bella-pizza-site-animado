@@ -162,54 +162,158 @@ const abrirModalCombo = (combo) => {
     if (combo.rules.pizzas && combo.rules.pizzas.length > 0) {
         combo.rules.pizzas.forEach((regraPizza, index) => {
             const pizzasDisponiveis = obterPizzasParaRegra(regraPizza);
+            const pizzaPadrao = pizzasDisponiveis[0] || (pizzaJson && pizzaJson[0]);
+            const precoAvulso = (pizzaPadrao && pizzaPadrao.price && pizzaPadrao.price[regraPizza.sizeIndex] !== undefined)
+                ? pizzaPadrao.price[regraPizza.sizeIndex]
+                : (pizzaPadrao ? pizzaPadrao.price[pizzaPadrao.price.length - 1] : 0);
+
             const slotDiv = document.createElement('div');
             slotDiv.className = 'combo-slot-group';
 
             let optionsHtml = '';
-            let customItemsHtml = '';
-            let defaultText = '';
-
-            pizzasDisponiveis.forEach((pizza, pIdx) => {
-                const precoAvulso = pizza.price[regraPizza.sizeIndex];
-                const itemFormatado = `${pizza.name} (${formatarBRL(precoAvulso)})`;
-                if (pIdx === 0) defaultText = itemFormatado;
-                const isSelected = pIdx === 0 ? 'selected' : '';
-                optionsHtml += `<option value="${pizza.id}" data-price="${precoAvulso}">${itemFormatado}</option>`;
-
-                const searchClean = (pizza.name + ' ' + (pizza.description || '')).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                customItemsHtml += `
-                    <div class="combo-option-item ${isSelected}" data-value="${pizza.id}" data-price="${precoAvulso}" data-search="${searchClean}">
-                        <span class="option-name">${pizza.name}</span>
-                        <span class="option-price">${formatarBRL(precoAvulso)}</span>
-                    </div>
-                `;
+            pizzasDisponiveis.forEach((pizza) => {
+                const precoP = (pizza.price && pizza.price[regraPizza.sizeIndex] !== undefined)
+                    ? pizza.price[regraPizza.sizeIndex]
+                    : pizza.price[pizza.price.length - 1];
+                optionsHtml += `<option value="${pizza.id}" data-price="${precoP}">${pizza.name}</option>`;
             });
 
+            const labelTitle = regraPizza.label || `Pizza ${index + 1}`;
+
             slotDiv.innerHTML = `
-                <div class="comboInfo--sector">${regraPizza.label || `Pizza ${index + 1}`}</div>
-                <div class="combo-select-wrapper">
-                    <div class="combo-searchable-select" data-slot-index="${index}">
-                        <div class="combo-select-trigger" tabindex="0">
-                            <span class="combo-selected-text">${defaultText}</span>
-                            <span class="combo-select-arrow">&#9662;</span>
+                <div class="comboInfo--sector">${labelTitle}</div>
+                <div class="combo-flavor-slot" data-slot-index="${index}" tabindex="0" role="button" aria-label="Escolher sabor para ${labelTitle}">
+                    <div class="combo-flavor-slot-left">
+                        <img src="${pizzaPadrao ? pizzaPadrao.img : 'assets/img/pizzas/pizza-calabresa.webp'}" alt="${pizzaPadrao ? pizzaPadrao.name : 'Pizza'}" class="combo-flavor-slot-img" />
+                        <div class="combo-flavor-slot-details">
+                            <h4 class="combo-flavor-slot-name">${pizzaPadrao ? pizzaPadrao.name : 'Escolher Sabor'}</h4>
+                            <span class="combo-flavor-slot-size">${regraPizza.sizeName || regraPizza.size || ''} (${formatarBRL(precoAvulso)})</span>
                         </div>
-                        <div class="combo-dropdown-menu" style="display: none;">
-                            <div class="combo-search-box">
-                                <input type="text" class="combo-search-input" placeholder="Buscar sabor (ex: calabresa, frango)..." autocomplete="off" />
-                            </div>
-                            <div class="combo-options-list">
-                                ${customItemsHtml}
-                            </div>
-                            <div class="combo-no-results" style="display: none;">Nenhum sabor encontrado</div>
-                        </div>
-                        <select class="combo-select-pizza" style="display: none;" data-slot-index="${index}" data-size="${regraPizza.size}" data-size-index="${regraPizza.sizeIndex}" data-size-name="${regraPizza.sizeName}">
-                            ${optionsHtml}
-                        </select>
                     </div>
+                    <span class="combo-flavor-slot-btn">Alterar</span>
                 </div>
+                <select class="combo-select-pizza" style="display: none;" data-slot-index="${index}" data-size="${regraPizza.size}" data-size-index="${regraPizza.sizeIndex}" data-size-name="${regraPizza.sizeName}">
+                    ${optionsHtml}
+                </select>
             `;
+
+            const formatarTituloModalSabor = (regra, idx, totalPizzas) => {
+                const cats = regra.category || [];
+                const ehApenasDoce = cats.length === 1 && cats[0] === 'Pizzas Doces';
+                const ehSalgada = cats.length > 0 && !cats.includes('Pizzas Doces');
+
+                if (ehApenasDoce) return "Escolha a Doce";
+                if (ehSalgada) {
+                    return totalPizzas > 1 ? `Escolha a ${idx + 1}ª Salgada` : "Escolha a Salgada";
+                }
+
+                const labelLower = (regra.label || '').toLowerCase();
+                if (labelLower.includes('doce')) return "Escolha a Doce";
+                if (labelLower.includes('salgada')) {
+                    return totalPizzas > 1 ? `Escolha a ${idx + 1}ª Salgada` : "Escolha a Salgada";
+                }
+
+                return totalPizzas > 1 ? `Escolha a ${idx + 1}ª Pizza` : "Escolha a Pizza";
+            };
+
+            slotDiv.querySelector('.combo-flavor-slot').addEventListener('click', () => {
+                const selectPizza = slotDiv.querySelector('.combo-select-pizza');
+                const atualId = parseInt(selectPizza.value);
+                if (typeof window.abrirSeletorSaboresUnico === 'function') {
+                    window.abrirSeletorSaboresUnico({
+                        title: formatarTituloModalSabor(regraPizza, index, combo.rules.pizzas.length),
+                        stepText: `Pizza ${index + 1}`,
+                        subtitle: "Toque no sabor para selecionar",
+                        allowedCategories: regraPizza.category || [],
+                        sizeIndex: regraPizza.sizeIndex,
+                        selectedId: atualId,
+                        onSelect: (novaPizza) => {
+                            selectPizza.value = novaPizza.id;
+                            selectPizza.dispatchEvent(new Event('change'));
+                            const novoPreco = (novaPizza.price && novaPizza.price[regraPizza.sizeIndex] !== undefined)
+                                ? novaPizza.price[regraPizza.sizeIndex]
+                                : novaPizza.price[novaPizza.price.length - 1];
+
+                            slotDiv.querySelector('.combo-flavor-slot-img').src = novaPizza.img;
+                            slotDiv.querySelector('.combo-flavor-slot-name').innerText = novaPizza.name;
+                            slotDiv.querySelector('.combo-flavor-slot-size').innerText = `${regraPizza.sizeName || regraPizza.size} (${formatarBRL(novoPreco)})`;
+                            atualizarResumoPrecoCombo();
+                        }
+                    });
+                }
+            });
+
             selectionsContainer.appendChild(slotDiv);
         });
+
+        if (combo.rules.pizzas.length > 1) {
+            const btnEscolherTodos = document.createElement('button');
+            btnEscolherTodos.type = 'button';
+            btnEscolherTodos.className = 'meio-choose-all-btn';
+            btnEscolherTodos.innerText = 'Escolher os Sabores do Combo';
+            btnEscolherTodos.style.marginTop = '4px';
+            btnEscolherTodos.style.marginBottom = '8px';
+            btnEscolherTodos.addEventListener('click', () => {
+                const formatarTituloStep = (regra, idx, totalPizzas) => {
+                    const cats = regra.category || [];
+                    const ehApenasDoce = cats.length === 1 && cats[0] === 'Pizzas Doces';
+                    const ehSalgada = cats.length > 0 && !cats.includes('Pizzas Doces');
+
+                    if (ehApenasDoce) return "Escolha a Doce";
+                    if (ehSalgada) {
+                        return totalPizzas > 1 ? `Escolha a ${idx + 1}ª Salgada` : "Escolha a Salgada";
+                    }
+
+                    const labelLower = (regra.label || '').toLowerCase();
+                    if (labelLower.includes('doce')) return "Escolha a Doce";
+                    if (labelLower.includes('salgada')) {
+                        return totalPizzas > 1 ? `Escolha a ${idx + 1}ª Salgada` : "Escolha a Salgada";
+                    }
+
+                    return `Escolha a ${idx + 1}ª Pizza`;
+                };
+
+                const stepsConfig = combo.rules.pizzas.map((regra, pIdx) => {
+                    const selectEl = selectionsContainer.querySelectorAll('.combo-select-pizza')[pIdx];
+                    return {
+                        title: formatarTituloStep(regra, pIdx, combo.rules.pizzas.length),
+                        stepText: `Passo ${pIdx + 1} de ${combo.rules.pizzas.length}`,
+                        subtitle: `Tamanho: ${regra.sizeName || regra.size}`,
+                        allowedCategories: regra.category || [],
+                        sizeIndex: regra.sizeIndex,
+                        selectedId: selectEl ? parseInt(selectEl.value) : null
+                    };
+                });
+
+                if (typeof window.iniciarFluxoSelecaoSabores === 'function') {
+                    window.iniciarFluxoSelecaoSabores({
+                        steps: stepsConfig,
+                        onComplete: (saboresEscolhidos) => {
+                            saboresEscolhidos.forEach((novaPizza, pIdx) => {
+                                const selectEl = selectionsContainer.querySelectorAll('.combo-select-pizza')[pIdx];
+                                const slotEl = selectionsContainer.querySelectorAll('.combo-flavor-slot')[pIdx];
+                                if (selectEl && novaPizza) {
+                                    selectEl.value = novaPizza.id;
+                                    selectEl.dispatchEvent(new Event('change'));
+                                    const regra = combo.rules.pizzas[pIdx];
+                                    const novoPreco = (novaPizza.price && novaPizza.price[regra.sizeIndex] !== undefined)
+                                        ? novaPizza.price[regra.sizeIndex]
+                                        : novaPizza.price[novaPizza.price.length - 1];
+
+                                    if (slotEl) {
+                                        slotEl.querySelector('.combo-flavor-slot-img').src = novaPizza.img;
+                                        slotEl.querySelector('.combo-flavor-slot-name').innerText = novaPizza.name;
+                                        slotEl.querySelector('.combo-flavor-slot-size').innerText = `${regra.sizeName || regra.size} (${formatarBRL(novoPreco)})`;
+                                    }
+                                }
+                            });
+                            atualizarResumoPrecoCombo();
+                        }
+                    });
+                }
+            });
+            selectionsContainer.appendChild(btnEscolherTodos);
+        }
     }
 
     if (combo.rules.drinks && combo.rules.drinks.length > 0) {
@@ -219,54 +323,25 @@ const abrirModalCombo = (combo) => {
             slotDiv.className = 'combo-slot-group';
 
             let optionsHtml = '';
-            let customItemsHtml = '';
-            let defaultText = '';
-
             bebidasDisponiveis.forEach((bebida, bIdx) => {
                 const drinkSizeIndex = bebida.sizes.indexOf(regraBebida.size) >= 0 ? bebida.sizes.indexOf(regraBebida.size) : (regraBebida.sizeIndex !== undefined ? regraBebida.sizeIndex : 1);
                 const precoBebida = bebida.price[drinkSizeIndex] || bebida.price[bebida.price.length - 1];
                 const itemFormatado = `${bebida.name} ${regraBebida.size} (${formatarBRL(precoBebida)})`;
-                if (bIdx === 0) defaultText = itemFormatado;
                 const isSelected = bIdx === 0 ? 'selected' : '';
-                optionsHtml += `<option value="${bebida.id}" data-price="${precoBebida}">${itemFormatado}</option>`;
-
-                const searchClean = (bebida.name + ' ' + regraBebida.size).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                customItemsHtml += `
-                    <div class="combo-option-item ${isSelected}" data-value="${bebida.id}" data-price="${precoBebida}" data-search="${searchClean}">
-                        <span class="option-name">${bebida.name} ${regraBebida.size}</span>
-                        <span class="option-price">${formatarBRL(precoBebida)}</span>
-                    </div>
-                `;
+                optionsHtml += `<option value="${bebida.id}" data-price="${precoBebida}" ${isSelected}>${itemFormatado}</option>`;
             });
 
             slotDiv.innerHTML = `
                 <div class="comboInfo--sector">${regraBebida.label || `Bebida ${index + 1}`}</div>
-                <div class="combo-select-wrapper">
-                    <div class="combo-searchable-select" data-slot-index="${index}">
-                        <div class="combo-select-trigger" tabindex="0">
-                            <span class="combo-selected-text">${defaultText}</span>
-                            <span class="combo-select-arrow">&#9662;</span>
-                        </div>
-                        <div class="combo-dropdown-menu" style="display: none;">
-                            <div class="combo-search-box">
-                                <input type="text" class="combo-search-input" placeholder="Buscar bebida (ex: coca, guaraná)..." autocomplete="off" />
-                            </div>
-                            <div class="combo-options-list">
-                                ${customItemsHtml}
-                            </div>
-                            <div class="combo-no-results" style="display: none;">Nenhuma bebida encontrada</div>
-                        </div>
-                        <select class="combo-select-drink" style="display: none;" data-slot-index="${index}" data-size="${regraBebida.size}">
-                            ${optionsHtml}
-                        </select>
-                    </div>
+                <div class="bonus-select-wrap">
+                    <select class="combo-select-drink pizzaInfo--refriSelect" style="display: block; width: 100%;" data-slot-index="${index}" data-size="${regraBebida.size}">
+                        ${optionsHtml}
+                    </select>
                 </div>
             `;
             selectionsContainer.appendChild(slotDiv);
         });
     }
-
-    inicializarSearchableSelects(selectionsContainer);
 
     atualizarResumoPrecoCombo();
 

@@ -168,7 +168,10 @@
                     <div class="promo-slides">
                         <div class="promo-slide promo-banner-red" data-promo="quarta" role="button" tabindex="0" style="cursor: pointer;">
                             <div class="promo-banner-img">
-                                <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg" width="1024" height="572" fetchpriority="high" decoding="async">
+                                <picture>
+                                    <source media="(max-width: 768px)" srcset="assets/img/banner-promocao-combo-pizza-mob.webp">
+                                    <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg" width="1024" height="572" fetchpriority="high" decoding="async">
+                                </picture>
                             </div>
                             <div class="promo-banner-grid">
                                 <!-- Coluna 1, Linha 1: Título -->
@@ -220,7 +223,10 @@
                         </div>
                         <div class="promo-slide promo-banner-green" data-promo="terca" role="button" tabindex="0" style="cursor: pointer;">
                             <div class="promo-banner-img">
-                                <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg" width="1024" height="572" loading="lazy" decoding="async">
+                                <picture>
+                                    <source media="(max-width: 768px)" srcset="assets/img/banner-promocao-la-bella-em-dobro-mob.webp">
+                                    <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg" width="1024" height="572" loading="lazy" decoding="async">
+                                </picture>
                             </div>
                             <div class="promo-banner-grid">
                                 <!-- Coluna 1, Linha 1: Título -->
@@ -370,7 +376,13 @@
                     <h1>--</h1>
                     <div class="pizzaInfo--desc">--</div>
                     <div class="pizzaInfo--bonusRefri" style="display: none;">
-                        <span class="bonus-text">Esta pizza acompanha <strong>Refrigerante 2L Grátis</strong></span>
+                        <div class="comboInfo--sector">REFRIGERANTE 2L (GRÁTIS)</div>
+                        <select class="combo-select-drink pizzaInfo--refriSelect" aria-label="Escolha seu refrigerante 2L grátis">
+                            <option value="Coca-Cola 2L">Coca-Cola 2L (Grátis)</option>
+                            <option value="Guaraná Antarctica 2L">Guaraná Antarctica 2L (Grátis)</option>
+                            <option value="Pepsi 2L">Pepsi 2L (Grátis)</option>
+                            <option value="Sprite 2L">Sprite 2L (Grátis)</option>
+                        </select>
                     </div>
                     <div class="pizzaInfo--sizearea">
                         <div class="pizzaInfo--sector">Tamanho</div>
@@ -464,6 +476,131 @@
 
                     <div class="comboInfo--addButton">Adicionar ao carrinho</div>
                     <div class="comboInfo--cancelButton">Cancelar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Pizza Meio a Meio (2 Sabores) -->
+        <div class="meioWindowArea" style="display: none;">
+            <div class="meioWindowBody">
+                <div class="meioInfo--cancelMobileButton">Voltar</div>
+                <div class="meioBig">
+                    <img src="assets/img/pizzas/pizza-calabresa.webp" alt="Pizza Meio a Meio Artesanal" />
+                    <span class="pizza-disclaimer">*imagem ilustrativa</span>
+                </div>
+                <div class="meioInfo">
+                    <div class="meioTag">2 SABORES</div>
+                    <h1>Pizza Meio a Meio</h1>
+                    <div class="meioInfo--desc">Escolha metade um sabor e metade outro. O preço prevalecente é o da metade de maior valor no tamanho selecionado.</div>
+
+                    <div class="meioInfo--sizearea">
+                        <div class="meioInfo--sector">Tamanho</div>
+                        <div class="meioInfo--sizes">
+                            <div data-key="M" data-size-index="0" class="meioInfo--size">MÉDIA <span>30 cm</span></div>
+                            <div data-key="G" data-size-index="1" class="meioInfo--size selected">GRANDE <span>35 cm</span></div>
+                            <div data-key="S" data-size-index="2" class="meioInfo--size">SUPER <span>40 cm</span></div>
+                            <div data-key="MX" data-size-index="3" class="meioInfo--size">MAX <span>45 cm</span></div>
+                        </div>
+                    </div>
+
+                    <div class="meioInfo--slotsArea">
+                        <div class="meioInfo--sector">Sabores Escolhidos</div>
+                        <div class="meio-slots-grid">
+                            <div class="meio-slot" data-slot-index="0" tabindex="0" role="button" aria-label="Escolher primeiro sabor">
+                                <div class="meio-slot-top">
+                                    <span class="meio-slot-badge">1ª Metade</span>
+                                    <span class="meio-slot-btn-text">Alterar</span>
+                                </div>
+                                <div class="meio-slot-content">
+                                    <img src="assets/img/pizzas/pizza-mussarela.webp" alt="1º Sabor" class="meio-slot-img" />
+                                    <div class="meio-slot-text">
+                                        <h4 class="meio-slot-name">Muçarela</h4>
+                                        <span class="meio-slot-price">R$ 64,90</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="meio-slot" data-slot-index="1" tabindex="0" role="button" aria-label="Escolher segundo sabor">
+                                <div class="meio-slot-top">
+                                    <span class="meio-slot-badge">2ª Metade</span>
+                                    <span class="meio-slot-btn-text">Alterar</span>
+                                </div>
+                                <div class="meio-slot-content">
+                                    <img src="assets/img/pizzas/pizza-calabresa.webp" alt="2º Sabor" class="meio-slot-img" />
+                                    <div class="meio-slot-text">
+                                        <h4 class="meio-slot-name">Calabresa</h4>
+                                        <span class="meio-slot-price">R$ 69,90</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="meio-choose-all-btn">Escolher os 2 Sabores</button>
+                    </div>
+
+                    <div class="meioInfo--bonusRefri" style="display: none;">
+                        <div class="comboInfo--sector">REFRIGERANTE 2L (GRÁTIS)</div>
+                        <select class="combo-select-drink meioInfo--refriSelect" aria-label="Escolha seu refrigerante 2L grátis">
+                            <option value="Coca-Cola 2L">Coca-Cola 2L (Grátis)</option>
+                            <option value="Guaraná Antarctica 2L">Guaraná Antarctica 2L (Grátis)</option>
+                            <option value="Pepsi 2L">Pepsi 2L (Grátis)</option>
+                            <option value="Sprite 2L">Sprite 2L (Grátis)</option>
+                        </select>
+                    </div>
+
+                    <div class="meioInfo--pricearea">
+                        <div class="meioInfo--sector">Preço Final (Prevalecente)</div>
+                        <div class="meioInfo--price">
+                            <div class="meioInfo--actualPrice">R$ 69,90</div>
+                            <div class="meioInfo--qtarea">
+                                <button class="meioInfo--qtmenos">-</button>
+                                <div class="meioInfo--qt">1</div>
+                                <button class="meioInfo--qtmais">+</button>
+                            </div>
+                        </div>
+                        <div class="meioInfo--ruleNote">Preço baseado na metade mais valorizada: <strong class="meioInfo--prevailingName">Calabresa</strong></div>
+                    </div>
+
+                    <div class="meioInfo--addButton">Adicionar ao carrinho</div>
+                    <div class="meioInfo--cancelButton">Cancelar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Dedicado de Seleção de Sabores (Cards Simplificados + Busca + Categorias) -->
+        <div class="flavorPickerWindowArea" style="display: none;">
+            <div class="flavorPickerWindowBody">
+                <div class="flavorPickerBackBtn">Voltar</div>
+                <div class="flavorPickerHeader">
+                    <div class="flavorPickerTitleWrap">
+                        <span class="flavorPickerStep">Passo 1 de 2</span>
+                        <h2 class="flavorPickerTitle">Escolha a 1ª Pizza</h2>
+                        <p class="flavorPickerSubtitle">Toque no sabor para selecionar</p>
+                    </div>
+                </div>
+
+                <div class="flavorPickerSearchArea">
+                    <div class="flavorPickerSearchInputWrap">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DB4D44" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="flavorPickerSearch" placeholder="Buscar sabor (ex: calabresa, muçarela, chocolate)..." autocomplete="off">
+                        <button type="button" class="flavorPickerSearchClear" style="display: none;" aria-label="Limpar busca">&times;</button>
+                    </div>
+
+                    <div class="flavorPickerCategories">
+                        <button type="button" class="flavor-cat-btn active" data-cat="all">Todas</button>
+                        <button type="button" class="flavor-cat-btn" data-cat="Pizzas Tradicionais">Tradicionais</button>
+                        <button type="button" class="flavor-cat-btn" data-cat="Pizzas Especiais">Especiais</button>
+                        <button type="button" class="flavor-cat-btn" data-cat="Pizzas Doces">Doces</button>
+                        <button type="button" class="flavor-cat-btn" data-cat="Pizzas Gourmet">Gourmet</button>
+                    </div>
+                </div>
+
+                <div class="flavorPickerListArea">
+                    <div class="flavor-mini-grid">
+                        <!-- Gerado dinamicamente via JS -->
+                    </div>
+                    <div class="flavor-no-results" style="display: none;">
+                        <p>Nenhum sabor encontrado para o termo pesquisado.</p>
+                    </div>
                 </div>
             </div>
         </div>
