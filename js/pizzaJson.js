@@ -474,7 +474,7 @@ let pizzaJson = [
         id: 52,
         category: 'Pizzas Doces',
         name: 'Banana c/ Canela',
-        img: 'assets/img/pizza-brasileira.png',
+        img: 'assets/img/pizza-brasileira.webp',
         price: [44.90, 49.90],
         sizes: ['Média 30 cm', 'Grande 35 cm'],
         description: 'Doce e perfumada: fatias de banana fresca caramelizadas com açúcar e canela aromática sobre queijo muçarela derretido.'
@@ -492,7 +492,7 @@ let pizzaJson = [
         id: 54,
         category: 'Pizzas Doces',
         name: 'Brigadeiro Especial',
-        img: 'assets/img/pizza-calabresa.png',
+        img: 'assets/img/pizza-calabresa.webp',
         price: [49.90, 54.90],
         sizes: ['Média 30 cm', 'Grande 35 cm'],
         description: 'Contraste doce e salgado irresistível: brigadeiro de panela artesanal, granulado crocante e muçarela derretida.'
@@ -501,7 +501,7 @@ let pizzaJson = [
         id: 55,
         category: 'Pizzas Doces',
         name: 'Chocolate c/ Banana',
-        img: 'assets/img/pizza-brasileira.png',
+        img: 'assets/img/pizza-brasileira.webp',
         price: [47.90, 51.90],
         sizes: ['Média 30 cm', 'Grande 35 cm'],
         description: 'Combinação clássica que conforta: chocolate cremoso meio amargo derretido com fatias doces de banana fresca.'
@@ -519,7 +519,7 @@ let pizzaJson = [
         id: 57,
         category: 'Pizzas Doces',
         name: 'Festa',
-        img: 'assets/img/pizza-calabresa.png',
+        img: 'assets/img/pizza-calabresa.webp',
         price: [49.90, 54.90],
         sizes: ['Média 30 cm', 'Grande 35 cm'],
         description: 'Alegre e crocante: chocolate cremoso coberto com confeitos coloridos crocantes de chocolate confeitado.'
@@ -528,7 +528,7 @@ let pizzaJson = [
         id: 58,
         category: 'Pizzas Doces',
         name: 'Prestígio',
-        img: 'assets/img/pizza-brasileira.png',
+        img: 'assets/img/pizza-brasileira.webp',
         price: [49.90, 54.90],
         sizes: ['Média 30 cm', 'Grande 35 cm'],
         description: 'Clássico tropical inconfundível: chocolate nobre derretido com generosa cobertura de coco ralado fresco.'

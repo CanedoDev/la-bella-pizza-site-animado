@@ -1000,7 +1000,7 @@ body {
 
 .clientes-subtitle {
     font-size: 18px;
-    color: #555555;
+    color: #333333;
     margin-bottom: 30px;
 }
 
@@ -1067,7 +1067,7 @@ body {
 .testimonial-author {
     font-size: 14px;
     font-weight: 600;
-    color: #888888;
+    color: #444444;
     letter-spacing: 1px;
 }
 
@@ -2383,12 +2383,12 @@ main {
     align-items: center;
     justify-content: center;
     gap: 16px;
-    background-color: #DE4E45;
-    border: 2px solid #DE4E45;
+    background-color: #C93B32;
+    border: 2px solid #C93B32;
     border-radius: 60px;
     padding: 12px 38px 12px 14px;
     text-decoration: none;
-    box-shadow: 0 8px 30px rgba(222, 78, 69, 0.35);
+    box-shadow: 0 8px 30px rgba(201, 59, 50, 0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
     cursor: pointer;
 }
@@ -2426,22 +2426,22 @@ main {
 .instagram-handle:hover {
     transform: translateY(-4px) scale(1.02);
     background-color: #ffffff !important;
-    border-color: #DE4E45 !important;
-    box-shadow: 0 16px 40px rgba(222, 78, 69, 0.35) !important;
+    border-color: #C93B32 !important;
+    box-shadow: 0 16px 40px rgba(201, 59, 50, 0.35) !important;
 }
 
 .instagram-handle:hover span {
-    color: #DE4E45 !important;
+    color: #C93B32 !important;
 }
 
 .instagram-handle:hover .instagram-handle-icon {
-    color: #DE4E45 !important;
-    fill: #DE4E45 !important;
+    color: #C93B32 !important;
+    fill: #C93B32 !important;
     transform: rotate(12deg) scale(1.1);
 }
 
 .instagram-handle:hover .instagram-handle-icon-wrap {
-    background: rgba(222, 78, 69, 0.12) !important;
+    background: rgba(201, 59, 50, 0.12) !important;
 }
 
 /* Full Screen Marquee Carousel */

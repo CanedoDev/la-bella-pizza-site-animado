@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             title: "Calabresa",
             modalSlug: "calabresa",
             desc: "Clássica e intensa, com calabresa selecionada, queijo derretido e um toque artesanal que equilibra sabor e textura.",
-            img: "assets/img/pizza-calabresa.png",
+            img: "assets/img/pizza-calabresa.webp",
             experiencia: [
                 "Levemente<br>picante",
                 "Recheio farto<br>& artesanal",
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             title: "La Bella",
             modalSlug: "la-bella",
             desc: "A receita exclusiva da casa: tomates maduros, folhas frescas de manjericão, queijo parmesão gratinado e alho frito crocante.",
-            img: "assets/img/pizza-calabresa.png",
+            img: "assets/img/pizza-calabresa.webp",
             experiencia: [
                 "Aromática &<br>fresca",
                 "Borda crocante<br>& queijo tostado",
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             title: "Parma",
             modalSlug: "parma",
             desc: "Elegância da charcutaria nobre: fatias finíssimas de presunto tipo parma, queijo parmesão ralado na hora e folhas frescas de rúcula.",
-            img: "assets/img/pizza-brasileira.png",
+            img: "assets/img/pizza-brasileira.webp",
             experiencia: [
                 "Sabor nobre &<br>equilibrado",
                 "Massa fininha<br>& crocante",

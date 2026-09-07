@@ -324,7 +324,13 @@ const botoesFechar = () => {
 
 const preencheDadosPizza = (pizzaItem, item, index) => {
     pizzaItem.setAttribute('data-key', index)
-    pizzaItem.querySelector(".card-pizza-img").src = item.img
+    const pizzaImg = pizzaItem.querySelector(".card-pizza-img")
+    pizzaImg.src = item.img
+    pizzaImg.alt = `Pizza ${item.name} artesanal`
+    pizzaImg.loading = "lazy"
+    pizzaImg.decoding = "async"
+    pizzaImg.width = 200
+    pizzaImg.height = 135
     pizzaItem.querySelector(".card-title").innerHTML = item.name
     pizzaItem.querySelector(".card-price").innerHTML = `R$ ${item.price[0].toFixed(2).replace('.', ',')}`
 }
@@ -1191,7 +1197,13 @@ const carregarPizzas = () => {
                     if (btnCard) btnCard.classList.add('btn-outline');
                 }
 
-                comboItem.querySelector(".card-pizza-img").src = combo.img;
+                const comboImg = comboItem.querySelector(".card-pizza-img");
+                comboImg.src = combo.img;
+                comboImg.alt = combo.name;
+                comboImg.loading = "lazy";
+                comboImg.decoding = "async";
+                comboImg.width = 200;
+                comboImg.height = 135;
                 comboItem.querySelector(".card-title").innerHTML = combo.name;
                 comboItem.querySelector(".card-price").innerHTML = `R$ ${combo.price.toFixed(2).replace('.', ',')}`;
 

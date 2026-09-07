@@ -28,6 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet">
+    <link rel="preload" as="image" href="assets/img/pizza-calabresa.webp" fetchpriority="high">
 
     <link rel="stylesheet" href="css/style.css?v=9">
     <link rel="stylesheet" href="css/responsive.css?v=9">
@@ -73,7 +74,7 @@
                     <circle cx="50" cy="50" r="46" fill="none" stroke="#ff9f1c" stroke-width="8" />
                 </g>
             </svg>
-            <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Petrópolis" class="loader-logo">
+            <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Petrópolis" class="loader-logo" width="120" height="80">
         </div>
         <div class="loader-credits">Desenvolvido por Canedo Web Studio</div>
     </div>
@@ -85,7 +86,7 @@
             <a href="#promocoes" class="nav-link" data-section="promocoes">Promoções</a>
 
             <a href="#inicio" class="logo-link">
-                <img src="assets/img/logo-la-bella-pizza.webp" alt="Logo La Bella Pizza Petrópolis" class="logo">
+                <img src="assets/img/logo-la-bella-pizza.webp" alt="Logo La Bella Pizza Petrópolis" class="logo" width="105" height="70">
             </a>
 
             <a href="#sobre" class="nav-link" data-section="sobre">Sobre</a>
@@ -126,7 +127,7 @@
 
                 <!-- Center Column (Absolute) -->
                 <div class="hero-center">
-                    <img class="pizza-main-img" src="assets/img/pizza-calabresa.png" alt="Pizza Calabresa artesanal assada na temperatura ideal">
+                    <img class="pizza-main-img" src="assets/img/pizza-calabresa.webp" alt="Pizza Calabresa artesanal assada na temperatura ideal" width="521" height="324" fetchpriority="high" decoding="async">
                     <div class="slider-dots">
                         <span class="dot active"></span>
                         <span class="dot"></span>
@@ -199,9 +200,9 @@
         <!-- Wrapper relativo para todas as seções pós-hero, onde o background do SVG roda -->
         <div class="content-wrapper">
             <section class="conceito" id="conceito">
-                <img src="assets/img/foto-fatia-pizza-artesanal.jpg" 
+                <img src="assets/img/foto-fatia-pizza-artesanal.webp" 
                      alt="Fatia de pizza artesanal La Bella Petrópolis com tomate e manjericão fresco" 
-                     class="conceito-img conceito-img-left">
+                     class="conceito-img conceito-img-left" width="438" height="547" loading="lazy" decoding="async">
                 <div class="conceito-container">
                     <h2 class="section-title">Tradição em cada fatia</h2>
                     <p class="conceito-text">
@@ -210,7 +211,7 @@
                 </div>
                 <img src="assets/img/foto-pizza-artesanal-manjericao.webp" 
                      alt="Pizza artesanal La Bella Petrópolis com tomates e manjericão fresco" 
-                     class="conceito-img conceito-img-right">
+                     class="conceito-img conceito-img-right" width="438" height="583" loading="lazy" decoding="async">
             </section>
 
             <section class="momento">
@@ -220,25 +221,25 @@
                         <!-- Card 1: Verde -->
                         <div class="card card-green">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizza-calabresa.png" alt="Pizzas Doces artesanais" class="card-pizza-img">
+                                <img src="assets/img/pizza-calabresa.webp" alt="Pizzas Doces artesanais" class="card-pizza-img" width="140" height="93" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Doces</h3>
                                 <p class="card-desc">Para adoçar o seu dia</p>
-                                <a href="cardápio.html?filter=doces" class="card-btn">Ver Pizzas</a>
+                                <a href="cardápio.html?filter=doces" class="card-btn" aria-label="Ver pizzas doces no cardápio">Ver Pizzas</a>
                             </div>
                         </div>
 
                         <!-- Card 2: Branco -->
                         <div class="card card-white">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizza-brasileira.png" alt="Pizzas Tradicionais artesanais"
-                                    class="card-pizza-img">
+                                <img src="assets/img/pizza-brasileira.webp" alt="Pizzas Tradicionais artesanais"
+                                    class="card-pizza-img" width="140" height="97" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Tradicionais</h3>
                                 <p class="card-desc">Para todos os gostos</p>
-                                <a href="cardápio.html?filter=tradicionais" class="card-btn btn-outline">Ver Pizzas</a>
+                                <a href="cardápio.html?filter=tradicionais" class="card-btn btn-outline" aria-label="Ver pizzas tradicionais no cardápio">Ver Pizzas</a>
                             </div>
                         </div>
 
@@ -246,12 +247,12 @@
                         <div class="card card-red">
                             <div class="card-img-wrapper">
                                 <img src="assets/img/pizza-frango-catupiry.webp" alt="Pizzas Gourmet especiais"
-                                    class="card-pizza-img">
+                                    class="card-pizza-img" width="140" height="89" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Gourmet</h3>
                                 <p class="card-desc">Ingredientes especiais</p>
-                                <a href="cardápio.html?filter=gourmet" class="card-btn">Ver Pizzas</a>
+                                <a href="cardápio.html?filter=gourmet" class="card-btn" aria-label="Ver pizzas gourmet no cardápio">Ver Pizzas</a>
                             </div>
                         </div>
                     </div>
@@ -265,7 +266,7 @@
                         <!-- Card 1: Verde -->
                         <div class="card card-green">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizzas/pizza-calabresa.webp" alt="Pizza Calabresa artesanal" class="card-pizza-img">
+                                <img src="assets/img/pizzas/pizza-calabresa.webp" alt="Pizza Calabresa artesanal" class="card-pizza-img" width="140" height="87" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Calabresa</h3>
@@ -278,7 +279,7 @@
                         <div class="card card-white">
                             <div class="card-img-wrapper">
                                 <img src="assets/img/pizzas/pizza-frango-catupiry.webp" alt="Pizza Frango com Catupiry artesanal"
-                                    class="card-pizza-img">
+                                    class="card-pizza-img" width="140" height="89" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Frango com Catupiry</h3>
@@ -291,7 +292,7 @@
                         <div class="card card-red">
                             <div class="card-img-wrapper">
                                 <img src="assets/img/pizzas/pizza-4-queijos.webp" alt="Pizza Quatro Queijos especial"
-                                    class="card-pizza-img">
+                                    class="card-pizza-img" width="140" height="107" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Quatro Queijos</h3>
@@ -302,7 +303,7 @@
                         <div class="card card-red">
                             <div class="card-img-wrapper">
                                 <img src="assets/img/pizzas/pizza-calabresa-c-cebola.webp" alt="Pizza Baiana tradicional"
-                                    class="card-pizza-img">
+                                    class="card-pizza-img" width="140" height="87" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Baiana</h3>
@@ -312,7 +313,7 @@
                         </div>
                         <div class="card card-green">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizzas/pizza-lombo-canadense.webp" alt="Pizza Lombo Canadense defumada" class="card-pizza-img">
+                                <img src="assets/img/pizzas/pizza-lombo-canadense.webp" alt="Pizza Lombo Canadense defumada" class="card-pizza-img" width="140" height="91" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Lombo Canadense</h3>
@@ -323,7 +324,7 @@
                         <div class="card card-white">
                             <div class="card-img-wrapper">
                                 <img src="assets/img/pizzas/pizza-peperoni.webp" alt="Pizza Pepperoni artesanal"
-                                    class="card-pizza-img">
+                                    class="card-pizza-img" width="140" height="87" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Pepperoni</h3>
@@ -342,7 +343,7 @@
                         <div class="promo-slides">
                             <a href="cardápio.html" class="promo-slide promo-banner-red" data-promo="quarta">
                                 <div class="promo-banner-img">
-                                    <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg" loading="lazy">
+                                    <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg" width="1024" height="572" loading="lazy" decoding="async">
                                 </div>
                                 <div class="promo-banner-grid">
                                     <!-- Coluna 1, Linha 1: Título -->
@@ -359,7 +360,7 @@
                                     </div>
                                     <!-- Coluna 1, Linha 3: Logo -->
                                     <div class="promo-grid-cell promo-cell-logo">
-                                        <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" loading="lazy">
+                                        <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" width="260" height="173" loading="lazy" decoding="async">
                                     </div>
                                     <!-- Coluna 3, Linha 2: Descrição -->
                                     <div class="promo-grid-cell promo-cell-desc">
@@ -394,7 +395,7 @@
                             </a>
                             <a href="cardápio.html" class="promo-slide promo-banner-green" data-promo="terca">
                                 <div class="promo-banner-img">
-                                    <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg" loading="lazy">
+                                    <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg" width="1024" height="572" loading="lazy" decoding="async">
                                 </div>
                                 <div class="promo-banner-grid">
                                     <!-- Coluna 1, Linha 1: Título -->
@@ -409,7 +410,7 @@
                                     </div>
                                     <!-- Coluna 1, Linha 3: Logo -->
                                     <div class="promo-grid-cell promo-cell-logo">
-                                        <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" loading="lazy">
+                                        <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" width="260" height="173" loading="lazy" decoding="async">
                                     </div>
                                     <!-- Coluna 3, Linha 1: Opção 30cm -->
                                     <div class="promo-grid-cell promo-cell-opt1">
@@ -505,18 +506,18 @@
                             Em 2020, a La Bella deu um novo passo e inaugurou sua sede na <strong>Rua Bingen, 2076</strong>. Hoje, somos o refúgio das famílias de Petrópolis que valorizam hospitalidade, ingredientes nobres como a farinha italiana e o tomate pelati, e uma massa de fermentação lenta que une sabor irresistível e máxima leveza. Seja no nosso salão ou no conforto do seu lar com nosso delivery, cada pizza é feita com o mesmo amor do primeiro dia.
                         </p>
                         <img src="assets/img/familia-confraternizando-pizzaria-petropolis.webp" alt="Comemoração e fachada da pizzaria La Bella Pizza no Bingen"
-                            class="sobre-img-small">
+                            class="sobre-img-small" width="651" height="316" loading="lazy" decoding="async">
                     </div>
                     <div class="sobre-right">
                         <img src="assets/img/restaurante-adega-la-bella-pizza.webp" alt="Pizza artesanal La Bella Petrópolis acompanhada de vinho fino e azeite especial"
-                            class="sobre-img-large">
+                            class="sobre-img-large" width="560" height="996" loading="lazy" decoding="async">
                     </div>
                 </div>
 
                 <!-- CTA Button -->
                 <div class="sobre-cta">
                     <a href="cardápio.html" class="btn-peca-cliques">
-                        <img src="assets/img/logo-la-bella-pizza.webp" alt="Logo La Bella Pizza Petrópolis" class="btn-logo">
+                        <img src="assets/img/logo-la-bella-pizza.webp" alt="Logo La Bella Pizza Petrópolis" class="btn-logo" width="45" height="30" loading="lazy" decoding="async">
                         <span>Peça em 3 cliques</span>
                     </a>
                 </div>
@@ -530,7 +531,7 @@
                         <div class="card card-green">
                             <div class="card-img-wrapper">
                                 <img src="assets/img/massa-fermentada.webp" alt="Massa de Fermentação Lenta 48 horas"
-                                    class="card-pizza-img">
+                                    class="card-pizza-img" width="140" height="110" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Fermentação<br>lenta (48h)</h3>
@@ -540,7 +541,7 @@
                         <!-- Card 2: Branco - Ingredientes Italianos -->
                         <div class="card card-white">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/tomates-frescos.webp" alt="Farinha nobre e tomates pelati italianos" class="card-pizza-img">
+                                <img src="assets/img/tomates-frescos.webp" alt="Farinha nobre e tomates pelati italianos" class="card-pizza-img" width="140" height="136" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Ingredientes<br>italianos</h3>
@@ -550,7 +551,7 @@
                         <!-- Card 3: Vermelho - Preparo Artesanal -->
                         <div class="card card-red">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizza-na-tabua.webp" alt="Preparo artesanal com alta gastronomia" class="card-pizza-img">
+                                <img src="assets/img/pizza-na-tabua.webp" alt="Preparo artesanal com alta gastronomia" class="card-pizza-img" width="140" height="93" loading="lazy" decoding="async">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Preparo<br>artesanal</h3>
@@ -559,15 +560,15 @@
                     </div>
                     <!-- Showcase de Fotos Reais ao redor do Parágrafo de Qualidade Máxima -->
                     <div class="processo-showcase">
-                        <img src="assets/img/foto-azeite-fio-pizza-artesanal.jpg" 
+                        <img src="assets/img/foto-azeite-fio-pizza-artesanal.webp" 
                              alt="Fio de azeite sobre pizza artesanal La Bella Petrópolis" 
-                             class="processo-showcase-img processo-img-left">
+                             class="processo-showcase-img processo-img-left" width="473" height="315" loading="lazy" decoding="async">
                         <p class="processo-text">
                             Na La Bella Pizza, a qualidade nasce no detalhe. Nossa massa é preparada com <strong>farinha italiana nobre</strong> e passa por <strong>48 horas de fermentação lenta em temperatura rigorosamente controlada</strong>, resultando em leveza incomparável e fácil digestão. Nossos molhos levam o autêntico <strong>tomate pomodori pelati italiano</strong>, com técnica profissional de alta gastronomia desenvolvida junto ao renomado Chef Gazal — o verdadeiro segredo que faz da La Bella a referência definitiva entre as pizzarias do Bingen e de Petrópolis.
                         </p>
-                        <img src="assets/img/foto-fatia-burrata-rucula.jpg" 
+                        <img src="assets/img/foto-fatia-burrata-rucula.webp" 
                              alt="Fatia de pizza artesanal com burrata e rúcula na espátula" 
-                             class="processo-showcase-img processo-img-right">
+                             class="processo-showcase-img processo-img-right" width="473" height="315" loading="lazy" decoding="async">
                     </div>
                 </div>
             </section>
@@ -950,7 +951,7 @@
                         </ul>
                     </div>
                     <div class="middle">
-                        <img src="assets/img/logo-la-bella-pizza.webp" alt="Logo La Bella Pizza Petrópolis">
+                        <img src="assets/img/logo-la-bella-pizza.webp" alt="Logo La Bella Pizza Petrópolis" class="footer-logo" width="180" height="120" loading="lazy" decoding="async">
                         <div class="footer-social">
                             <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da La Bella Pizza Petrópolis" title="Siga no Instagram">
                                 <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
