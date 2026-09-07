@@ -1129,7 +1129,7 @@ const carregarPizzas = () => {
 
     const promoSection = document.querySelector('.promocao');
     if (promoSection) {
-        if (termoAtual !== '' || categoriaAtual !== 'all' || (!tercaFeira && !quartaFeira)) {
+        if (termoAtual !== '') {
             promoSection.style.display = 'none';
         } else {
             promoSection.style.display = '';
@@ -1331,6 +1331,46 @@ const tratarParametrosURL = () => {
             categoriaAtual = categoriaSlug;
             // Recarrega as pizzas com o filtro ativo
             carregarPizzas();
+        }
+    }
+
+    // Tratamento de parâmetro promo (?promo=terca ou ?promo=quarta)
+    const promoParams = params.get('promo');
+    if (promoParams) {
+        const status = typeof getPromocaoStatus === 'function' ? getPromocaoStatus() : {
+            tercaFeira: new Date().getDay() === 2,
+            quartaFeira: new Date().getDay() === 3
+        };
+
+        if (promoParams === 'terca' && status.tercaFeira) {
+            let btnCombos = [...selecionaTodos('.category-button')].find(b => b.getAttribute('data-filter') === 'combos');
+            if (btnCombos) {
+                selecionaTodos('.category-button').forEach(b => b.classList.remove('active'));
+                btnCombos.classList.add('active');
+                categoriaAtual = 'combos';
+                carregarPizzas();
+                setTimeout(() => {
+                    const alvo = seleciona('.cardapio');
+                    if (alvo) alvo.scrollIntoView({ behavior: 'smooth' });
+                }, 200);
+            }
+        } else if (promoParams === 'quarta' && status.quartaFeira) {
+            let btnTodos = [...selecionaTodos('.category-button')].find(b => b.getAttribute('data-filter') === 'all');
+            if (btnTodos) {
+                selecionaTodos('.category-button').forEach(b => b.classList.remove('active'));
+                btnTodos.classList.add('active');
+                categoriaAtual = 'all';
+                carregarPizzas();
+                setTimeout(() => {
+                    const alvo = seleciona('.ofertas-do-dia') || seleciona('.cardapio');
+                    if (alvo) alvo.scrollIntoView({ behavior: 'smooth' });
+                }, 200);
+            }
+        } else {
+            setTimeout(() => {
+                const alvo = seleciona('.cardapio');
+                if (alvo) alvo.scrollIntoView({ behavior: 'smooth' });
+            }, 200);
         }
     }
 

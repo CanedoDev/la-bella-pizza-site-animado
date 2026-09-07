@@ -469,9 +469,9 @@ body {
 
 .conceito-img {
     position: absolute;
-    width: 240px;
-    height: 240px;
-    object-fit: cover;
+    width: 220px;
+    height: auto;
+    object-fit: contain;
     border-radius: 20px;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
     cursor: pointer;
@@ -483,15 +483,13 @@ body {
 .conceito-img-left {
     left: 30px;
     bottom: 15px;
-    border: 4px solid #64B95F;
-    box-shadow: 0 16px 36px rgba(100, 185, 95, 0.22);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
 }
 
 .conceito-img-right {
     right: 30px;
-    top: 90px;
-    border: 4px solid #DE4E45;
-    box-shadow: 0 16px 36px rgba(222, 78, 69, 0.22);
+    top: 60px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
 }
 
 .conceito-img:hover {
@@ -527,16 +525,15 @@ body {
     will-change: transform;
     transition: box-shadow 0.3s ease;
     flex: 0 0 240px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
 }
 
 .processo-img-left {
-    border: 4px solid #64B95F;
-    box-shadow: 0 16px 36px rgba(100, 185, 95, 0.22);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
 }
 
 .processo-img-right {
-    border: 4px solid #DE4E45;
-    box-shadow: 0 16px 36px rgba(222, 78, 69, 0.22);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
 }
 
 .processo-showcase-img:hover {
@@ -906,37 +903,39 @@ body {
     object-fit: cover;
     margin-top: auto;
     border-radius: 20px;
-    border: 4px solid #64B95F;
-    box-shadow: 0 16px 36px rgba(100, 185, 95, 0.22);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
     cursor: pointer;
     will-change: transform;
     transition: box-shadow 0.3s ease;
 }
 
 .sobre-img-small:hover {
-    box-shadow: 0 22px 45px rgba(100, 185, 95, 0.32);
+    box-shadow: 0 22px 45px rgba(0, 0, 0, 0.22);
 }
 
 .sobre-right {
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sobre-img-large {
     width: 100%;
-    height: 100%;
-    min-height: 600px;
-    object-fit: cover;
-    object-position: center;
+    max-width: 480px;
+    height: auto;
+    aspect-ratio: 576 / 1024;
+    object-fit: contain;
+    margin: auto;
     border-radius: 20px;
-    border: 4px solid #DE4E45;
-    box-shadow: 0 16px 36px rgba(222, 78, 69, 0.22);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
     cursor: pointer;
     will-change: transform;
     transition: box-shadow 0.3s ease;
 }
 
 .sobre-img-large:hover {
-    box-shadow: 0 22px 45px rgba(222, 78, 69, 0.32);
+    box-shadow: 0 22px 45px rgba(0, 0, 0, 0.22);
 }
 
 
@@ -952,16 +951,19 @@ body {
     align-items: center;
     gap: 16px;
     background-color: #DE4E45;
+    border: 2px solid #DE4E45;
     border-radius: 60px;
     padding: 14px 40px 14px 14px;
     text-decoration: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
     box-shadow: 0 8px 30px rgba(222, 78, 69, 0.35);
 }
 
 .btn-peca-cliques:hover {
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 16px 40px rgba(222, 78, 69, 0.5);
+    background-color: #ffffff !important;
+    border-color: #DE4E45 !important;
+    box-shadow: 0 16px 40px rgba(222, 78, 69, 0.35);
 }
 
 .btn-peca-cliques .btn-logo {
@@ -978,6 +980,11 @@ body {
     color: #ffffff;
     line-height: 1;
     white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.btn-peca-cliques:hover span {
+    color: #DE4E45 !important;
 }
 
 
@@ -1790,6 +1797,15 @@ main {
     overflow: hidden;
     border-radius: 20px;
     text-decoration: none;
+    container-type: inline-size;
+}
+
+/* Div Imagem */
+.promo-banner-img {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .promo-banner-bg {
@@ -1797,87 +1813,310 @@ main {
     height: auto;
     display: block;
     object-fit: cover;
+    aspect-ratio: 1024 / 572;
 }
 
-.promo-banner-content {
+/* Div Texto (z-index maior, posicionamento preciso em terços baseado no Figma) */
+.promo-banner-grid {
     position: absolute;
     top: 0;
     left: 0;
-    width: 50%;
+    width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 0 4% 0 85px;
-    color: #ffffff;
-    z-index: 2;
+    z-index: 10;
     box-sizing: border-box;
+    pointer-events: none;
 }
 
-.promo-banner-title {
-    font-family: 'Damion', cursive;
-    font-size: clamp(28px, 4.4vw, 58px);
+.promo-grid-cell {
+    box-sizing: border-box;
+    position: absolute;
+}
+
+/* Terço 1 (Esquerda: 0% a 33.33%): Título Cursivo */
+.promo-cell-title {
+    left: 3.5%;
+    top: 17%;
+    width: 27%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.promo-banner-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.promo-banner-title-script {
+    font-family: 'Damion', cursive !important;
     font-weight: 100;
-    color: #ffffff;
-    margin: 0 0 8px 0;
-    line-height: 1.1;
-    text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.35);
+    font-size: clamp(16px, 5.2cqw, 60px);
+    line-height: 0.95;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+}
+
+.promo-banner-subtitle-script {
+    font-family: 'Damion', cursive !important;
+    font-weight: 100;
+    font-size: clamp(14px, 4.6cqw, 52px);
+    line-height: 0.95;
+    margin: 2px 0 0 0;
+    text-align: center;
+    letter-spacing: 0;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+}
+
+.text-cream {
+    color: #FBE6C2;
+}
+
+.text-white {
+    color: #FFFFFF;
+}
+
+.text-green {
+    color: #A2CF7B;
+}
+
+.promo-title-flourish {
+    width: clamp(55px, 14cqw, 145px);
+    height: auto;
+    color: #FBE6C2;
+    margin: 4px auto 0;
+    display: block;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.6));
+}
+
+.promo-title-swash-green {
+    width: clamp(60px, 14.5cqw, 155px);
+    height: auto;
+    color: #A2CF7B;
+    margin: 1px auto 0;
+    display: block;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.6));
+}
+
+/* Terço 1 (Esquerda: 0% a 33.33%): Logo Mascote */
+.promo-cell-logo {
+    left: 3.5%;
+    top: 48%;
+    width: 27%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.promo-banner-logo {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.65));
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Terço 2 (Centro: 33.33% a 66.67%): Vazio para destacar forno a lenha e pizza */
+
+/* Terço 3 (Direita: 66.67% a 100%): Opções do Banner Verde */
+.promo-cell-opt1 {
+    left: 71.8%;
+    top: 31.8%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+.promo-cell-opt2 {
+    left: 71.8%;
+    top: 44.8%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+.promo-cell-opt3 {
+    left: 71.8%;
+    top: 57.7%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+.promo-row-item {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1.1cqw, 14px);
+}
+
+.promo-row-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.22;
+}
+
+.promo-row-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(8px, 1.6cqw, 17px);
+    font-weight: 500;
+    color: #FFFFFF;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.75);
+    white-space: nowrap;
+}
+
+.promo-row-price {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(10px, 2.1cqw, 23px);
+    color: #FFFFFF;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.75);
+    white-space: nowrap;
+}
+
+.promo-row-por {
+    color: #A2CF7B;
+    font-weight: 500;
+    font-size: 0.9em;
+    margin-right: 4px;
+}
+
+.promo-row-price strong {
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+.promo-row-divider {
+    width: 100%;
+    border-bottom: 1.5px dotted rgba(162, 207, 123, 0.5);
+    margin-top: clamp(4px, 0.8cqw, 8px);
+}
+
+.promo-divider-gold {
+    border-bottom-color: rgba(247, 202, 104, 0.5);
+    margin-top: clamp(5px, 0.9cqw, 10px);
+}
+
+/* Terço 3 (Direita: 66.67% a 100%): Descrição e Preço do Banner Vermelho */
+.promo-cell-desc {
+    left: 71.8%;
+    top: 32.5%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
 }
 
 .promo-banner-desc {
     font-family: 'Poppins', sans-serif;
-    font-size: clamp(11px, 1.3vw, 16px);
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.95);
-    margin: 0 0 10px 0;
+    font-size: clamp(8px, 1.6cqw, 17px);
+    font-weight: 500;
+    color: #FFFFFF;
     line-height: 1.35;
-    max-width: 95%;
-    text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+}
+
+.promo-cell-price {
+    left: 71.8%;
+    top: 53.5%;
+    width: 25%;
+    display: flex;
+    align-items: center;
+}
+
+.promo-banner-price-box {
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1.2cqw, 16px);
 }
 
 .promo-banner-price {
     font-family: 'Poppins', sans-serif;
-    font-size: clamp(22px, 3.6vw, 44px);
+    font-size: clamp(16px, 4.3cqw, 46px);
     font-weight: 800;
-    color: #ffffff;
+    color: #F7CA68;
     line-height: 1;
-    text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.45);
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
 }
 
-.promo-banner-options {
+.promo-icon-gold {
+    color: #F7CA68;
+}
+
+.promo-icon-green {
+    color: #A2CF7B;
+}
+
+.promo-pizza-icon {
+    width: clamp(16px, 3.4cqw, 38px);
+    height: clamp(16px, 3.4cqw, 38px);
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+}
+
+/* Frase no bottom para ver a oferta */
+.promo-banner-cta {
+    position: absolute;
+    bottom: 3.8%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    pointer-events: none;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    width: auto;
 }
 
-.promo-option-item {
+.promo-banner-cta-text {
     font-family: 'Poppins', sans-serif;
-    font-size: clamp(12px, 1.4vw, 19px);
-    font-weight: 400;
+    font-size: clamp(8px, 1.4cqw, 14px);
+    font-weight: 600;
     color: #ffffff;
-    line-height: 1.25;
-    text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.35);
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: clamp(3px, 0.55cqw, 6px) clamp(10px, 1.8cqw, 20px);
+    border-radius: 30px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.promo-option-item strong {
-    font-weight: 800;
-    font-size: 1.15em;
-    color: #ffffff;
+.promo-slide:hover .promo-banner-cta-text {
+    background: #DE4E45;
+    border-color: #DE4E45;
+    transform: scale(1.04);
+    box-shadow: 0 6px 18px rgba(222, 78, 69, 0.45);
 }
 
+/* Botões do Carrossel */
 .promo-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.75);
     border: none;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     font-size: 20px;
     cursor: pointer;
-    z-index: 10;
+    z-index: 30;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1890,11 +2129,11 @@ main {
 }
 
 .promo-btn.prev {
-    left: 20px;
+    left: 16px;
 }
 
 .promo-btn.next {
-    right: 20px;
+    right: 16px;
 }
 
 @media (max-width: 768px) {
@@ -1903,46 +2142,17 @@ main {
     }
 
     .promo-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
     }
 
     .promo-btn.prev {
-        left: 10px;
+        left: 8px;
     }
 
     .promo-btn.next {
-        right: 10px;
-    }
-
-    .promo-banner-content {
-        width: 54%;
-        padding: 0 2% 0 50px;
-    }
-
-    .promo-banner-title {
-        font-size: clamp(20px, 4vw, 36px);
-        margin-bottom: 4px;
-    }
-
-    .promo-banner-desc {
-        font-size: clamp(9.5px, 1.8vw, 13px);
-        margin-bottom: 6px;
-        line-height: 1.25;
-    }
-
-    .promo-banner-price {
-        font-size: clamp(18px, 3.5vw, 28px);
-    }
-
-    .promo-banner-options {
-        gap: 4px;
-    }
-
-    .promo-option-item {
-        font-size: clamp(9.5px, 1.8vw, 13.5px);
-        line-height: 1.2;
+        right: 8px;
     }
 }
 
@@ -1958,45 +2168,11 @@ main {
     }
 
     .promo-btn.prev {
-        left: 6px;
+        left: 4px;
     }
 
     .promo-btn.next {
-        right: 6px;
-    }
-
-    .promo-banner-content {
-        width: 56%;
-        padding: 0 2% 0 34px;
-    }
-
-    .promo-banner-title {
-        font-size: clamp(16px, 4.8vw, 24px);
-        margin-bottom: 2px;
-    }
-
-    .promo-banner-desc {
-        font-size: clamp(7.5px, 2.2vw, 10px);
-        margin-bottom: 3px;
-        line-height: 1.15;
-    }
-
-    .promo-banner-price {
-        font-size: clamp(13px, 4vw, 18px);
-    }
-
-    .promo-banner-options {
-        gap: 2px;
-    }
-
-    .promo-option-item {
-        font-size: clamp(7.5px, 2.3vw, 10.5px);
-        line-height: 1.15;
-        white-space: nowrap;
-    }
-
-    .promo-option-item strong {
-        font-size: 1.08em;
+        right: 4px;
     }
 }
 
@@ -2141,4 +2317,195 @@ main {
 .floating-delivery-btn:hover .floating-delivery-tooltip {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* --- Instagram Section --- */
+.instagram-section {
+    position: relative;
+    padding: 75px 0 80px;
+    background-color: #ffffff;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+}
+
+.instagram-header {
+    max-width: 900px;
+    margin: 0 auto 36px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.instagram-title {
+    font-family: "Damion", cursive;
+    font-size: 68px;
+    font-weight: 100;
+    color: #222222;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.instagram-handle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background-color: #DE4E45;
+    border: 2px solid #DE4E45;
+    border-radius: 60px;
+    padding: 12px 38px 12px 14px;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(222, 78, 69, 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.instagram-handle-icon-wrap {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 0.3s ease;
+}
+
+.instagram-handle-icon {
+    width: 26px;
+    height: 26px;
+    color: #ffffff;
+    fill: #ffffff;
+    transition: color 0.3s ease, fill 0.3s ease, transform 0.3s ease;
+}
+
+.instagram-handle span {
+    font-family: "Poppins", sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.instagram-handle:hover {
+    transform: translateY(-4px) scale(1.02);
+    background-color: #ffffff !important;
+    border-color: #DE4E45 !important;
+    box-shadow: 0 16px 40px rgba(222, 78, 69, 0.35) !important;
+}
+
+.instagram-handle:hover span {
+    color: #DE4E45 !important;
+}
+
+.instagram-handle:hover .instagram-handle-icon {
+    color: #DE4E45 !important;
+    fill: #DE4E45 !important;
+    transform: rotate(12deg) scale(1.1);
+}
+
+.instagram-handle:hover .instagram-handle-icon-wrap {
+    background: rgba(222, 78, 69, 0.12) !important;
+}
+
+/* Full Screen Marquee Carousel */
+.instagram-carousel-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 15px 0 25px;
+    mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+}
+
+.instagram-carousel-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: instaInfiniteScroll 60s linear infinite;
+    will-change: transform;
+}
+
+.instagram-carousel-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes instaInfiniteScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.instagram-card {
+    flex: 0 0 260px;
+    height: 350px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    background-color: #eeeeee;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    cursor: pointer;
+}
+
+.instagram-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+}
+
+.instagram-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.instagram-card:hover .instagram-card-img {
+    transform: scale(1.08);
+}
+
+.instagram-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 24px;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.instagram-card:hover .instagram-card-overlay {
+    opacity: 1;
+}
+
+.instagram-card-icon {
+    width: 28px;
+    height: 28px;
+    color: #ffffff;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.instagram-card-overlay span {
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }

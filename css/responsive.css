@@ -339,7 +339,11 @@
 
     .sobre-img-large {
         min-height: auto !important;
-        height: 250px !important;
+        height: auto !important;
+        max-width: 320px !important;
+        width: 100% !important;
+        aspect-ratio: 576 / 1024 !important;
+        margin: 0 auto !important;
         border-radius: 15px;
     }
 
@@ -434,7 +438,8 @@
         display: block !important;
         width: 250px !important;
         max-width: 90% !important;
-        height: 180px !important;
+        height: auto !important;
+        object-fit: contain !important;
         margin: 15px auto !important;
         border-radius: 16px !important;
     }
@@ -510,13 +515,56 @@
     .footer-content .bottom div {
         justify-content: center !important;
     }
+
+    /* Instagram Section Mobile */
+    .instagram-section {
+        padding: 50px 0 60px !important;
+    }
+
+    .instagram-header {
+        margin-bottom: 24px !important;
+    }
+
+    .instagram-title {
+        font-size: 44px !important;
+    }
+
+    .instagram-handle {
+        padding: 8px 22px 8px 8px !important;
+        gap: 12px !important;
+    }
+
+    .instagram-handle-icon-wrap {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .instagram-handle-icon {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .instagram-handle span {
+        font-size: 16px !important;
+    }
+
+    .instagram-carousel-track {
+        gap: 12px !important;
+        animation-duration: 40s !important;
+    }
+
+    .instagram-card {
+        flex: 0 0 190px !important;
+        height: 260px !important;
+        border-radius: 16px !important;
+    }
 }
 
 /* --- Tablets & Telas Intermediárias (769px a 1250px) --- */
 @media (min-width: 769px) and (max-width: 1250px) {
     .conceito-img {
         width: 180px !important;
-        height: 180px !important;
+        height: auto !important;
     }
 
     .conceito-img-left {
@@ -536,5 +584,33 @@
         width: 180px !important;
         height: 180px !important;
         flex: 0 0 180px !important;
+    }
+
+    .instagram-title {
+        font-size: 56px !important;
+    }
+
+    .instagram-handle {
+        padding: 10px 28px 10px 10px !important;
+        gap: 14px !important;
+    }
+
+    .instagram-handle-icon-wrap {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    .instagram-handle-icon {
+        width: 23px !important;
+        height: 23px !important;
+    }
+
+    .instagram-handle span {
+        font-size: 22px !important;
+    }
+
+    .instagram-card {
+        flex: 0 0 230px !important;
+        height: 310px !important;
     }
 }

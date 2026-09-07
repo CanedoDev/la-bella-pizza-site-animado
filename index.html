@@ -29,9 +29,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/loader.css">
+    <link rel="stylesheet" href="css/style.css?v=9">
+    <link rel="stylesheet" href="css/responsive.css?v=9">
+    <link rel="stylesheet" href="css/loader.css?v=9">
     <script>
         // Função para corrigir a altura real (100vh) no mobile sem que pule ao rolar a página
         function setVH() {
@@ -209,8 +209,8 @@
                         Descubra o verdadeiro padrão da pizza artesanal em Petrópolis. Combinamos ingredientes nobres importados da Itália, molho artesanal de tomates pelati e uma massa de fermentação lenta de 48 horas que derrete na boca e não pesa no estômago. Cada pizza é preparada no ponto perfeito, com bordas douradas e crocantes, aromas irresistíveis e recheios fartos que transformam qualquer noite em família em um momento memorável.
                     </p>
                 </div>
-                <img src="assets/img/foto-pizza-vinho-azeite-artesanal.jpg" 
-                     alt="Pizza artesanal La Bella Petrópolis com azeite toscano e vinho fino" 
+                <img src="assets/img/foto-pizza-artesanal-manjericao.webp" 
+                     alt="Pizza artesanal La Bella Petrópolis com tomates e manjericão fresco" 
                      class="conceito-img conceito-img-right">
             </section>
 
@@ -266,7 +266,7 @@
                         <!-- Card 1: Verde -->
                         <div class="card card-green">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizza-calabresa.png" alt="Pizza Calabresa artesanal" class="card-pizza-img">
+                                <img src="pizzas/pizza-calabresa.webp" alt="Pizza Calabresa artesanal" class="card-pizza-img">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Calabresa</h3>
@@ -278,7 +278,7 @@
                         <!-- Card 2: Branco -->
                         <div class="card card-white">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizza-frango-catupiry.webp" alt="Pizza Frango com Catupiry artesanal"
+                                <img src="pizzas/pizza-frango-catupiry.webp" alt="Pizza Frango com Catupiry artesanal"
                                     class="card-pizza-img">
                             </div>
                             <div class="card-content">
@@ -291,7 +291,7 @@
                         <!-- Card 3: Vermelho -->
                         <div class="card card-red">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizza-brasileira.png" alt="Pizza Quatro Queijos especial"
+                                <img src="pizzas/pizza-4-queijos.webp" alt="Pizza Quatro Queijos especial"
                                     class="card-pizza-img">
                             </div>
                             <div class="card-content">
@@ -302,7 +302,7 @@
                         </div>
                         <div class="card card-red">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizza-brasileira.png" alt="Pizza Baiana tradicional"
+                                <img src="pizzas/pizza-calabresa-c-cebola.webp" alt="Pizza Baiana tradicional"
                                     class="card-pizza-img">
                             </div>
                             <div class="card-content">
@@ -313,7 +313,7 @@
                         </div>
                         <div class="card card-green">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizza-calabresa.png" alt="Pizza Lombo Canadense defumada" class="card-pizza-img">
+                                <img src="pizzas/pizza-lombo-canadense.webp" alt="Pizza Lombo Canadense defumada" class="card-pizza-img">
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">Lombo Canadense</h3>
@@ -323,7 +323,7 @@
                         </div>
                         <div class="card card-white">
                             <div class="card-img-wrapper">
-                                <img src="assets/img/pizza-calabresa.png" alt="Pizza Pepperoni artesanal"
+                                <img src="pizzas/pizza-peperoni.webp" alt="Pizza Pepperoni artesanal"
                                     class="card-pizza-img">
                             </div>
                             <div class="card-content">
@@ -341,22 +341,151 @@
                 <div class="promocao-container">
                     <div class="promo-slider">
                         <div class="promo-slides">
-                            <a href="cardápio.html" class="promo-slide promo-banner-red">
-                                <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg">
-                                <div class="promo-banner-content">
-                                    <h3 class="promo-banner-title">Quarta da Casa</h3>
-                                    <p class="promo-banner-desc">Sabores selecionados com condições especiais a partir de:</p>
-                                    <div class="promo-banner-price">R$ 59,90</div>
+                            <a href="cardápio.html" class="promo-slide promo-banner-red" data-promo="quarta">
+                                <div class="promo-banner-img">
+                                    <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg" loading="lazy">
+                                </div>
+                                <div class="promo-banner-grid">
+                                    <!-- Coluna 1, Linha 1: Título -->
+                                    <div class="promo-grid-cell promo-cell-title">
+                                        <div class="promo-banner-heading">
+                                            <span class="promo-banner-title-script text-cream">Quarta</span>
+                                            <span class="promo-banner-subtitle-script text-cream">da Casa</span>
+                                            <svg class="promo-title-flourish" viewBox="0 0 140 18" fill="none" aria-hidden="true">
+                                                <path d="M10 11 C 35 14, 60 7, 70 7 C 80 7, 105 14, 130 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                                <circle cx="8" cy="11" r="2" fill="currentColor"/>
+                                                <circle cx="132" cy="11" r="2" fill="currentColor"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <!-- Coluna 1, Linha 3: Logo -->
+                                    <div class="promo-grid-cell promo-cell-logo">
+                                        <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" loading="lazy">
+                                    </div>
+                                    <!-- Coluna 3, Linha 2: Descrição -->
+                                    <div class="promo-grid-cell promo-cell-desc">
+                                        <p class="promo-banner-desc">Sabores selecionados<br>com condições espe-<br>ciais a partir de:</p>
+                                        <div class="promo-row-divider promo-divider-gold"></div>
+                                    </div>
+                                    <!-- Coluna 3, Linha 3: Preço -->
+                                    <div class="promo-grid-cell promo-cell-price">
+                                        <div class="promo-banner-price-box">
+                                            <svg class="promo-pizza-icon promo-icon-gold" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M 9.5 2.8 A 9.5 9.5 0 1 1 2.8 9.5 L 11.5 11.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M 10 4.5 A 7.8 7.8 0 1 1 4.5 10" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="1.5 2"/>
+                                                <path d="M 8.2 1.5 A 9.5 9.5 0 0 0 1.5 8.2 L 10.5 10.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M 7.2 3 A 7.8 7.8 0 0 0 3 7.2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                                                <circle cx="15.2" cy="7.8" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="16.2" cy="14.2" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="10.2" cy="16.5" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="5.8" cy="5.8" r="1.1" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="12.2" cy="7" r="0.6" fill="currentColor"/>
+                                                <circle cx="18" cy="10.5" r="0.6" fill="currentColor"/>
+                                                <circle cx="13" cy="14" r="0.6" fill="currentColor"/>
+                                                <circle cx="7" cy="13.5" r="0.6" fill="currentColor"/>
+                                            </svg>
+                                            <span class="promo-banner-price">R$ 59,90</span>
+                                        </div>
+                                    </div>
+                                    <!-- Bottom: Frase para ver a oferta -->
+                                    <div class="promo-banner-cta">
+                                        <span class="promo-banner-cta-text">Clique para ver a oferta &rarr;</span>
+                                    </div>
                                 </div>
                             </a>
-                            <a href="cardápio.html" class="promo-slide promo-banner-green">
-                                <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg">
-                                <div class="promo-banner-content">
-                                    <h3 class="promo-banner-title">La Bella em Dobro</h3>
-                                    <div class="promo-banner-options">
-                                        <div class="promo-option-item">2 pizzas de 30cm por <strong>R$ 109,90</strong></div>
-                                        <div class="promo-option-item">2 pizzas de 35cm por <strong>R$ 129,90</strong></div>
-                                        <div class="promo-option-item">2 pizzas de 40cm por <strong>R$ 159,90</strong></div>
+                            <a href="cardápio.html" class="promo-slide promo-banner-green" data-promo="terca">
+                                <div class="promo-banner-img">
+                                    <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg" loading="lazy">
+                                </div>
+                                <div class="promo-banner-grid">
+                                    <!-- Coluna 1, Linha 1: Título -->
+                                    <div class="promo-grid-cell promo-cell-title">
+                                        <div class="promo-banner-heading">
+                                            <span class="promo-banner-title-script text-white">La Bella</span>
+                                            <span class="promo-banner-subtitle-script text-green">em Dobro</span>
+                                            <svg class="promo-title-swash-green" viewBox="0 0 150 20" fill="none" aria-hidden="true">
+                                                <path d="M8 12 C 3 16, 12 18, 22 14 C 55 4, 105 7, 142 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <!-- Coluna 1, Linha 3: Logo -->
+                                    <div class="promo-grid-cell promo-cell-logo">
+                                        <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" loading="lazy">
+                                    </div>
+                                    <!-- Coluna 3, Linha 1: Opção 30cm -->
+                                    <div class="promo-grid-cell promo-cell-opt1">
+                                        <div class="promo-row-item">
+                                            <svg class="promo-pizza-icon promo-icon-green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M 9.5 2.8 A 9.5 9.5 0 1 1 2.8 9.5 L 11.5 11.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M 10 4.5 A 7.8 7.8 0 1 1 4.5 10" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="1.5 2"/>
+                                                <path d="M 8.2 1.5 A 9.5 9.5 0 0 0 1.5 8.2 L 10.5 10.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M 7.2 3 A 7.8 7.8 0 0 0 3 7.2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                                                <circle cx="15.2" cy="7.8" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="16.2" cy="14.2" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="10.2" cy="16.5" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="5.8" cy="5.8" r="1.1" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="12.2" cy="7" r="0.6" fill="currentColor"/>
+                                                <circle cx="18" cy="10.5" r="0.6" fill="currentColor"/>
+                                                <circle cx="13" cy="14" r="0.6" fill="currentColor"/>
+                                                <circle cx="7" cy="13.5" r="0.6" fill="currentColor"/>
+                                            </svg>
+                                            <div class="promo-row-text">
+                                                <span class="promo-row-label">2 pizzas de 30cm</span>
+                                                <span class="promo-row-price"><span class="promo-row-por">por</span> <strong>R$ 109,90</strong></span>
+                                            </div>
+                                        </div>
+                                        <div class="promo-row-divider"></div>
+                                    </div>
+                                    <!-- Coluna 3, Linha 2: Opção 35cm -->
+                                    <div class="promo-grid-cell promo-cell-opt2">
+                                        <div class="promo-row-item">
+                                            <svg class="promo-pizza-icon promo-icon-green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M 9.5 2.8 A 9.5 9.5 0 1 1 2.8 9.5 L 11.5 11.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M 10 4.5 A 7.8 7.8 0 1 1 4.5 10" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="1.5 2"/>
+                                                <path d="M 8.2 1.5 A 9.5 9.5 0 0 0 1.5 8.2 L 10.5 10.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M 7.2 3 A 7.8 7.8 0 0 0 3 7.2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                                                <circle cx="15.2" cy="7.8" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="16.2" cy="14.2" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="10.2" cy="16.5" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="5.8" cy="5.8" r="1.1" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="12.2" cy="7" r="0.6" fill="currentColor"/>
+                                                <circle cx="18" cy="10.5" r="0.6" fill="currentColor"/>
+                                                <circle cx="13" cy="14" r="0.6" fill="currentColor"/>
+                                                <circle cx="7" cy="13.5" r="0.6" fill="currentColor"/>
+                                            </svg>
+                                            <div class="promo-row-text">
+                                                <span class="promo-row-label">2 pizzas de 35cm</span>
+                                                <span class="promo-row-price"><span class="promo-row-por">por</span> <strong>R$ 129,90</strong></span>
+                                            </div>
+                                        </div>
+                                        <div class="promo-row-divider"></div>
+                                    </div>
+                                    <!-- Coluna 3, Linha 3: Opção 40cm -->
+                                    <div class="promo-grid-cell promo-cell-opt3">
+                                        <div class="promo-row-item">
+                                            <svg class="promo-pizza-icon promo-icon-green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M 9.5 2.8 A 9.5 9.5 0 1 1 2.8 9.5 L 11.5 11.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M 10 4.5 A 7.8 7.8 0 1 1 4.5 10" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="1.5 2"/>
+                                                <path d="M 8.2 1.5 A 9.5 9.5 0 0 0 1.5 8.2 L 10.5 10.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M 7.2 3 A 7.8 7.8 0 0 0 3 7.2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                                                <circle cx="15.2" cy="7.8" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="16.2" cy="14.2" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="10.2" cy="16.5" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="5.8" cy="5.8" r="1.1" stroke="currentColor" stroke-width="1.1"/>
+                                                <circle cx="12.2" cy="7" r="0.6" fill="currentColor"/>
+                                                <circle cx="18" cy="10.5" r="0.6" fill="currentColor"/>
+                                                <circle cx="13" cy="14" r="0.6" fill="currentColor"/>
+                                                <circle cx="7" cy="13.5" r="0.6" fill="currentColor"/>
+                                            </svg>
+                                            <div class="promo-row-text">
+                                                <span class="promo-row-label">2 pizzas de 40cm</span>
+                                                <span class="promo-row-price"><span class="promo-row-por">por</span> <strong>R$ 159,90</strong></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Bottom: Frase para ver a oferta -->
+                                    <div class="promo-banner-cta">
+                                        <span class="promo-banner-cta-text">Clique para ver a oferta &rarr;</span>
                                     </div>
                                 </div>
                             </a>
@@ -376,11 +505,11 @@
                             A história da La Bella Pizza começou muito antes de abrirmos as portas: começou na mesa de casa, onde <strong>Eduardo e Gláucia</strong> criavam receitas artesanais para celebrar momentos especiais em família. Em 2017, esse carinho se transformou em profissão no bairro Centenário, num espaço acolhedor e familiar. Movido pela busca pela perfeição, Eduardo viajou a São Paulo para se especializar na alta gastronomia de pizzarias com o renomado <strong>Chef Gazal</strong>.<br><br>
                             Em 2020, a La Bella deu um novo passo e inaugurou sua sede na <strong>Rua Bingen, 2076</strong>. Hoje, somos o refúgio das famílias de Petrópolis que valorizam hospitalidade, ingredientes nobres como a farinha italiana e o tomate pelati, e uma massa de fermentação lenta que une sabor irresistível e máxima leveza. Seja no nosso salão ou no conforto do seu lar com nosso delivery, cada pizza é feita com o mesmo amor do primeiro dia.
                         </p>
-                        <img src="assets/img/familia-confraternizando-pizzaria-petropolis.webp" alt="Família reunida saboreando pizza na La Bella Petrópolis"
+                        <img src="assets/img/familia-confraternizando-pizzaria-petropolis.webp" alt="Comemoração e fachada da pizzaria La Bella Pizza no Bingen"
                             class="sobre-img-small">
                     </div>
                     <div class="sobre-right">
-                        <img src="assets/img/restaurante-adega-la-bella-pizza.webp" alt="Interior acolhedor do restaurante com adega no Bingen"
+                        <img src="assets/img/restaurante-adega-la-bella-pizza.webp" alt="Pizza artesanal La Bella Petrópolis acompanhada de vinho fino e azeite especial"
                             class="sobre-img-large">
                     </div>
                 </div>
@@ -474,6 +603,160 @@
                     </div>
 
                     <button class="testimonial-btn testimonial-btn-next" aria-label="Próximo">&#10095;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secao Instagram Full Screen -->
+        <section class="instagram-section" id="instagram">
+            <div class="instagram-header">
+                <h2 class="instagram-title">Nos siga no Instagram</h2>
+                <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-handle" title="Acessar @labellapizzapetropolis no Instagram">
+                    <div class="instagram-handle-icon-wrap">
+                        <svg class="instagram-handle-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </div>
+                    <span>@labellapizzapetropolis</span>
+                </a>
+            </div>
+
+            <div class="instagram-carousel-wrapper">
+                <div class="instagram-carousel-track">
+                    <!-- Set 1 -->
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-1.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-2.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-3.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-4.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-5.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-6.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-7.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-8.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-9.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-10.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-11.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-12.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-13.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-14.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-15.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-16.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-17.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-18.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/labellapizzapetropolis/" target="_blank" rel="noopener noreferrer" class="instagram-card" aria-label="Ver foto no Instagram da La Bella Pizza">
+                        <img src="assets/img/instagram/insta-19.webp" alt="Momento La Bella Pizza Petrópolis" class="instagram-card-img" loading="lazy">
+                        <div class="instagram-card-overlay">
+                            <svg class="instagram-card-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Ver no Instagram</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
@@ -738,7 +1021,7 @@
         <span class="floating-delivery-tooltip">Pedir Pizza</span>
     </a>
 
-    <script src="js/promo-slider.js"></script>
+    <script src="js/promo-slider.js?v=9"></script>
     <script src="js/nav-scrollspy.js"></script>
     <script src="js/loader.js"></script>
     <script src="js/magnetic.js"></script>

@@ -27,10 +27,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/cardapio.css">
-    <link rel="stylesheet" href="css/loader.css">
+    <link rel="stylesheet" href="css/style.css?v=9">
+    <link rel="stylesheet" href="css/responsive.css?v=9">
+    <link rel="stylesheet" href="css/cardapio.css?v=9">
+    <link rel="stylesheet" href="css/loader.css?v=9">
     <script>
         // Função para corrigir a altura real (100vh) no mobile sem que pule ao rolar a página
         function setVH() {
@@ -159,26 +159,155 @@
         </nav>
     </header>
     <main>
-        <section class="promocao" style="padding-top: 15px; padding-bottom: 15px; margin-bottom: 15px;">
+        <section class="promocao cardapio-promo">
             <div class="promocao-container">
                 <div class="promo-slider">
                     <div class="promo-slides">
-                        <div class="promo-slide promo-banner-red">
-                            <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg">
-                            <div class="promo-banner-content">
-                                <h3 class="promo-banner-title">Quarta da Casa</h3>
-                                <p class="promo-banner-desc">Sabores selecionados com condições especiais a partir de:</p>
-                                <div class="promo-banner-price">R$ 59,90</div>
+                        <div class="promo-slide promo-banner-red" data-promo="quarta" role="button" tabindex="0" style="cursor: pointer;">
+                            <div class="promo-banner-img">
+                                <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg" loading="lazy">
+                            </div>
+                            <div class="promo-banner-grid">
+                                <!-- Coluna 1, Linha 1: Título -->
+                                <div class="promo-grid-cell promo-cell-title">
+                                    <div class="promo-banner-heading">
+                                        <span class="promo-banner-title-script text-cream">Quarta</span>
+                                        <span class="promo-banner-subtitle-script text-cream">da Casa</span>
+                                        <svg class="promo-title-flourish" viewBox="0 0 140 18" fill="none" aria-hidden="true">
+                                            <path d="M10 11 C 35 14, 60 7, 70 7 C 80 7, 105 14, 130 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                            <circle cx="8" cy="11" r="2" fill="currentColor"/>
+                                            <circle cx="132" cy="11" r="2" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Coluna 1, Linha 3: Logo -->
+                                <div class="promo-grid-cell promo-cell-logo">
+                                    <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" loading="lazy">
+                                </div>
+                                <!-- Coluna 3, Linha 2: Descrição -->
+                                <div class="promo-grid-cell promo-cell-desc">
+                                    <p class="promo-banner-desc">Sabores selecionados<br>com condições espe-<br>ciais a partir de:</p>
+                                    <div class="promo-row-divider promo-divider-gold"></div>
+                                </div>
+                                <!-- Coluna 3, Linha 3: Preço -->
+                                <div class="promo-grid-cell promo-cell-price">
+                                    <div class="promo-banner-price-box">
+                                        <svg class="promo-pizza-icon promo-icon-gold" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M 9.5 2.8 A 9.5 9.5 0 1 1 2.8 9.5 L 11.5 11.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M 10 4.5 A 7.8 7.8 0 1 1 4.5 10" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="1.5 2"/>
+                                            <path d="M 8.2 1.5 A 9.5 9.5 0 0 0 1.5 8.2 L 10.5 10.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M 7.2 3 A 7.8 7.8 0 0 0 3 7.2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                                            <circle cx="15.2" cy="7.8" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="16.2" cy="14.2" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="10.2" cy="16.5" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="5.8" cy="5.8" r="1.1" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="12.2" cy="7" r="0.6" fill="currentColor"/>
+                                            <circle cx="18" cy="10.5" r="0.6" fill="currentColor"/>
+                                            <circle cx="13" cy="14" r="0.6" fill="currentColor"/>
+                                            <circle cx="7" cy="13.5" r="0.6" fill="currentColor"/>
+                                        </svg>
+                                        <span class="promo-banner-price">R$ 59,90</span>
+                                    </div>
+                                </div>
+                                <!-- Bottom: Frase para ver a oferta -->
+                                <div class="promo-banner-cta">
+                                    <span class="promo-banner-cta-text">Clique para ver a oferta &rarr;</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="promo-slide promo-banner-green">
-                            <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg">
-                            <div class="promo-banner-content">
-                                <h3 class="promo-banner-title">La Bella em Dobro</h3>
-                                <div class="promo-banner-options">
-                                    <div class="promo-option-item">2 pizzas de 30cm por <strong>R$ 109,90</strong></div>
-                                    <div class="promo-option-item">2 pizzas de 35cm por <strong>R$ 129,90</strong></div>
-                                    <div class="promo-option-item">2 pizzas de 40cm por <strong>R$ 159,90</strong></div>
+                        <div class="promo-slide promo-banner-green" data-promo="terca" role="button" tabindex="0" style="cursor: pointer;">
+                            <div class="promo-banner-img">
+                                <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg" loading="lazy">
+                            </div>
+                            <div class="promo-banner-grid">
+                                <!-- Coluna 1, Linha 1: Título -->
+                                <div class="promo-grid-cell promo-cell-title">
+                                    <div class="promo-banner-heading">
+                                        <span class="promo-banner-title-script text-white">La Bella</span>
+                                        <span class="promo-banner-subtitle-script text-green">em Dobro</span>
+                                        <svg class="promo-title-swash-green" viewBox="0 0 150 20" fill="none" aria-hidden="true">
+                                            <path d="M8 12 C 3 16, 12 18, 22 14 C 55 4, 105 7, 142 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <!-- Coluna 1, Linha 3: Logo -->
+                                <div class="promo-grid-cell promo-cell-logo">
+                                    <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" loading="lazy">
+                                </div>
+                                <!-- Coluna 3, Linha 1: Opção 30cm -->
+                                <div class="promo-grid-cell promo-cell-opt1">
+                                    <div class="promo-row-item">
+                                        <svg class="promo-pizza-icon promo-icon-green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M 9.5 2.8 A 9.5 9.5 0 1 1 2.8 9.5 L 11.5 11.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M 10 4.5 A 7.8 7.8 0 1 1 4.5 10" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="1.5 2"/>
+                                            <path d="M 8.2 1.5 A 9.5 9.5 0 0 0 1.5 8.2 L 10.5 10.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M 7.2 3 A 7.8 7.8 0 0 0 3 7.2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                                            <circle cx="15.2" cy="7.8" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="16.2" cy="14.2" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="10.2" cy="16.5" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="5.8" cy="5.8" r="1.1" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="12.2" cy="7" r="0.6" fill="currentColor"/>
+                                            <circle cx="18" cy="10.5" r="0.6" fill="currentColor"/>
+                                            <circle cx="13" cy="14" r="0.6" fill="currentColor"/>
+                                            <circle cx="7" cy="13.5" r="0.6" fill="currentColor"/>
+                                        </svg>
+                                        <div class="promo-row-text">
+                                            <span class="promo-row-label">2 pizzas de 30cm</span>
+                                            <span class="promo-row-price"><span class="promo-row-por">por</span> <strong>R$ 109,90</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="promo-row-divider"></div>
+                                </div>
+                                <!-- Coluna 3, Linha 2: Opção 35cm -->
+                                <div class="promo-grid-cell promo-cell-opt2">
+                                    <div class="promo-row-item">
+                                        <svg class="promo-pizza-icon promo-icon-green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M 9.5 2.8 A 9.5 9.5 0 1 1 2.8 9.5 L 11.5 11.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M 10 4.5 A 7.8 7.8 0 1 1 4.5 10" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="1.5 2"/>
+                                            <path d="M 8.2 1.5 A 9.5 9.5 0 0 0 1.5 8.2 L 10.5 10.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M 7.2 3 A 7.8 7.8 0 0 0 3 7.2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                                            <circle cx="15.2" cy="7.8" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="16.2" cy="14.2" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="10.2" cy="16.5" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="5.8" cy="5.8" r="1.1" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="12.2" cy="7" r="0.6" fill="currentColor"/>
+                                            <circle cx="18" cy="10.5" r="0.6" fill="currentColor"/>
+                                            <circle cx="13" cy="14" r="0.6" fill="currentColor"/>
+                                            <circle cx="7" cy="13.5" r="0.6" fill="currentColor"/>
+                                        </svg>
+                                        <div class="promo-row-text">
+                                            <span class="promo-row-label">2 pizzas de 35cm</span>
+                                            <span class="promo-row-price"><span class="promo-row-por">por</span> <strong>R$ 129,90</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="promo-row-divider"></div>
+                                </div>
+                                <!-- Coluna 3, Linha 3: Opção 40cm -->
+                                <div class="promo-grid-cell promo-cell-opt3">
+                                    <div class="promo-row-item">
+                                        <svg class="promo-pizza-icon promo-icon-green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M 9.5 2.8 A 9.5 9.5 0 1 1 2.8 9.5 L 11.5 11.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M 10 4.5 A 7.8 7.8 0 1 1 4.5 10" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="1.5 2"/>
+                                            <path d="M 8.2 1.5 A 9.5 9.5 0 0 0 1.5 8.2 L 10.5 10.5 Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M 7.2 3 A 7.8 7.8 0 0 0 3 7.2" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                                            <circle cx="15.2" cy="7.8" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="16.2" cy="14.2" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="10.2" cy="16.5" r="1.2" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="5.8" cy="5.8" r="1.1" stroke="currentColor" stroke-width="1.1"/>
+                                            <circle cx="12.2" cy="7" r="0.6" fill="currentColor"/>
+                                            <circle cx="18" cy="10.5" r="0.6" fill="currentColor"/>
+                                            <circle cx="13" cy="14" r="0.6" fill="currentColor"/>
+                                            <circle cx="7" cy="13.5" r="0.6" fill="currentColor"/>
+                                        </svg>
+                                        <div class="promo-row-text">
+                                            <span class="promo-row-label">2 pizzas de 40cm</span>
+                                            <span class="promo-row-price"><span class="promo-row-por">por</span> <strong>R$ 159,90</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Bottom: Frase para ver a oferta -->
+                                <div class="promo-banner-cta">
+                                    <span class="promo-banner-cta-text">Clique para ver a oferta &rarr;</span>
                                 </div>
                             </div>
                         </div>
@@ -230,7 +359,8 @@
             <div class="pizzaWindowBody">
                 <div class="pizzaInfo--cancelMobileButton">Voltar</div>
                 <div class="pizzaBig">
-                    <img src="" />
+                    <img src="" alt="Pizza La Bella Pizza" />
+                    <span class="pizza-disclaimer">*imagem ilustrativa</span>
                 </div>
                 <div class="pizzaInfo">
                     <div class="pizzaTag">TRADICIONAL</div>
@@ -310,6 +440,7 @@
                 <div class="comboInfo--cancelMobileButton">Voltar</div>
                 <div class="comboBig">
                     <img src="" alt="Combo La Bella Pizza" />
+                    <span class="pizza-disclaimer">*imagem ilustrativa</span>
                 </div>
                 <div class="comboInfo">
                     <div class="comboTag">OFERTA ESPECIAL</div>
@@ -400,12 +531,12 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/SplitText.min.js"></script>
     <script src="js/security.js"></script>
-    <script src="js/promo-slider.js"></script>
+    <script src="js/promo-slider.js?v=9"></script>
     <script src="js/card-animation.js"></script>
     <script src="js/title-animation.js"></script>
     <script src="js/pizzaJson.js"></script>
     <script src="js/combos.js"></script>
-    <script src="js/cardapio.js"></script>
+    <script src="js/cardapio.js?v=9"></script>
     <script src="js/nav-scrollspy.js"></script>
     <script src="js/loader.js"></script>
 </body>

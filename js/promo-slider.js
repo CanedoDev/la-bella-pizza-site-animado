@@ -43,5 +43,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         startPromoAutoPlay();
+
+        // Interceptação de clique para navegação da promoção (Terça e Quarta)
+        promoImages.forEach(slide => {
+            slide.addEventListener('click', (e) => {
+                const promoTipo = slide.getAttribute('data-promo');
+                if (!promoTipo) return;
+
+                // Se estiver dentro de cardápio.html
+                if (window.location.pathname.includes('card') || typeof carregarPizzas === 'function') {
+                    e.preventDefault();
+                    const status = typeof getPromocaoStatus === 'function' ? getPromocaoStatus() : {
+                        tercaFeira: new Date().getDay() === 2,
+                        quartaFeira: new Date().getDay() === 3
+                    };
+
+                    if (promoTipo === 'terca' && status.tercaFeira) {
+                        const btnCombos = document.querySelector('.category-button[data-filter="combos"]');
+                        if (btnCombos) {
+                            btnCombos.click();
+                        } else if (typeof categoriaAtual !== 'undefined') {
+                            categoriaAtual = 'combos';
+                            carregarPizzas();
+                        }
+                        const cardapioSec = document.querySelector('#cardapio') || document.querySelector('.cardapio');
+                        if (cardapioSec) cardapioSec.scrollIntoView({ behavior: 'smooth' });
+                    } else if (promoTipo === 'quarta' && status.quartaFeira) {
+                        const btnTodos = document.querySelector('.category-button[data-filter="all"]');
+                        if (btnTodos) {
+                            btnTodos.click();
+                        } else if (typeof categoriaAtual !== 'undefined') {
+                            categoriaAtual = 'all';
+                            carregarPizzas();
+                        }
+                        setTimeout(() => {
+                            const ofertasEl = document.querySelector('.ofertas-do-dia') || document.querySelector('.cardapio');
+                            if (ofertasEl) ofertasEl.scrollIntoView({ behavior: 'smooth' });
+                        }, 120);
+                    } else {
+                        const cardapioSec = document.querySelector('#cardapio') || document.querySelector('.cardapio');
+                        if (cardapioSec) cardapioSec.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    return;
+                }
+
+                // Se estiver no index.html
+                const hoje = new Date();
+                const diaSemana = hoje.getDay();
+                const ehTerca = (diaSemana === 2);
+                const ehQuarta = (diaSemana === 3);
+
+                if (promoTipo === 'terca' && ehTerca) {
+                    slide.setAttribute('href', 'cardápio.html?promo=terca#cardapio');
+                } else if (promoTipo === 'quarta' && ehQuarta) {
+                    slide.setAttribute('href', 'cardápio.html?promo=quarta#cardapio');
+                } else {
+                    slide.setAttribute('href', 'cardápio.html#cardapio');
+                }
+            });
+        });
     }
 });
