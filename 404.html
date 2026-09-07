@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Página Não Encontrada (404) | La Bella Pizza Petrópolis</title>
+    <meta name="description" content="Ops! A página que você tentou acessar não foi encontrada. Volte à página inicial ou ao cardápio da La Bella Pizza Petrópolis.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://labellapizzapetropolis.com.br/404.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/loader.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --vh: 1vh;
+            --color-bg: #F4EFEB;
+            --color-primary: #DE4E45;
+            --color-primary-hover: #c43c33;
+            --color-secondary: #64B95F;
+            --color-dark: #262626;
+            --color-muted: #666666;
+            --color-white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-dark);
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-page-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            overflow: hidden;
+        }
+
+        .bio-bg-worm {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .bio-minhocao {
+            display: block;
+            width: 100%;
+            height: 100%;
+            opacity: 0.75;
+        }
+
+        .bio-minhoquinha {
+            display: none;
+            width: 100%;
+            height: 100%;
+            opacity: 0.75;
+        }
+
+        @media (max-width: 768px) {
+            .bio-minhocao {
+                display: none;
+            }
+
+            .bio-minhoquinha {
+                display: block;
+            }
+        }
+
+        .error-card {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 520px;
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(222, 78, 69, 0.12);
+            border-radius: 28px;
+            padding: 42px 32px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .error-logo-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: transform 0.25s ease;
+        }
+
+        .error-logo-link:hover {
+            transform: scale(1.04);
+        }
+
+        .error-logo {
+            width: 140px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .error-code-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin: 10px 0 16px;
+            user-select: none;
+        }
+
+        .error-digit {
+            font-size: clamp(74px, 18vw, 115px);
+            font-weight: 800;
+            color: var(--color-primary);
+            line-height: 1;
+            text-shadow: 0 10px 25px rgba(222, 78, 69, 0.25);
+        }
+
+        .error-pizza-zero {
+            width: clamp(74px, 18vw, 115px);
+            height: clamp(74px, 18vw, 115px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .error-pizza-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+            animation: rotatePizzaZero 22s linear infinite;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            -webkit-user-drag: none;
+        }
+
+        .error-pizza-zero:hover .error-pizza-img {
+            transform: scale(1.1) rotate(45deg);
+            animation-play-state: paused;
+        }
+
+        @keyframes rotatePizzaZero {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-title {
+            font-size: clamp(22px, 5vw, 28px);
+            font-weight: 700;
+            color: var(--color-dark);
+            margin-bottom: 10px;
+            line-height: 1.25;
+        }
+
+        .error-message {
+            font-size: clamp(14px, 3.5vw, 15px);
+            color: var(--color-muted);
+            line-height: 1.6;
+            max-width: 420px;
+            margin: 0 auto 28px;
+        }
+
+        .error-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        .error-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .error-btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border: 2px solid var(--color-primary);
+            box-shadow: 0 6px 18px rgba(222, 78, 69, 0.28);
+        }
+
+        .error-btn-primary:hover {
+            background-color: var(--color-primary-hover);
+            border-color: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(222, 78, 69, 0.35);
+        }
+
+        .error-btn-secondary {
+            background-color: transparent;
+            color: var(--color-dark);
+            border: 2px solid rgba(38, 38, 38, 0.18);
+        }
+
+        .error-btn-secondary:hover {
+            border-color: var(--color-dark);
+            background-color: rgba(38, 38, 38, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .error-footer {
+            margin-top: 26px;
+            font-size: 11.5px;
+            color: #888888;
+            line-height: 1.5;
+        }
+
+        .error-footer a {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .error-card {
+                padding: 32px 20px;
+                border-radius: 22px;
+            }
+
+            .error-logo {
+                width: 120px;
+            }
+
+            .error-message {
+                margin-bottom: 22px;
+            }
+
+            .error-btn {
+                padding: 12px 20px;
+                font-size: 13.5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="global-loader">
+        <div class="loader-content">
+            <svg class="pizza-svg" viewBox="0 0 100 100">
+                <defs>
+                    <mask id="pizza-mask">
+                        <circle class="eat-circle" cx="50" cy="50" r="25" fill="none" stroke="white" stroke-width="50" stroke-dasharray="158" stroke-dashoffset="0" transform="rotate(-90 50 50)" />
+                    </mask>
+                </defs>
+                <g mask="url(#pizza-mask)">
+                    <path d="M 50 50 L 50 2 A 48 48 0 0 1 91.569 26 Z" fill="#64B95F" />
+                    <path d="M 50 50 L 91.569 26 A 48 48 0 0 1 91.569 74 Z" fill="#DE4E45" />
+                    <path d="M 50 50 L 91.569 74 A 48 48 0 0 1 50 98 Z" fill="#64B95F" />
+                    <path d="M 50 50 L 50 98 A 48 48 0 0 1 8.431 74 Z" fill="#DE4E45" />
+                    <path d="M 50 50 L 8.431 74 A 48 48 0 0 1 8.431 26 Z" fill="#64B95F" />
+                    <path d="M 50 50 L 8.431 26 A 48 48 0 0 1 50 2 Z" fill="#DE4E45" />
+                    <circle cx="50" cy="50" r="46" fill="none" stroke="#ff9f1c" stroke-width="8" />
+                </g>
+            </svg>
+            <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Petrópolis" class="loader-logo">
+        </div>
+        <div class="loader-credits">Desenvolvido por Canedo Web Studio</div>
+    </div>
+
+    <div class="error-page-wrapper">
+        <div class="bio-bg-worm">
+            <svg class="bio-minhocao" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path id="bio-stroke-path-desk" d="M -100,250 C 400,50 800,950 1300,550 C 1700,250 2000,850 2100,950" stroke="#AAD5A7" stroke-width="240" stroke-linecap="round" />
+            </svg>
+            <svg class="bio-minhoquinha" viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path id="bio-stroke-path-mob" d="M 120,-40 C 20,180 380,100 350,380 C 320,600 50,560 100,850" stroke="#AAD5A7" stroke-width="96" stroke-linecap="round" />
+            </svg>
+        </div>
+
+        <main class="error-card">
+            <a href="index.html" class="error-logo-link" aria-label="Ir para a Página Inicial da La Bella Pizza">
+                <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Petrópolis" class="error-logo">
+            </a>
+
+            <div class="error-code-row" aria-label="Erro 404">
+                <span class="error-digit">4</span>
+                <div class="error-pizza-zero" title="Fatia não encontrada">
+                    <img src="assets/img/pizzas/pizza-calabresa.webp" alt="Pizza em formato circular" class="error-pizza-img">
+                </div>
+                <span class="error-digit">4</span>
+            </div>
+
+            <h1 class="error-title">Página Não Encontrada</h1>
+            <p class="error-message">Não encontramos a página que você estava procurando. Parece que este endereço foi alterado ou não existe mais, mas nosso forno a lenha continua a todo vapor com as melhores pizzas artesanais.</p>
+
+            <div class="error-actions">
+                <a href="index.html" class="error-btn error-btn-primary">Voltar para a Página Inicial</a>
+                <a href="cardápio.html" class="error-btn error-btn-secondary">Acessar Nosso Cardápio</a>
+            </div>
+
+            <footer class="error-footer">
+                <p>La Bella Pizza Petrópolis © 2026<br>Desenvolvido por Canedo Web Studio</p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="js/loader.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            function setVH() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            setVH();
+            window.addEventListener('resize', setVH);
+
+            const isMobile = window.innerWidth <= 768;
+            const pathId = isMobile ? "bio-stroke-path-mob" : "bio-stroke-path-desk";
+            const wormPath = document.getElementById(pathId);
+
+            if (wormPath) {
+                const length = wormPath.getTotalLength();
+                wormPath.style.strokeDasharray = length;
+                wormPath.style.strokeDashoffset = length;
+
+                gsap.to(wormPath, {
+                    strokeDashoffset: 0,
+                    duration: 1.5,
+                    ease: "power2.out",
+                    delay: 0.1
+                });
+            }
+
+            gsap.from(".error-card", {
+                opacity: 0,
+                y: 30,
+                scale: 0.95,
+                duration: 0.9,
+                ease: "power2.out",
+                delay: 0.15
+            });
+        });
+    </script>
+</body>
+
+</html>

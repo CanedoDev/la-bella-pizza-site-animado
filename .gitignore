@@ -16,3 +16,8 @@ Thumbs.db
 # Pastas de Origem / Temporarias
 imagens novas/
 public_html/
+
+# Paginas Juridicas Locais (mantidas apenas localmente ate conclusao formal do CNPJ)
+privacidade.html
+termos.html
+

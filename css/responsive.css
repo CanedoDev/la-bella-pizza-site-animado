@@ -286,22 +286,6 @@
         margin-bottom: 10px !important;
     }
 
-    /* Caso seja a promoção da Home (que tem background), mantém 100vh */
-    .promocao:has(.promocao-bg) {
-        height: 100vh !important;
-        max-height: 100vh !important;
-    }
-
-    .promocao-bg img {
-        display: none !important;
-    }
-
-    .promocao-bg {
-        background-image: url('../assets/img/bg-promocao-mob.webp');
-        background-size: cover;
-        background-position: center;
-    }
-
     .promocao-container {
         flex-direction: column !important;
         text-align: center;
