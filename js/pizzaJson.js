@@ -34,7 +34,7 @@ let pizzaJson = [
         img: 'assets/img/pizzas/pizza-calabresa.webp',
         price: [62.90, 69.90, 86.90, 93.90],
         sizes: ['Média 30 cm', 'Grande 35 cm', 'Super 40 cm', 'Max 45 cm'],
-        description: 'A queridinha da casa: fatias artesanais de calabresa defumada douradas no forno a lenha sobre queijo muçarela e molho especial.'
+        description: 'A queridinha da casa: fatias artesanais de calabresa defumada douradas no forno sobre queijo muçarela e molho especial.'
     },
     {
         id: 5,
