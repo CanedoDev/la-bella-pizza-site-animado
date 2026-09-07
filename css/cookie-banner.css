@@ -83,10 +83,10 @@
 }
 
 .cookie-btn-accept {
-    background: #DE4E45;
+    background: #D33C33;
     color: #ffffff;
-    border: 1px solid #DE4E45;
-    box-shadow: 0 4px 14px rgba(222, 78, 69, 0.35);
+    border: 1px solid #D33C33;
+    box-shadow: 0 4px 14px rgba(211, 60, 51, 0.35);
 }
 
 .cookie-btn-accept:hover {
