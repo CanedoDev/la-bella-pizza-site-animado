@@ -21,17 +21,21 @@
     <meta name="twitter:description" content="Mais de 60 sabores de pizzas artesanais com delivery em toda Petrópolis.">
     <meta name="twitter:image" content="https://labellapizzapetropolis.com.br/assets/img/logo-la-bella-pizza.webp">
 
+    <!-- Preload LCP Promo Banner -->
+    <link rel="preload" as="image" href="assets/img/banner-promocao-combo-pizza.webp" fetchpriority="high">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap"
-        rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap"></noscript>
 
-    <link rel="stylesheet" href="css/style.css?v=9">
-    <link rel="stylesheet" href="css/responsive.css?v=9">
-    <link rel="stylesheet" href="css/cardapio.css?v=9">
-    <link rel="stylesheet" href="css/loader.css?v=9">
-    <link rel="stylesheet" href="css/cookie-banner.css?v=9">
+    <link rel="stylesheet" href="css/style.css?v=10">
+    <link rel="stylesheet" href="css/responsive.css?v=10">
+    <link rel="stylesheet" href="css/cardapio.css?v=10">
+    <link rel="stylesheet" href="css/loader.css?v=10">
+    <link rel="stylesheet" href="css/cookie-banner.css?v=10">
     <script>
         function setVH() {
             let vh = window.innerHeight * 0.01;
@@ -164,7 +168,7 @@
                     <div class="promo-slides">
                         <div class="promo-slide promo-banner-red" data-promo="quarta" role="button" tabindex="0" style="cursor: pointer;">
                             <div class="promo-banner-img">
-                                <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg" loading="lazy">
+                                <img src="assets/img/banner-promocao-combo-pizza.webp" alt="Promoção Quarta da Casa - Pizzas artesanais a partir de R$ 59,90" class="promo-banner-bg" width="1024" height="572" fetchpriority="high" decoding="async">
                             </div>
                             <div class="promo-banner-grid">
                                 <!-- Coluna 1, Linha 1: Título -->
@@ -181,7 +185,7 @@
                                 </div>
                                 <!-- Coluna 1, Linha 3: Logo -->
                                 <div class="promo-grid-cell promo-cell-logo">
-                                    <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" loading="lazy">
+                                    <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" width="120" height="80" loading="lazy" decoding="async">
                                 </div>
                                 <!-- Coluna 3, Linha 2: Descrição -->
                                 <div class="promo-grid-cell promo-cell-desc">
@@ -216,7 +220,7 @@
                         </div>
                         <div class="promo-slide promo-banner-green" data-promo="terca" role="button" tabindex="0" style="cursor: pointer;">
                             <div class="promo-banner-img">
-                                <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg" loading="lazy">
+                                <img src="assets/img/banner-promocao-la-bella-em-dobro.webp" alt="Promoção La Bella em Dobro - 2 Pizzas de 30cm por R$ 109,90, 35cm por R$ 129,90 e 40cm por R$ 159,90" class="promo-banner-bg" width="1024" height="572" loading="lazy" decoding="async">
                             </div>
                             <div class="promo-banner-grid">
                                 <!-- Coluna 1, Linha 1: Título -->
@@ -231,7 +235,7 @@
                                 </div>
                                 <!-- Coluna 1, Linha 3: Logo -->
                                 <div class="promo-grid-cell promo-cell-logo">
-                                    <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" loading="lazy">
+                                    <img src="assets/img/logo-la-bella-pizza.webp" alt="La Bella Pizza Delivery" class="promo-banner-logo" width="120" height="80" loading="lazy" decoding="async">
                                 </div>
                                 <!-- Coluna 3, Linha 1: Opção 30cm -->
                                 <div class="promo-grid-cell promo-cell-opt1">
@@ -537,19 +541,19 @@
             </div>
         </div>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/SplitText.min.js"></script>
-    <script src="js/security.js"></script>
-    <script src="js/promo-slider.js?v=9"></script>
-    <script src="js/card-animation.js"></script>
-    <script src="js/title-animation.js"></script>
-    <script src="js/pizzaJson.js?v=9"></script>
-    <script src="js/combos.js"></script>
-    <script src="js/cardapio.js?v=9"></script>
-    <script src="js/nav-scrollspy.js"></script>
-    <script src="js/loader.js"></script>
-    <script src="js/cookie-banner.js?v=9"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/SplitText.min.js" defer></script>
+    <script src="js/security.js?v=10" defer></script>
+    <script src="js/promo-slider.js?v=10" defer></script>
+    <script src="js/card-animation.js?v=10" defer></script>
+    <script src="js/title-animation.js?v=10" defer></script>
+    <script src="js/pizzaJson.js?v=10" defer></script>
+    <script src="js/combos.js?v=10" defer></script>
+    <script src="js/cardapio.js?v=10" defer></script>
+    <script src="js/nav-scrollspy.js?v=10" defer></script>
+    <script src="js/loader.js?v=10" defer></script>
+    <script src="js/cookie-banner.js?v=10" defer></script>
 </body>
 </html>

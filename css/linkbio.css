@@ -244,9 +244,9 @@ body {
 
 /* Estilos Individuais dos Botões (Cores Sólidas dos Cards) */
 
-/* 1. Delivery (Verde) */
+/* 1. Delivery (Verde Artesanal com Contraste Acessível WCAG AA > 5.5:1) */
 .btn-delivery {
-    background-color: var(--color-secondary);
+    background-color: #20722E;
     color: var(--color-white);
 }
 
@@ -266,9 +266,9 @@ body {
     color: #25D366;
 }
 
-/* 3. Instagram (Vermelho Bella Pizza) */
+/* 3. Instagram (Vermelho Bella Pizza com Contraste Acessível WCAG AA > 5.0:1) */
 .btn-instagram {
-    background-color: var(--color-primary);
+    background-color: #C93B32;
     color: var(--color-white);
 }
 
@@ -297,7 +297,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-secondary);
+    background-color: #20722E;
     opacity: 0;
     pointer-events: none;
     z-index: 20;
