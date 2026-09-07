@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <!-- Página Inicial / Home -->
     <url>
-        <loc>https://labellapizzapetropolis.com.br/</loc>
+        <loc>https://pizzarialabellapetropolis.com.br/</loc>
         <lastmod>2026-09-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://labellapizzapetropolis.com.br/index.html</loc>
+        <loc>https://pizzarialabellapetropolis.com.br/index.html</loc>
         <lastmod>2026-09-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
@@ -16,7 +16,7 @@
 
     <!-- Cardápio Completo -->
     <url>
-        <loc>https://labellapizzapetropolis.com.br/cardápio.html</loc>
+        <loc>https://pizzarialabellapetropolis.com.br/cardápio.html</loc>
         <lastmod>2026-09-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
@@ -24,7 +24,7 @@
 
     <!-- Linkbio / Links Úteis -->
     <url>
-        <loc>https://labellapizzapetropolis.com.br/linkbio.html</loc>
+        <loc>https://pizzarialabellapetropolis.com.br/linkbio.html</loc>
         <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -32,7 +32,7 @@
 
     <!-- Arquivo de Contexto para LLMs / GEO -->
     <url>
-        <loc>https://labellapizzapetropolis.com.br/llm.txt</loc>
+        <loc>https://pizzarialabellapetropolis.com.br/llm.txt</loc>
         <lastmod>2026-09-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
