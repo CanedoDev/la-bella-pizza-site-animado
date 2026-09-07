@@ -1,12 +1,7 @@
-// ==========================================================================
-// SCROLLSPY E NAVEGAÇÃO ATIVA EM TEMPO REAL
-// ==========================================================================
-
 document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.header .nav-link');
     if (!navLinks.length) return;
 
-    // A Home possui .hero-section; a página de cardápio não possui .hero-section
     const isHomePage = !!document.querySelector('.hero-section');
 
     const setActive = (sectionName) => {
@@ -25,13 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const windowHeight = window.innerHeight;
         const docHeight = document.documentElement.scrollHeight;
 
-        // Se estiver bem no final da página (rodapé), ativa Contato
         if (scrollY + windowHeight >= docHeight - 80) {
             setActive('contato');
             return;
         }
 
-        const threshold = windowHeight * 0.45; // 45% do topo da janela
+        const threshold = windowHeight * 0.45;
 
         if (isHomePage) {
             const promocoes = document.getElementById('promocoes') || document.querySelector('.promocao');
@@ -52,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setActive('inicio');
             }
         } else {
-            // Página Cardápio: toda a página conta como Cardápio, exceto o rodapé
+
             const footer = document.getElementById('contato') || document.querySelector('footer');
             const footerTop = footer ? footer.getBoundingClientRect().top : Infinity;
 

@@ -10,7 +10,7 @@ function processCardsQueue() {
     cardsQueue = [];
 
     const isMobile = window.innerWidth <= 768;
-    // Ponto de disparo do ScrollTrigger ao rolar a página
+
     const startVal = isMobile ? "top 92%" : "top 100%";
     const endVal = "bottom top";
 
@@ -40,20 +40,17 @@ function processCardsQueue() {
             });
         };
 
-        // Estado inicial antes da animação
         gsap.set(card, { scale: 0.4, opacity: 0 });
 
-        // Verifica se o card já está visível ou próximo da tela (ex: ao carregar ou ao trocar de categoria)
         const rect = card.getBoundingClientRect();
         const isInViewport = rect.top < window.innerHeight * 1.05 && rect.bottom > 0;
 
         if (isInViewport) {
-            // Anima imediatamente com stagger agradável em cascata
+
             const staggerDelay = (idx % 3) * 0.08;
             animateCardIn(staggerDelay);
         }
 
-        // Configura ScrollTrigger para manter animação nas rolagens
         ScrollTrigger.create({
             trigger: card,
             start: startVal,
@@ -73,7 +70,6 @@ function processCardsQueue() {
         });
     });
 
-    // Atualiza posições do ScrollTrigger
     setTimeout(() => {
         if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
@@ -81,7 +77,6 @@ function processCardsQueue() {
     }, 60);
 }
 
-// Função global chamada em cardápio.js para cada card criado
 window.observeCard = function(card) {
     if (!card || card.closest('.models')) return;
     cardsQueue.push(card);
@@ -89,7 +84,6 @@ window.observeCard = function(card) {
     animTimer = setTimeout(processCardsQueue, 30);
 };
 
-// Observar apenas cards reais no DOM (ignora modelos dentro de .models)
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.cards-grid .card').forEach(card => {
         window.observeCard(card);

@@ -1,9 +1,5 @@
-// ==========================================================================
-// CARDÁPIO DE PRODUTOS - LA BELLA PIZZA
-// ==========================================================================
-
 let pizzaJson = [
-    // --- PIZZAS TRADICIONAIS (1 a 24 + Brasileira) ---
+
     {
         id: 1,
         category: 'Pizzas Tradicionais',
@@ -230,7 +226,6 @@ let pizzaJson = [
         description: 'O melhor do sabor nacional: muçarela especial derretida, palmito macio, ovos cozidos fatiados, milho fresco, ervilhas selecionadas e orégano.'
     },
 
-    // --- PIZZAS ESPECIAIS (25 a 51) ---
     {
         id: 25,
         category: 'Pizzas Especiais',
@@ -475,7 +470,6 @@ let pizzaJson = [
         description: 'Explosão gastronômica gourmet: cogumelos shitake refogados no azeite, queijo gorgonzola encorpado, alho-poró e azeitonas pretas.'
     },
 
-    // --- PIZZAS DOCES (52 a 59 - 30cm e 35cm) ---
     {
         id: 52,
         category: 'Pizzas Doces',
@@ -549,7 +543,6 @@ let pizzaJson = [
         description: 'O par perfeito da doçura: goiabada cremosa cascão combinada com autêntico requeijão cremoso suave.'
     },
 
-    // --- PIZZAS GOURMET (60 a 66 - Pomodori Pelati, Muçarela de Búfala, 35cm) ---
     {
         id: 60,
         category: 'Pizzas Gourmet',
@@ -614,7 +607,6 @@ let pizzaJson = [
         description: 'Criação autoral refinada: peito de peru defumado, alho-poró, tomates cereja doces, azeitonas pretas, manjericão fresco e orégano sobre pomodori pelati e muçarela de búfala.'
     },
 
-    // --- COMBOS FIXOS ---
     {
         id: 67,
         category: 'Combos',
@@ -636,7 +628,6 @@ let pizzaJson = [
         description: '2 Pizzas Grandes Tradicionais (35cm) + 1 Refrigerante 2L'
     },
 
-    // --- BEBIDAS ---
     {
         id: 69,
         category: 'Bebidas',
@@ -675,9 +666,6 @@ let pizzaJson = [
     }
 ];
 
-// ==========================================================================
-// ESTRUTURA DE DADOS DOS COMBOS DINÂMICOS (Regras, Sabores e Promoções)
-// ==========================================================================
 let combosJson = [
     {
         id: 101,
@@ -715,13 +703,13 @@ let combosJson = [
             ]
         }
     },
-    // Promoção de Terça-feira: La Bella em Dobro (ativa às terças - diaDaSemana === 2)
+
     {
         id: 201,
         code: 'promo_terca_2_medias',
         name: 'La Bella em Dobro - 2 Médias (30cm)',
         category: 'PromocaoTerca',
-        dayOfWeek: 2, // Terça-feira
+        dayOfWeek: 2,
         img: 'assets/img/pizzas/pizza-calabresa.webp',
         price: 109.90,
         description: '2 Pizzas de 30cm (Médias) Tradicionais por R$ 109,90',
@@ -738,7 +726,7 @@ let combosJson = [
         code: 'promo_terca_2_grandes',
         name: 'La Bella em Dobro - 2 Grandes (35cm)',
         category: 'PromocaoTerca',
-        dayOfWeek: 2, // Terça-feira
+        dayOfWeek: 2,
         img: 'assets/img/pizzas/pizza-brasileira.webp',
         price: 129.90,
         description: '2 Pizzas de 35cm (Grandes) Tradicionais por R$ 129,90',
@@ -755,7 +743,7 @@ let combosJson = [
         code: 'promo_terca_2_super',
         name: 'La Bella em Dobro - 2 Super (40cm)',
         category: 'PromocaoTerca',
-        dayOfWeek: 2, // Terça-feira
+        dayOfWeek: 2,
         img: 'assets/img/pizzas/pizza-frango-catupiry.webp',
         price: 159.90,
         description: '2 Pizzas de 40cm (Super) Tradicionais por R$ 159,90',

@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Promo Slider
+
     const promoSlides = document.querySelector('.promo-slides');
     const promoImages = document.querySelectorAll('.promo-slide');
     const prevBtn = document.querySelector('.promo-btn.prev');
     const nextBtn = document.querySelector('.promo-btn.next');
-    
+
     if(promoSlides && promoImages.length > 0) {
         let currentPromoIndex = 0;
         let promoInterval;
@@ -44,13 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         startPromoAutoPlay();
 
-        // Interceptação de clique para navegação da promoção (Terça e Quarta)
         promoImages.forEach(slide => {
             slide.addEventListener('click', (e) => {
                 const promoTipo = slide.getAttribute('data-promo');
                 if (!promoTipo) return;
 
-                // Se estiver dentro de cardápio.html
                 if (window.location.pathname.includes('card') || typeof carregarPizzas === 'function') {
                     e.preventDefault();
                     const status = typeof getPromocaoStatus === 'function' ? getPromocaoStatus() : {
@@ -87,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Se estiver no index.html
                 const hoje = new Date();
                 const diaSemana = hoje.getDay();
                 const ehTerca = (diaSemana === 2);

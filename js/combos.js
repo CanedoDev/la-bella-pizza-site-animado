@@ -1,11 +1,3 @@
-/* ==========================================================================
-   COMBOS.JS - LA BELLA PIZZA
-   Módulo de Combos Dinâmicos, Detecção Automática e Promoções do Dia
-   ========================================================================== */
-
-// Variável de controle para testes rápidos de dias da semana
-// 0 = Domingo, 1 = Segunda, 2 = Terça (La Bella em Dobro), 3 = Quarta (Promo Quarta), etc.
-// Defina como null para usar o dia real do sistema.
 window.TESTE_DIA_SEMANA = null;
 
 const getDiaAtual = () => {
@@ -15,9 +7,6 @@ const getDiaAtual = () => {
     return new Date().getDay();
 };
 
-/**
- * Retorna os combos ativos para o dia atual (Combos fixos + Promoções do dia)
- */
 const obterCombosAtivos = () => {
     const dia = getDiaAtual();
     const ehFeriado = (typeof window.isFeriadoOuVespera === 'function') ? window.isFeriadoOuVespera() : false;
@@ -30,9 +19,6 @@ const obterCombosAtivos = () => {
     });
 };
 
-/**
- * Retorna as pizzas de pizzaJson compatíveis com a regra do slot
- */
 const obterPizzasParaRegra = (regraPizza) => {
     return pizzaJson.filter(item => {
         const categoriaValida = regraPizza.category.includes(item.category);
@@ -41,25 +27,16 @@ const obterPizzasParaRegra = (regraPizza) => {
     });
 };
 
-/**
- * Retorna as bebidas de pizzaJson compatíveis com o tamanho exigido
- */
 const obterBebidasParaRegra = (regraBebida) => {
     return pizzaJson.filter(item => {
         return item.category === 'Bebidas' && item.sizes && (item.sizes.includes(regraBebida.size) || item.sizes.length > 0);
     });
 };
 
-/**
- * Formata moeda BRL
- */
 const formatarBRL = (valor) => {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 };
 
-// ==========================================================================
-// SEARCHABLE DROPDOWNS PARA OS COMBOS
-// ==========================================================================
 const inicializarSearchableSelects = (container) => {
     const customSelects = container.querySelectorAll('.combo-searchable-select');
 
@@ -72,12 +49,10 @@ const inicializarSearchableSelects = (container) => {
         const nativeSelect = customSelect.querySelector('select');
         const selectedText = customSelect.querySelector('.combo-selected-text');
 
-        // Abre / Fecha dropdown
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
             const estaAberto = customSelect.classList.contains('is-open');
 
-            // Fecha outros dropdowns abertos
             document.querySelectorAll('.combo-searchable-select.is-open').forEach(s => {
                 if (s !== customSelect) {
                     s.classList.remove('is-open');
@@ -101,7 +76,6 @@ const inicializarSearchableSelects = (container) => {
             }
         });
 
-        // Filtragem ao digitar no campo de busca
         searchInput.addEventListener('input', (e) => {
             e.stopPropagation();
             const termo = searchInput.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
@@ -123,10 +97,8 @@ const inicializarSearchableSelects = (container) => {
             }
         });
 
-        // Previne fechamento ao clicar dentro do input de busca
         searchInput.addEventListener('click', (e) => e.stopPropagation());
 
-        // Clique em opção
         optionsList.querySelectorAll('.combo-option-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -134,16 +106,13 @@ const inicializarSearchableSelects = (container) => {
                 const nome = item.querySelector('.option-name').innerText;
                 const preco = item.querySelector('.option-price').innerText;
 
-                // Atualiza select nativo
                 nativeSelect.value = valor;
                 nativeSelect.dispatchEvent(new Event('change'));
 
-                // Atualiza texto visível
                 selectedText.innerText = `${nome} (${preco})`;
                 optionsList.querySelectorAll('.combo-option-item').forEach(opt => opt.classList.remove('selected'));
                 item.classList.add('selected');
 
-                // Fecha menu
                 customSelect.classList.remove('is-open');
                 menu.style.display = 'none';
             });
@@ -151,7 +120,6 @@ const inicializarSearchableSelects = (container) => {
     });
 };
 
-// Fecha dropdowns ao clicar fora
 if (!window.comboDropdownListenerAdded) {
     document.addEventListener('click', () => {
         document.querySelectorAll('.combo-searchable-select.is-open').forEach(s => {
@@ -163,9 +131,6 @@ if (!window.comboDropdownListenerAdded) {
     window.comboDropdownListenerAdded = true;
 }
 
-// ==========================================================================
-// MODAL DE SELEÇÃO E CUSTOMIZAÇÃO DE COMBO (Design Oficial La Bella Pizza)
-// ==========================================================================
 let comboAtualModal = null;
 
 const abrirModalCombo = (combo) => {
@@ -175,14 +140,12 @@ const abrirModalCombo = (combo) => {
 
     if (!modalArea || !modalBody) return;
 
-    // 1. Imagem do Combo à esquerda
     const comboImg = modalBody.querySelector('.comboBig img');
     if (comboImg) {
         comboImg.src = combo.img || 'assets/img/banner-promocao-combo-pizza.webp';
         comboImg.alt = combo.name;
     }
 
-    // 2. Preenche cabeçalho do combo à direita
     const titleEl = modalBody.querySelector('.comboInfo h1');
     const descEl = modalBody.querySelector('.comboInfo--desc');
     const tagEl = modalBody.querySelector('.comboTag');
@@ -193,11 +156,9 @@ const abrirModalCombo = (combo) => {
         tagEl.innerText = combo.category === 'PromocaoTerca' ? 'PROMOÇÃO DE TERÇA' : 'OFERTA ESPECIAL';
     }
 
-    // 3. Renderiza os seletores dinâmicos de pizza e bebida
     const selectionsContainer = modalBody.querySelector('.comboSelections');
     selectionsContainer.innerHTML = '';
 
-    // Slots de Pizzas
     if (combo.rules.pizzas && combo.rules.pizzas.length > 0) {
         combo.rules.pizzas.forEach((regraPizza, index) => {
             const pizzasDisponiveis = obterPizzasParaRegra(regraPizza);
@@ -251,7 +212,6 @@ const abrirModalCombo = (combo) => {
         });
     }
 
-    // Slots de Bebidas
     if (combo.rules.drinks && combo.rules.drinks.length > 0) {
         combo.rules.drinks.forEach((regraBebida, index) => {
             const bebidasDisponiveis = obterBebidasParaRegra(regraBebida);
@@ -306,18 +266,14 @@ const abrirModalCombo = (combo) => {
         });
     }
 
-    // Inicializa lógica interativa dos Searchable Selects
     inicializarSearchableSelects(selectionsContainer);
 
-    // Atualiza resumo financeiro
     atualizarResumoPrecoCombo();
 
-    // Eventos de mudança nos selects
     selectionsContainer.querySelectorAll('select').forEach(select => {
         select.addEventListener('change', atualizarResumoPrecoCombo);
     });
 
-    // Exibe modal com animação suave GSAP
     modalArea.style.display = 'flex';
     gsap.to(modalArea, { opacity: 1, duration: 0.3 });
     gsap.fromTo(modalBody,
@@ -351,9 +307,6 @@ const fecharModalCombo = (syncHistory = true) => {
     }
 };
 
-/**
- * Calcula a soma dos itens avulsos selecionados no modal de combo
- */
 const calcularPrecoOriginalModal = () => {
     let precoOriginal = 0;
     const selects = document.querySelectorAll('.comboSelections select');
@@ -366,9 +319,6 @@ const calcularPrecoOriginalModal = () => {
     return precoOriginal;
 };
 
-/**
- * Atualiza os valores 'De / Por / Economia' no modal
- */
 const atualizarResumoPrecoCombo = () => {
     if (!comboAtualModal) return;
 
@@ -387,16 +337,12 @@ const atualizarResumoPrecoCombo = () => {
     }
 };
 
-/**
- * Adiciona o combo selecionado no modal ao carrinho
- */
 const confirmarAdicaoCombo = () => {
     if (!comboAtualModal) return;
 
     const pizzasSelecionadas = [];
     const bebidasSelecionadas = [];
 
-    // Coleta pizzas
     document.querySelectorAll('.combo-select-pizza').forEach(select => {
         const pizzaId = parseInt(select.value);
         const pizzaObj = pizzaJson.find(p => p.id === pizzaId);
@@ -414,7 +360,6 @@ const confirmarAdicaoCombo = () => {
         });
     });
 
-    // Coleta bebidas
     document.querySelectorAll('.combo-select-drink').forEach(select => {
         const drinkId = parseInt(select.value);
         const drinkObj = pizzaJson.find(d => d.id === drinkId);
@@ -455,8 +400,7 @@ const confirmarAdicaoCombo = () => {
     cart.push(comboCartItem);
 
     fecharModalCombo(false);
-    
-    // Abre explicitamente o carrinho na lateral
+
     if (typeof mostrarCarrinho === 'function') {
         mostrarCarrinho();
     } else {
@@ -466,14 +410,9 @@ const confirmarAdicaoCombo = () => {
     if (typeof atualizarCarrinho === 'function') atualizarCarrinho();
 };
 
-/**
- * Gera dinamicamente o resumo de sabores do combo
- * Ex: "2x Grandes (Muçarela e Calabresa) + 1x Pepsi 2L"
- */
 const gerarNomeDinamicoCombo = (combo, pizzas, drinks) => {
     let partes = [];
 
-    // Agrupa pizzas
     if (pizzas && pizzas.length > 0) {
         const qtdPizzas = pizzas.length;
         const nomesSabores = pizzas.map(p => p.name).join(' e ');
@@ -481,7 +420,6 @@ const gerarNomeDinamicoCombo = (combo, pizzas, drinks) => {
         partes.push(`${qtdPizzas}x ${tamanhoNome} (${nomesSabores})`);
     }
 
-    // Agrupa bebidas
     if (drinks && drinks.length > 0) {
         drinks.forEach(d => {
             partes.push(`1x ${d.name} ${d.size}`);
@@ -491,23 +429,14 @@ const gerarNomeDinamicoCombo = (combo, pizzas, drinks) => {
     return partes.join(' + ');
 };
 
-// ==========================================================================
-// DETECÇÃO AUTOMÁTICA DE COMBOS NO CARRINHO
-// ==========================================================================
-/**
- * Analisa os itens avulsos no carrinho e agrupa automaticamente em combo
- * caso satisfaçam os requisitos e gerem economia para o cliente.
- */
 const detectarEAplicarCombos = (carrinhoAtual) => {
     let alterouCarrinho = false;
     const combosDisponiveis = obterCombosAtivos();
 
-    // Loop para tentar aplicar combos enquanto houver correspondência
     let continuarVerificando = true;
     while (continuarVerificando) {
         continuarVerificando = false;
 
-        // Separa itens avulsos por unidade (desmembrando qt > 1 em instâncias individuais)
         let itensAvulsos = [];
         carrinhoAtual.forEach((cartItem, cartIndex) => {
             if (!cartItem.isCombo && cartItem.qt > 0) {
@@ -529,25 +458,22 @@ const detectarEAplicarCombos = (carrinhoAtual) => {
             }
         });
 
-        // Testa cada combo ativo
         for (let combo of combosDisponiveis) {
             const match = tentarCombinarItensParaCombo(combo, itensAvulsos);
             if (match) {
                 const precoOriginalSoma = match.itensCasados.reduce((sum, it) => sum + it.price, 0);
                 if (precoOriginalSoma >= combo.price) {
-                    // Consome os itens avulsos do carrinho
+
                     match.itensCasados.forEach(itemCasado => {
                         itemCasado.itemRef.qt--;
                     });
 
-                    // Remove itens do carrinho cuja quantidade zerou
                     for (let i = carrinhoAtual.length - 1; i >= 0; i--) {
                         if (!carrinhoAtual[i].isCombo && carrinhoAtual[i].qt <= 0) {
                             carrinhoAtual.splice(i, 1);
                         }
                     }
 
-                    // Monta o novo item único de combo no carrinho
                     const dynamicName = gerarNomeDinamicoCombo(combo, match.pizzasCasadas, match.bebidasCasadas);
                     const comboCartItem = {
                         identificador: `combo_${combo.id}_${Date.now()}`,
@@ -567,7 +493,7 @@ const detectarEAplicarCombos = (carrinhoAtual) => {
 
                     carrinhoAtual.push(comboCartItem);
                     alterouCarrinho = true;
-                    continuarVerificando = true; // Tenta casar novos combos restantes
+                    continuarVerificando = true;
                     break;
                 }
             }
@@ -577,27 +503,20 @@ const detectarEAplicarCombos = (carrinhoAtual) => {
     return alterouCarrinho;
 };
 
-/**
- * Tenta encontrar no array de itens avulsos os produtos que satisfazem as regras do combo
- * Suporta correspondência flexível de tamanhos de pizzas e bebidas (por chave de tamanho e índice).
- */
 const tentarCombinarItensParaCombo = (combo, itensAvulsos) => {
     let indicesUsados = new Set();
     let pizzasCasadas = [];
     let bebidasCasadas = [];
     let itensCasados = [];
 
-    // 1. Tenta casar as pizzas
     for (let regraPizza of combo.rules.pizzas) {
         let pizzaEncontrada = null;
         for (let i = 0; i < itensAvulsos.length; i++) {
             if (indicesUsados.has(i)) continue;
             const item = itensAvulsos[i];
             const categoriaMatch = regraPizza.category.includes(item.category);
-            
-            // Compatibilidade inteligente de tamanho de pizza:
-            // 'M' (Média 30cm, index 0), 'G' (Grande 35cm, index 1), 'S' (Super 40cm, index 2), 'MX' (Max 45cm, index 3)
-            const sizeMatch = (item.size === regraPizza.size) || 
+
+            const sizeMatch = (item.size === regraPizza.size) ||
                               (item.sizeIndex !== undefined && item.sizeIndex === regraPizza.sizeIndex);
 
             if (categoriaMatch && sizeMatch) {
@@ -617,7 +536,6 @@ const tentarCombinarItensParaCombo = (combo, itensAvulsos) => {
         if (!pizzaEncontrada) return null;
     }
 
-    // 2. Tenta casar as bebidas
     if (combo.rules.drinks && combo.rules.drinks.length > 0) {
         for (let regraBebida of combo.rules.drinks) {
             let bebidaEncontrada = null;
@@ -626,8 +544,6 @@ const tentarCombinarItensParaCombo = (combo, itensAvulsos) => {
                 const item = itensAvulsos[i];
                 const ehBebida = (item.category === 'Bebidas');
 
-                // Compatibilidade de refrigerante:
-                // '2L' ou index 1 ou 'G'/'M' (botão de tamanho correspondente)
                 const is2L = (regraBebida.size === '2L') && (item.size === '2L' || item.size === 'G' || item.size === 'M' || item.sizeIndex === 1 || item.size === 'Grande 35 cm');
                 const is600ml = (regraBebida.size === '600ml') && (item.size === '600ml' || item.size === 'M' || item.size === 'P' || item.sizeIndex === 0 || item.size === 'Média 30 cm');
                 const sizeMatch = is2L || is600ml || (item.size === regraBebida.size);
@@ -652,7 +568,6 @@ const tentarCombinarItensParaCombo = (combo, itensAvulsos) => {
     return { pizzasCasadas, bebidasCasadas, itensCasados };
 };
 
-// Exporta para o escopo global
 window.getDiaAtual = getDiaAtual;
 window.obterCombosAtivos = obterCombosAtivos;
 window.abrirModalCombo = abrirModalCombo;

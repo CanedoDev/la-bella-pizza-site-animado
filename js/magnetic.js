@@ -1,7 +1,3 @@
-/**
- * Efeito Magnético Suave para Imagens Institucionais (La Bella Pizza)
- * Puxa a posição suavemente na direção do cursor com limite sutil (sem scale).
- */
 document.addEventListener('DOMContentLoaded', () => {
     const magneticTargets = [
         { selector: '.conceito-img-left', baseRotation: -3 },
@@ -16,12 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const el = document.querySelector(selector);
         if (!el) return;
 
-        // Define a rotação base inicial mantendo padrão visual
         if (typeof gsap !== 'undefined') {
             gsap.set(el, { rotation: baseRotation, x: 0, y: 0, transformOrigin: "center center" });
         }
 
-        const MAX_OFFSET = 14; // Limite bem baixo e elegante
+        const MAX_OFFSET = 14;
 
         el.addEventListener('mousemove', (e) => {
             if (typeof gsap === 'undefined') return;

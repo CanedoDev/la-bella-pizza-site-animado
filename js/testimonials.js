@@ -1,4 +1,3 @@
-// SVGs das estrelas na ordem da bandeira italiana (sempre as 5, fixas)
 const STARS_HTML = `
     <img src="assets/img/estrela-avaliacao.svg" alt="Avaliação 5 estrelas" class="star-svg">
     <img src="assets/img/estrela-avaliacao.svg" alt="Avaliação 5 estrelas" class="star-svg">
@@ -7,7 +6,6 @@ const STARS_HTML = `
     <img src="assets/img/estrela-avaliacao.svg" alt="Avaliação 5 estrelas" class="star-svg">
 `;
 
-// Dados dos depoimentos reais do Google Maps
 const testimonials = [
     {
         text: "Confesso que estou arrependida... Arrependida de nunca ter ido antes nessa pizzaria! Que pizza maravilhosa, massa fina, recheio na medida e ambiente muito acolhedor. O atendimento do Sr. Edu foi fantástico, nos apresentou vários azeites que deixaram tudo ainda mais saboroso!",
@@ -80,18 +78,15 @@ function showTestimonial(index, direction = 1) {
 
     const newSlide = buildSlide(testimonials[index]);
 
-    // Posição inicial fora da tela
     gsap.set(newSlide, { x: direction * 80, opacity: 0 });
     track.appendChild(newSlide);
 
-    // Ajusta altura do container para nunca cortar as estrelas
     requestAnimationFrame(() => {
         updateTrackHeight(track, newSlide);
     });
 
     const oldSlide = track.querySelector('.testimonial-slide:first-child');
 
-    // Saída do slide antigo
     if (oldSlide && oldSlide !== newSlide) {
         gsap.to(oldSlide, {
             x: direction * -80,
@@ -102,7 +97,6 @@ function showTestimonial(index, direction = 1) {
         });
     }
 
-    // Entrada do novo slide
     gsap.to(newSlide, {
         x: 0,
         opacity: 1,
@@ -117,7 +111,6 @@ function initTestimonials() {
     const track = document.querySelector('.testimonial-track');
     if (!track) return;
 
-    // Renderiza o primeiro sem animação
     const firstSlide = buildSlide(testimonials[0]);
     track.appendChild(firstSlide);
     requestAnimationFrame(() => {

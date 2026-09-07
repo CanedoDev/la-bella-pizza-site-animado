@@ -1,11 +1,11 @@
 const seleciona = (elemento) => document.querySelector(elemento)
 const selecionaTodos = (elemento) => document.querySelectorAll(elemento)
 
-let modalKey = 0 //codigo de qual pizza ta mudando no modal 
+let modalKey = 0
 
-let quantPizzas = 1 //controlar a qntt inicial de pizzas no modal
+let quantPizzas = 1
 
-let cart = [] //carrinho
+let cart = []
 
 let pizzaPromoQuartaUm = [2, 6, 4, 5, 7, 8, 11, 14, 15, 20, 24]
 let pizzaPromoQuartaDois = [26, 39, 29, 32, 42]
@@ -24,12 +24,8 @@ const formatoMonetario = (valor) => {
     }
 }
 
-// ==========================================================================
-// DETECTOR DE FERIADOS E VÉSPERAS (BRASILAPI + MUNICIPAIS DE PETRÓPOLIS + FALLBACK MATEMÁTICO)
-// ==========================================================================
 const feriadosCache = {};
 
-// 1. Algoritmo Meeus/Jones/Butcher para cálculo perpétuo de Páscoa (Fallback offline ou anos futuros)
 function calcularPascoa(ano) {
     const a = ano % 19;
     const b = Math.floor(ano / 100);
@@ -48,34 +44,28 @@ function calcularPascoa(ano) {
     return new Date(ano, mes - 1, dia);
 }
 
-// 2. Feriados Municipais de Petrópolis - RJ (Fixos por lei municipal)
 function getFeriadosPetropolis() {
-    return ['16/03', '29/06']; // Aniversário de Petrópolis e Chegada dos Colonos Alemães
+    return ['16/03', '29/06'];
 }
 
-// 3. Fallback algorítmico perpétuo (garante funcionamento para qualquer ano mesmo offline)
 function getFeriadosFallbackAno(ano) {
     const feriados = [];
     const fmt = (d, m) => String(d).padStart(2, '0') + '/' + String(m).padStart(2, '0');
 
-    // Feriados Nacionais Fixos (Leis Federais)
-    feriados.push(fmt(1, 1));   // Confraternização Universal
-    feriados.push(fmt(21, 4));  // Tiradentes
-    feriados.push(fmt(1, 5));   // Dia do Trabalho
-    feriados.push(fmt(7, 9));   // Independência do Brasil
-    feriados.push(fmt(12, 10)); // Nossa Senhora Aparecida
-    feriados.push(fmt(2, 11));  // Finados
-    feriados.push(fmt(15, 11)); // Proclamação da República
-    feriados.push(fmt(20, 11)); // Dia da Consciência Negra (Lei 14.759/2023)
-    feriados.push(fmt(25, 12)); // Natal
+    feriados.push(fmt(1, 1));
+    feriados.push(fmt(21, 4));
+    feriados.push(fmt(1, 5));
+    feriados.push(fmt(7, 9));
+    feriados.push(fmt(12, 10));
+    feriados.push(fmt(2, 11));
+    feriados.push(fmt(15, 11));
+    feriados.push(fmt(20, 11));
+    feriados.push(fmt(25, 12));
 
-    // Feriados Municipais de Petrópolis
     feriados.push(...getFeriadosPetropolis());
 
-    // Feriados Móveis astronômicos calculados via Páscoa
     const pascoa = calcularPascoa(ano);
 
-    // Carnaval (Segunda e Terça-feira)
     const carnavalSeg = new Date(pascoa);
     carnavalSeg.setDate(pascoa.getDate() - 48);
     feriados.push(fmt(carnavalSeg.getDate(), carnavalSeg.getMonth() + 1));
@@ -84,15 +74,12 @@ function getFeriadosFallbackAno(ano) {
     carnavalTer.setDate(pascoa.getDate() - 47);
     feriados.push(fmt(carnavalTer.getDate(), carnavalTer.getMonth() + 1));
 
-    // Sexta-feira Santa / Paixão de Cristo (-2 dias da Páscoa)
     const sextaSanta = new Date(pascoa);
     sextaSanta.setDate(pascoa.getDate() - 2);
     feriados.push(fmt(sextaSanta.getDate(), sextaSanta.getMonth() + 1));
 
-    // Páscoa
     feriados.push(fmt(pascoa.getDate(), pascoa.getMonth() + 1));
 
-    // Corpus Christi (+60 dias da Páscoa)
     const corpusChristi = new Date(pascoa);
     corpusChristi.setDate(pascoa.getDate() + 60);
     feriados.push(fmt(corpusChristi.getDate(), corpusChristi.getMonth() + 1));
@@ -100,7 +87,6 @@ function getFeriadosFallbackAno(ano) {
     return Array.from(new Set(feriados));
 }
 
-// 4. Integração com a API Pública Oficial (BrasilAPI) com cache inteligente em localStorage
 async function sincronizarFeriadosBrasilAPI(ano) {
     if (!ano) ano = new Date().getFullYear();
     const cacheKey = `feriados_brasilapi_${ano}`;
@@ -127,7 +113,6 @@ async function sincronizarFeriadosBrasilAPI(ano) {
                 return parts[2] + '/' + parts[1];
             });
 
-            // Adiciona os feriados municipais de Petrópolis
             getFeriadosPetropolis().forEach(f => {
                 if (!feriadosFormatados.includes(f)) feriadosFormatados.push(f);
             });
@@ -161,7 +146,6 @@ function getFeriadosAno(ano) {
     return getFeriadosFallbackAno(ano);
 }
 
-// Inicia sincronização com a BrasilAPI em segundo plano
 (function initFeriados() {
     const anoAtual = new Date().getFullYear();
     sincronizarFeriadosBrasilAPI(anoAtual);
@@ -203,9 +187,6 @@ window.isFeriadoOuVespera = isFeriadoOuVespera;
 window.getPromocaoStatus = getPromocaoStatus;
 window.sincronizarFeriadosBrasilAPI = sincronizarFeriadosBrasilAPI;
 
-// ==========================================================================
-// GERENCIADOR DE HISTÓRICO PARA MODAIS (INTERCEPTAÇÃO DO BOTÃO VOLTAR)
-// ==========================================================================
 let modalStack = [];
 let ignorarProximoPopstate = false;
 
@@ -236,7 +217,6 @@ window.addEventListener('popstate', () => {
     const pizzaArea = document.querySelector('.pizzaWindowArea');
     const cartAside = document.querySelector('aside');
 
-    // 1. Checkout aberto: fecha checkout e retorna suavemente pro carrinho
     if (checkoutArea && checkoutArea.style.display === 'flex' && checkoutArea.style.opacity !== '0') {
         modalStack = modalStack.filter(m => m !== 'checkout');
         fecharCheckout(false);
@@ -246,21 +226,18 @@ window.addEventListener('popstate', () => {
         return;
     }
 
-    // 2. Modal de Combo aberto: fecha modal
     if (comboArea && comboArea.style.display === 'flex') {
         modalStack = modalStack.filter(m => m !== 'combo');
         if (typeof fecharModalCombo === 'function') fecharModalCombo(false);
         return;
     }
 
-    // 3. Modal de Pizza individual aberto: fecha modal
     if (pizzaArea && pizzaArea.style.display === 'flex') {
         modalStack = modalStack.filter(m => m !== 'pizza');
         fecharModal(false);
         return;
     }
 
-    // 4. Carrinho aberto: fecha carrinho
     if (cartAside && cartAside.classList.contains('show')) {
         modalStack = modalStack.filter(m => m !== 'cart');
         esconderCarrinho(false);
@@ -272,14 +249,10 @@ const abrirModal = () => {
     const area = seleciona('.pizzaWindowArea');
     const body = seleciona('.pizzaWindowBody');
 
-    // Coloca display flex para ele existir na tela (invisível no inicio)
     area.style.display = 'flex';
 
-    // Animação GSAP: Aparece o fundo escuro (fade in)
     gsap.to(area, { opacity: 1, duration: 0.3 });
 
-    // Animação GSAP: Surge o Modal com efeito elástico de "Gelatina/Mola"
-    // scale de 0.4 para 1 criando o movimento, com a ease "elastic.out(1, 0.5)"
     gsap.fromTo(body,
         { scale: 0.4, opacity: 0 },
         { scale: 1, opacity: 1, duration: 0.9, ease: "elastic.out(1, 0.4)" }
@@ -292,7 +265,6 @@ const fecharModal = (syncHistory = true) => {
     const area = seleciona('.pizzaWindowArea');
     const body = seleciona('.pizzaWindowBody');
 
-    // Anima a janela para dar uma "encolhida e apagada" rapidamente
     gsap.to(body, {
         scale: 0.8,
         opacity: 0,
@@ -300,9 +272,6 @@ const fecharModal = (syncHistory = true) => {
         ease: "power2.in"
     });
 
-    // Apaga o fundo escuro suavemente
-    // O onComplete é a magia aqui: ele espera a animação acabar para tirar o elemento (display: none)
-    // Se tirasse antes, a animação cortaria no meio!
     gsap.to(area, {
         opacity: 0,
         duration: 0.3,
@@ -321,7 +290,6 @@ const botoesFechar = () => {
         item.addEventListener('click', fecharModal)
     })
 
-    // Adicionando evento de clique no fundo escuro para fechar o modal de pizza
     const pizzaArea = seleciona('.pizzaWindowArea')
     if (pizzaArea) {
         pizzaArea.addEventListener('click', (e) => {
@@ -331,7 +299,6 @@ const botoesFechar = () => {
         })
     }
 
-    // Eventos do Modal de Combos
     selecionaTodos('.comboInfo--cancelButton, .combo--cancelButton, .comboInfo--cancelMobileButton').forEach((item) => {
         item.addEventListener('click', () => {
             if (typeof fecharModalCombo === 'function') fecharModalCombo()
@@ -356,7 +323,7 @@ const botoesFechar = () => {
 }
 
 const preencheDadosPizza = (pizzaItem, item, index) => {
-    pizzaItem.setAttribute('data-key', index) // ISSO AQUI FALTAVA!
+    pizzaItem.setAttribute('data-key', index)
     pizzaItem.querySelector(".card-pizza-img").src = item.img
     pizzaItem.querySelector(".card-title").innerHTML = item.name
     pizzaItem.querySelector(".card-price").innerHTML = `R$ ${item.price[0].toFixed(2).replace('.', ',')}`
@@ -392,8 +359,6 @@ const preencherDadosModal = (item) => {
 }
 
 const pegarKey = (e) => {
-    //.closest reotnr o elemento mais proximo que tem a class que passamos
-    //do .pizza-item. ele vai pegar o valor do atributo data-key
 
     let key = e.target.closest('.card').getAttribute('data-key')
 
@@ -454,7 +419,6 @@ const atualizaPreco = () => {
         }
     }
 
-    // Regra da casa: o desconto promocional é aplicado em apenas 1 pizza
     let total = Math.max(0, (precoOriginal * quantPizzas) - descontoPromo)
 
     seleciona('.pizzaInfo--actualPrice').innerHTML = formatoReal(total)
@@ -516,20 +480,19 @@ const abrirCarrinho = () => {
 };
 
 const fecharCarrinho = () => {
-    // 1. Fechar clicando no 'X'
+
     seleciona('.menu-closer').addEventListener('click', () => {
         esconderCarrinho();
     });
 
-    // 2. A MÁGICA: Fechar clicando fora do Carrinho
     document.addEventListener('click', (e) => {
         const carrinhoAberto = seleciona('aside').classList.contains('show');
 
         if (carrinhoAberto) {
             if (!document.body.contains(e.target)) return;
-            // Verifica se o lugar que clicamos NÃO está dentro do Carrinho
+
             const clicouForaDoCarrinho = !e.target.closest('aside');
-            // Proteção para não fechar o carrinho exatamente na hora que apertamos um botão de abrir ele
+
             const clicouNoBotaoAbrirCarrinho = e.target.closest('.menu-openner');
             const clicouNoAdicionar = e.target.closest('.pizzaInfo--addButton');
 
@@ -539,7 +502,6 @@ const fecharCarrinho = () => {
         }
     });
 
-    // 3. Fechar pelo botão de pedir mais pizzas
     const pedirMaisBtn = seleciona('.cart--pedirmais');
     if (pedirMaisBtn) {
         pedirMaisBtn.addEventListener('click', () => {
@@ -576,17 +538,14 @@ const configurarPopupAvisoPromo = () => {
 const adicionarNoCarrinho = () => {
     seleciona('.pizzaInfo--addButton').addEventListener('click', () => {
 
-        // O 'size' é a letra ('M', 'G', 'S', 'MX') pra salvar no carrinho e ficar bonito na tela depois
         let size = seleciona('.pizzaInfo--size.selected').getAttribute('data-key')
 
-        // O 'sizeIndex' é o NÚMERO (0, 1, 2, 3) obrigatório para conseguir puxar o preço do array [M, G, S, MX]!
         let sizeIndex = [...selecionaTodos('.pizzaInfo--size')].findIndex(size => size.classList.contains('selected'))
 
         let price = pizzaJson[modalKey].price[sizeIndex]
 
         let identificador = pizzaJson[modalKey].id + 't' + size
 
-        // Verifica se é pizza promocional de quarta-feira
         const { quartaFeira } = getPromocaoStatus()
         const ehPromoAtual = quartaFeira && (size === 'G' || sizeIndex === 1) &&
             (pizzaPromoQuartaUm.includes(pizzaJson[modalKey].id) || pizzaPromoQuartaDois.includes(pizzaJson[modalKey].id))
@@ -605,7 +564,6 @@ const adicionarNoCarrinho = () => {
 
         let enderecoDaPizza = cart.findIndex((item) => !item.isCombo && item.identificador == identificador)
 
-        // Maior que -1 conserta o bug fatal (Porque -1 no Javascript é tido como Verdadeiro e o IF quebrava!)
         if (enderecoDaPizza > -1) {
             cart[enderecoDaPizza].qt += quantPizzas
         } else {
@@ -620,7 +578,6 @@ const adicionarNoCarrinho = () => {
             cart.push(pizzaNoCarrinho)
         }
 
-        // Executa detecção inteligente de combos se itens avulsos formarem combo
         if (typeof detectarEAplicarCombos === 'function') {
             detectarEAplicarCombos(cart)
         }
@@ -641,21 +598,20 @@ const atualizarCarrinho = () => {
     let descontoPromoAplicado = false
     let totalPizzasPromoNoCarrinho = 0
 
-    // Roda a detecção automática de combos para agrupar itens elegíveis
     if (typeof detectarEAplicarCombos === 'function') {
         detectarEAplicarCombos(cart)
     }
 
     if (cart.length > 0) {
         seleciona('aside').classList.add('show')
-        // Limpa para remontar a visualização
+
         seleciona('.cart').innerHTML = ''
 
         cart.forEach((itemDoCarrinho) => {
             let cartItem = seleciona('.models .cart--item').cloneNode(true)
 
             if (itemDoCarrinho.isCombo) {
-                // Item é um Combo Dinâmico
+
                 cartItem.classList.add('is-combo')
                 cartItem.querySelector('.cart--item img').src = itemDoCarrinho.img || 'assets/img/banner-promocao-combo-pizza.webp'
 
@@ -678,7 +634,7 @@ const atualizarCarrinho = () => {
                 subtotal += precoOriginalItem
                 desconto += economiaItem
             } else {
-                // Item Avulso Normal (Pizza ou Bebida)
+
                 let pizzaItem = pizzaJson.find((item) => item.id == itemDoCarrinho.id)
                 let pizzaName = pizzaItem ? `${pizzaItem.name} (${itemDoCarrinho.size})` : `Item (${itemDoCarrinho.size})`
 
@@ -740,7 +696,6 @@ const atualizarCarrinho = () => {
             seleciona('.cart').append(cartItem)
         })
 
-        // Alerta de promoção no carrinho caso haja mais de 1 pizza promocional adicionada
         const promoAlertEl = seleciona('.cart--promo-alert')
         if (promoAlertEl) {
             promoAlertEl.style.display = totalPizzasPromoNoCarrinho > 1 ? 'block' : 'none'
@@ -836,23 +791,21 @@ const capturarDadosDoPedido = () => {
             pedido.subtotal += pizzaTotal
         }
     })
-    
+
     pedido.total = Math.max(0, pedido.subtotal - pedido.desconto)
     return pedido
 }
 
 const abrirCheckout = () => {
-    // 1. Oculta o carrinho lateral sem desincronizar histórico
+
     esconderCarrinho(false);
 
-    // 2 e 3. Prepara pro fade-in invisível
     seleciona('.checkoutWindowArea').style.opacity = 0;
     seleciona('.checkoutWindowArea').style.display = 'flex';
 
-    // 4. Animação mágica de pulo dps de 200ms
     setTimeout(() => {
         seleciona('.checkoutWindowArea').style.opacity = 1;
-        // Assim que a tela aparecer inteira, joga o cursor de digitação direto pro campo do Nome!
+
         seleciona('#checkout-nome').focus();
     }, 200);
 
@@ -860,10 +813,9 @@ const abrirCheckout = () => {
 };
 
 const fecharCheckout = (syncHistory = true) => {
-    // 1. O Form desliza pra ficar invisível primeiro
+
     seleciona('.checkoutWindowArea').style.opacity = 0;
 
-    // 2. A gente dá 500ms de tempo pro Fade-out acontecer e tira a janela do site
     setTimeout(() => {
         seleciona('.checkoutWindowArea').style.display = 'none';
     }, 500);
@@ -874,17 +826,17 @@ const fecharCheckout = (syncHistory = true) => {
 };
 
 const configurarCheckout = () => {
-    // === MÁGICA DO ENTER PARA PULAR DE LINHA ===
+
     let inputsFormulario = document.querySelectorAll('.checkout-form input, .checkout-form select')
     inputsFormulario.forEach((input, index) => {
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
-                e.preventDefault() // Evita que o Enter recarregue a página sem querer
-                // Se não for o último campo, pula pro próximo
+                e.preventDefault()
+
                 if (index < inputsFormulario.length - 1) {
                     inputsFormulario[index + 1].focus()
                 } else {
-                    // Se for o último (Pagamento), já clica no botão Verde!
+
                     seleciona('.checkoutInfo--confirmButton').click()
                 }
             }
@@ -905,7 +857,6 @@ const configurarCheckout = () => {
         }, 300);
     });
 
-    // 1. O VIGIA DO CEP (Fora do botão confirmar!)
     let campoCep = seleciona('#checkout-cep')
 
     campoCep.addEventListener('input', () => {
@@ -929,18 +880,16 @@ const configurarCheckout = () => {
                         alert('CEP não encontrado!')
                         return
                     } else {
-                        // Sem forEach! Injetando os dados diretos da API pro HTML:
+
                         seleciona('#checkout-endereco').value = data.logradouro
                         seleciona('#checkout-bairro').value = data.bairro
 
-                        // Foco automático no campo do Número
                         seleciona('#checkout-numero').focus()
                     }
                 })
         }
     })
 
-    // 2. O VIGIA DO BOTÃO CONFIRMAR
     seleciona('.checkoutInfo--confirmButton').addEventListener('click', () => {
 
         let nomePessoa = seleciona('#checkout-nome').value
@@ -949,7 +898,7 @@ const configurarCheckout = () => {
         let numeroCasaPessoa = seleciona('#checkout-numero').value
         let bairroPessoa = seleciona('#checkout-bairro').value
         let complementoPessoa = seleciona('#checkout-complemento').value
-        let formaPagamento = seleciona('#checkout-pagamento').value // Corrigido para "#" ao invés de "."
+        let formaPagamento = seleciona('#checkout-pagamento').value
 
         if (!nomePessoa || !telefonePessoa || !enderecoPessoa || !numeroCasaPessoa || !bairroPessoa) {
             alert('Atenção: Parece que você esqueceu de preencher algum campo obrigatório!')
@@ -1045,7 +994,6 @@ const pesquisar = () => {
     const searchCloser = seleciona('.search-closer')
     const navActions = seleciona('.nav-actions')
 
-    // Abrir Pesquisa
     searchOpenner.addEventListener('click', () => {
         searchBar.style.display = 'flex'
         navActions.classList.add('search-active')
@@ -1055,19 +1003,17 @@ const pesquisar = () => {
         }, 10)
     })
 
-    // Filtrar em Tempo Real
     searchInput.addEventListener('input', (e) => {
         termoAtual = e.target.value
         carregarPizzas(termoAtual)
     })
 
-    // Fechar Pesquisa
     searchCloser.addEventListener('click', () => {
         searchBar.classList.remove('show')
         navActions.classList.remove('search-active')
         searchInput.value = ''
         termoAtual = ''
-        carregarPizzas() // Volta tudo ao normal
+        carregarPizzas()
         setTimeout(() => {
             searchBar.style.display = 'none'
         }, 400)
@@ -1081,28 +1027,23 @@ const filtro = () => {
         botao.addEventListener('click', () => {
             const isCurrentlyActive = botao.classList.contains('active');
 
-            // 1. Remove a classe active de todos os botões
             botoes.forEach(b => b.classList.remove('active'));
 
             if (isCurrentlyActive) {
-                // 2a. Se o botão clicado já estava ativo, voltamos para "Todos"
+
                 categoriaAtual = 'all';
                 const btnTodos = [...botoes].find(b => b.getAttribute('data-filter') === 'all');
-                //poderia ser seleciona('.pizzas-todas'), mas ai se eu mudo a classe isso da merda,
-                //o atual lida diretamente com a logica de dado
 
                 if (btnTodos) btnTodos.classList.add('active');
 
             } else {
-                // 2b. Se não estava ativo, ativa o botão atual e define a categoria
+
                 botao.classList.add('active');
                 categoriaAtual = botao.getAttribute('data-filter');
             }
 
-            // 3. Recarrega a vitrine
             carregarPizzas();
 
-            // 4. Rola suavemente até o topo absoluto da página (início de tudo)
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -1114,7 +1055,6 @@ const filtro = () => {
 const carregarPizzas = () => {
     let grid = seleciona('.cards-grid');
 
-    // Mata ScrollTriggers anteriores que estavam dentro do grid para evitar triggers órfãos
     if (typeof ScrollTrigger !== 'undefined') {
         ScrollTrigger.getAll().forEach(st => {
             if (st.trigger && grid.contains(st.trigger)) {
@@ -1136,16 +1076,11 @@ const carregarPizzas = () => {
         }
     }
 
-    // Listas separadas
     let pizzasPromo = [];
     let pizzasNormais = [];
 
-    // O bloco destacado "Ofertas do Dia" só é separado na visão geral ("Todos" e sem busca ativa).
-    // Se o usuário clicar em uma categoria específica (ex: Tradicionais), o destaque na frente some
-    // e todas as pizzas daquela categoria são agrupadas normalmente!
     const destacarOfertasDoDia = quartaFeira && categoriaAtual === 'all' && termoAtual === '';
 
-    // Mapeamos para não perder o index original (que é vital para o modal abrir a pizza certa)
     pizzaJson.forEach((item, originalIndex) => {
         let ehPromo = destacarOfertasDoDia && (pizzaPromoQuartaUm.includes(item.id) || pizzaPromoQuartaDois.includes(item.id));
         if (ehPromo) {
@@ -1157,14 +1092,12 @@ const carregarPizzas = () => {
 
     let ultimaCategoria = '';
 
-    // Função interna só para montar o card na tela, evitando repetir código
     const desenharCard = ({ item, index }, ehPromoSection) => {
         const categoriaSlug = item.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 
         let nomeBate = item.name.toLowerCase().includes(termoAtual.toLowerCase());
         let categoriaBate = categoriaAtual === 'all' || categoriaAtual === categoriaSlug;
 
-        // Filtro da barra de pesquisa e botoes de categoria
         if (!nomeBate || !categoriaBate) {
             return;
         }
@@ -1173,7 +1106,6 @@ const carregarPizzas = () => {
         pizzaItem.removeAttribute('data-st-active');
         pizzaItem.classList.add(categoriaSlug);
 
-        // Se NÃO for a seção de promoção, renderizamos os títulos de categoria padrão
         if (!ehPromoSection) {
             if (item.category && item.category !== ultimaCategoria) {
                 ultimaCategoria = item.category;
@@ -1187,7 +1119,6 @@ const carregarPizzas = () => {
             }
         }
 
-        // Ciclagem de cores (usa o index original para manter a consistência de cor da pizza)
         const cores = ['card-red', 'card-white', 'card-green'];
         const cor = cores[index % 3];
         pizzaItem.classList.add(cor);
@@ -1210,15 +1141,12 @@ const carregarPizzas = () => {
                 precoBase -= 11;
             }
 
-            // Atualiza apenas visualmente o valor exibido na vitrine de ofertas
             pizzaItem.querySelector(".card-price").innerHTML = `R$ ${precoBase.toFixed(2).replace('.', ',')}`;
         }
 
-        // Ação do clique para abrir o Modal
         pizzaItem.querySelector('.card-btn').addEventListener('click', (e) => {
             e.preventDefault();
 
-            // Se for um item da categoria Combos, abre o Modal Dinâmico de Combos
             if (item.category === 'Combos' || item.comboId) {
                 const comboObj = (typeof combosJson !== 'undefined')
                     ? combosJson.find(c => c.id === item.comboId || c.id === item.id) || item
@@ -1242,7 +1170,6 @@ const carregarPizzas = () => {
         botoesFechar();
     };
 
-    // 1. Renderiza Promoção de Terça-feira ("La Bella em Dobro")
     if (tercaFeira && typeof combosJson !== 'undefined') {
         const combosTerca = combosJson.filter(c => c.category === 'PromocaoTerca');
         if (combosTerca.length > 0 && (categoriaAtual === 'all' || categoriaAtual === 'combos')) {
@@ -1267,7 +1194,7 @@ const carregarPizzas = () => {
                 comboItem.querySelector(".card-pizza-img").src = combo.img;
                 comboItem.querySelector(".card-title").innerHTML = combo.name;
                 comboItem.querySelector(".card-price").innerHTML = `R$ ${combo.price.toFixed(2).replace('.', ',')}`;
-                
+
                 const btn = comboItem.querySelector('.card-btn');
                 btn.innerText = "Montar Promoção";
                 btn.addEventListener('click', (e) => {
@@ -1284,7 +1211,6 @@ const carregarPizzas = () => {
         }
     }
 
-    // 2. Renderiza "Ofertas do Dia" de Quarta-feira (se existir promoção)
     if (pizzasPromo.length > 0) {
         let temPromoPraMostrar = pizzasPromo.some(({ item }) => {
             const catSlug = item.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
@@ -1303,10 +1229,8 @@ const carregarPizzas = () => {
         }
     }
 
-    // 3. Renderiza as pizzas Normais e Combos regulares em seguida
     pizzasNormais.forEach(obj => desenharCard(obj, false));
 
-    // Atualiza as métricas do ScrollTrigger após recriar os elementos do grid
     if (typeof ScrollTrigger !== 'undefined') {
         ScrollTrigger.refresh();
     }
@@ -1319,7 +1243,6 @@ const promocoes = () => {
 const tratarParametrosURL = () => {
     const params = new URLSearchParams(window.location.search);
 
-    // Tratamento de filtro
     const filtroParams = params.get('filter');
     if (filtroParams) {
         let categoriaSlug = `pizzas-${filtroParams}`;
@@ -1329,12 +1252,11 @@ const tratarParametrosURL = () => {
             selecionaTodos('.category-button').forEach(b => b.classList.remove('active'));
             botaoCorrespondente.classList.add('active');
             categoriaAtual = categoriaSlug;
-            // Recarrega as pizzas com o filtro ativo
+
             carregarPizzas();
         }
     }
 
-    // Tratamento de parâmetro promo (?promo=terca ou ?promo=quarta)
     const promoParams = params.get('promo');
     if (promoParams) {
         const status = typeof getPromocaoStatus === 'function' ? getPromocaoStatus() : {
@@ -1374,7 +1296,6 @@ const tratarParametrosURL = () => {
         }
     }
 
-    // Tratamento de modal aberto direto
     const modalParams = params.get('modal');
     if (modalParams) {
 
@@ -1413,4 +1334,3 @@ enviarPedido()
 limparCarrinho()
 configurarPopupAvisoPromo()
 tratarParametrosURL()
-

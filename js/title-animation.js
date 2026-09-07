@@ -36,7 +36,6 @@ function animateTitle(title) {
     }
 }
 
-// Função global para animar títulos criados dinamicamente (ex: category-title no cardápio)
 window.animateTitle = animateTitle;
 
 document.addEventListener("DOMContentLoaded", () => {

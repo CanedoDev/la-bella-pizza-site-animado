@@ -80,19 +80,15 @@ Aplicação web completa e interativa para pizzaria artesanal em Petrópolis/RJ.
 
 ---
 
-## 5. Como Executar Localmente
+## 5. Metodologia de Desenvolvimento & IA como Acelerador
 
-Como o projeto é construído em Vanilla Web standards, nenhuma etapa de compilação ou instalação de pacotes (`npm install`) é necessária:
+Neste projeto, a inteligência artificial generativa foi empregada estrategicamente como ferramenta de aceleração e produtividade (pair programming), permitindo foco total na arquitetura e na experiência do usuário:
 
-1. Clone o repositório:
-```bash
-git clone https://github.com/CanedoDev/Sistema-delivery-pizzaria.git
-```
-2. Acesse a pasta:
-```bash
-cd Sistema-delivery-pizzaria
-```
-3. Abra o arquivo `index.html` em seu navegador ou utilize a extensão Live Server do VS Code.
+* **Trabalhos Repetitivos e Dados Estruturados:** Automação na estruturação em massa do catálogo de produtos em JSON, padronização de metadados e conversão de formatos de mídia para WebP.
+* **Refinamento de Detalhes Visuais:** Auxílio no ajuste fino de micro-interações CSS, alinhamentos matemáticos em grids complexos e scaffolding inicial de marcações Schema.org para SEO.
+* **Governança do Desenvolvedor:** Toda a tomada de decisão técnica, regras de negócio do delivery, arquitetura dos componentes em Vanilla JS, UX design e validação final de código foram conduzidos e validados pelo desenvolvedor.
+
+Essa abordagem reflete um fluxo de trabalho contemporâneo de engenharia de software, onde ferramentas de IA atuam como amplificadores de velocidade de entrega e refinamento estético sem comprometer a qualidade e o controle do código.
 
 ---
 

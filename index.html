@@ -33,7 +33,6 @@
     <link rel="stylesheet" href="css/responsive.css?v=9">
     <link rel="stylesheet" href="css/loader.css?v=9">
     <script>
-        // Função para corrigir a altura real (100vh) no mobile sem que pule ao rolar a página
         function setVH() {
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -41,7 +40,6 @@
         setVH();
         window.lastWidth = window.innerWidth;
         window.addEventListener('resize', () => {
-            // Atualiza o --vh apenas se a LARGURA mudar (ignora a barra de endereço subindo/descendo)
             if (window.innerWidth !== window.lastWidth) {
                 setVH();
                 window.lastWidth = window.innerWidth;
@@ -998,7 +996,6 @@
     <script src="./js/svg-line.js"></script>
     <script src="./js/testimonials.js"></script>
     <script>
-        // Menu Mobile Toggle
         const hamburger = document.querySelector('.hamburger-menu');
         const header = document.querySelector('.header');
 
@@ -1006,7 +1003,6 @@
             header.classList.toggle('menu-open');
         });
 
-        // Fechar menu ao clicar em um link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 header.classList.remove('menu-open');
