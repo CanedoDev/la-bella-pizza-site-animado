@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         title: document.querySelector('.pizza-title'),
         desc: document.querySelector('.pizza-desc'),
         img: document.querySelector('.pizza-main-img'),
+        source: document.querySelector('.hero-center picture source'),
         expSpans: document.querySelectorAll('.features-group:first-of-type .feature-item span'),
         ingItems: document.querySelectorAll('.features-group:last-of-type .feature-item'),
         dots: document.querySelectorAll('.dot'),
@@ -185,6 +186,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
 
             DOM.img.src = nextData.img;
+            if (DOM.source) DOM.source.srcset = nextData.img;
 
             DOM.dots.forEach((dot, index) => { dot.classList.toggle('active', index === currentIndex); });
 

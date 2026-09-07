@@ -3,43 +3,44 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!loader) return;
 
     if (typeof gsap === "undefined") {
-        console.warn("GSAP não encontrado. O loader será ocultado sem animação.");
         loader.classList.add("hidden");
-        setTimeout(() => loader.remove(), 300);
+        setTimeout(() => loader.remove(), 200);
         return;
     }
 
-    document.body.style.overflow = "hidden";
+    const isMobile = window.innerWidth <= 768;
+    const circleDur = isMobile ? 0.22 : 0.32;
+    const logoDur = isMobile ? 0.3 : 0.42;
+
+    const dismissLoader = () => {
+        document.body.style.overflow = "";
+        loader.classList.add("hidden");
+        setTimeout(() => {
+            try { loader.remove(); } catch(e) {}
+        }, 300);
+    };
 
     const tl = gsap.timeline({
-        onComplete: () => {
-
-            document.body.style.overflow = "";
-
-            loader.classList.add("hidden");
-
-            setTimeout(() => loader.remove(), 400);
-        }
+        onComplete: dismissLoader
     });
 
     tl.to(".eat-circle", {
         strokeDashoffset: 158,
-        duration: 0.35,
+        duration: circleDur,
         ease: "power2.inOut"
     })
-
     .to(".pizza-svg", {
         opacity: 0,
         scale: 0.5,
-        duration: 0.12
-    }, "-=0.05")
-
+        duration: 0.08
+    }, "-=0.03")
     .to(".loader-logo", {
         scale: 1,
         opacity: 1,
-        duration: 0.45,
-        ease: "elastic.out(1, 0.6)"
-    }, "-=0.05")
-
+        duration: logoDur,
+        ease: "elastic.out(1, 0.7)"
+    }, "-=0.04")
     .to({}, { duration: 0.05 });
+
+    setTimeout(dismissLoader, 1500);
 });

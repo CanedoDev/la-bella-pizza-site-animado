@@ -32,12 +32,21 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap"></noscript>
 
-    <link rel="stylesheet" href="css/style.css?v=11">
-    <link rel="stylesheet" href="css/responsive.css?v=11">
-    <link rel="stylesheet" href="css/cardapio.css?v=11">
-    <link rel="stylesheet" href="css/loader.css?v=11">
-    <link rel="stylesheet" href="css/cookie-banner.css?v=11" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="css/cookie-banner.css?v=11"></noscript>
+    <style>
+        #global-loader{position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:#FAF8F5;z-index:999999;display:flex;justify-content:center;align-items:center;transition:opacity .35s ease;overflow:hidden}
+        #global-loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .loader-content{position:relative;width:250px;height:250px;display:flex;justify-content:center;align-items:center}
+        .pizza-svg{width:120px;height:120px;position:absolute}
+        .eat-circle{stroke-dasharray:158;stroke-dashoffset:0}
+        .loader-logo{width:200px;height:auto;position:absolute;opacity:0;transform:scale(0)}
+        .loader-credits{position:absolute;bottom:24px;font-size:11px;letter-spacing:.4px;color:#888;font-family:'Poppins',sans-serif;font-weight:400;text-align:center;width:100%}
+    </style>
+
+    <link rel="stylesheet" href="css/style.css?v=12">
+    <link rel="stylesheet" href="css/responsive.css?v=12">
+    <link rel="stylesheet" href="css/cardapio.css?v=12">
+    <link rel="stylesheet" href="css/cookie-banner.css?v=12" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="css/cookie-banner.css?v=12"></noscript>
     <script>
         function setVH() {
             let vh = window.innerHeight * 0.01;
@@ -671,15 +680,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/SplitText.min.js" defer></script>
-    <script src="js/security.js?v=11" defer></script>
-    <script src="js/promo-slider.js?v=11" defer></script>
-    <script src="js/card-animation.js?v=11" defer></script>
-    <script src="js/title-animation.js?v=11" defer></script>
-    <script src="js/pizzaJson.js?v=11" defer></script>
-    <script src="js/combos.js?v=11" defer></script>
-    <script src="js/cardapio.js?v=11" defer></script>
-    <script src="js/nav-scrollspy.js?v=11" defer></script>
-    <script src="js/loader.js?v=11" defer></script>
-    <script src="js/cookie-banner.js?v=11" defer></script>
+    <script src="js/security.js?v=12" defer></script>
+    <script src="js/promo-slider.js?v=12" defer></script>
+    <script src="js/card-animation.js?v=12" defer></script>
+    <script src="js/title-animation.js?v=12" defer></script>
+    <script src="js/pizzaJson.js?v=12" defer></script>
+    <script src="js/combos.js?v=12" defer></script>
+    <script src="js/cardapio.js?v=12" defer></script>
+    <script src="js/nav-scrollspy.js?v=12" defer></script>
+    <script src="js/loader.js?v=12" defer></script>
+    <script src="js/cookie-banner.js?v=12" defer></script>
 </body>
 </html>
