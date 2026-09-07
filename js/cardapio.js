@@ -1199,6 +1199,8 @@ const carregarPizzas = () => {
     let ultimaCategoria = '';
     let cardMeioInserido = false;
 
+    const fragment = document.createDocumentFragment();
+
     const desenharCardMeioAMeio = () => {
         if (cardMeioInserido) return;
         if (categoriaAtual === 'combos' || categoriaAtual === 'bebidas') return;
@@ -1233,7 +1235,7 @@ const carregarPizzas = () => {
             abrirModalMeioAMeio();
         });
 
-        grid.append(cardItem);
+        fragment.append(cardItem);
         cardMeioInserido = true;
         if (window.observeCard) window.observeCard(cardItem);
     };
@@ -1260,7 +1262,7 @@ const carregarPizzas = () => {
                 titulo.classList.add('category-title');
                 titulo.classList.add(categoriaSlug);
                 titulo.innerHTML = ultimaCategoria;
-                grid.append(titulo);
+                fragment.append(titulo);
                 if (window.animateTitle) window.animateTitle(titulo);
 
                 if (!cardMeioInserido && categoriaAtual !== 'combos' && categoriaAtual !== 'bebidas') {
@@ -1278,7 +1280,7 @@ const carregarPizzas = () => {
             if (btn) btn.classList.add('btn-outline');
         }
 
-        grid.append(pizzaItem);
+        fragment.append(pizzaItem);
         if (window.observeCard) window.observeCard(pizzaItem);
 
         preencheDadosPizza(pizzaItem, item, index);
@@ -1326,7 +1328,7 @@ const carregarPizzas = () => {
             let tituloTerca = document.createElement('h2');
             tituloTerca.classList.add('category-title');
             tituloTerca.innerHTML = "La Bella em Dobro";
-            grid.append(tituloTerca);
+            fragment.append(tituloTerca);
             if (window.animateTitle) window.animateTitle(tituloTerca);
 
             combosTerca.forEach((combo, idx) => {
@@ -1361,7 +1363,7 @@ const carregarPizzas = () => {
                     }
                 });
 
-                grid.append(comboItem);
+                fragment.append(comboItem);
                 if (window.observeCard) window.observeCard(comboItem);
             });
         }
@@ -1378,7 +1380,7 @@ const carregarPizzas = () => {
             let tituloPromo = document.createElement('h2');
             tituloPromo.classList.add('category-title', 'ofertas-do-dia');
             tituloPromo.innerHTML = "Ofertas do Dia";
-            grid.append(tituloPromo);
+            fragment.append(tituloPromo);
             if (window.animateTitle) window.animateTitle(tituloPromo);
 
             pizzasPromo.forEach(obj => desenharCard(obj, true));
@@ -1387,8 +1389,11 @@ const carregarPizzas = () => {
 
     pizzasNormais.forEach(obj => desenharCard(obj, false));
 
+    // Monta todos os cards em um único reflow no DOM
+    grid.append(fragment);
+
     if (typeof ScrollTrigger !== 'undefined') {
-        ScrollTrigger.refresh();
+        requestAnimationFrame(() => ScrollTrigger.refresh());
     }
 }
 

@@ -1,7 +1,31 @@
-gsap.registerPlugin(ScrollTrigger);
-
 let cardsQueue = [];
 let animTimer = null;
+
+let cardObserver = null;
+if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+    cardObserver = new IntersectionObserver((entries, obs) => {
+        const visibleCards = [];
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                visibleCards.push(entry.target);
+                obs.unobserve(entry.target);
+            }
+        });
+        if (visibleCards.length && typeof gsap !== 'undefined') {
+            gsap.to(visibleCards, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.6,
+                stagger: 0.04,
+                ease: "back.out(1.4)",
+                overwrite: "auto"
+            });
+        }
+    }, {
+        rootMargin: '60px 0px',
+        threshold: 0.05
+    });
+}
 
 function processCardsQueue() {
     if (!cardsQueue.length) return;
@@ -15,31 +39,19 @@ function processCardsQueue() {
         c.dataset.stActive = "true";
     });
 
-    gsap.set(cardsToAnimate, { scale: 0.6, opacity: 0 });
-
-    const isMobile = window.innerWidth <= 768;
-
-    ScrollTrigger.batch(cardsToAnimate, {
-        start: isMobile ? "top 95%" : "top 98%",
-        onEnter: (batch) => {
-            gsap.to(batch, {
-                scale: 1,
-                opacity: 1,
-                duration: 0.7,
-                stagger: 0.05,
-                ease: "elastic.out(1, 0.75)",
-                overwrite: "auto"
-            });
-        },
-        once: true
-    });
+    if (cardObserver && typeof gsap !== 'undefined') {
+        gsap.set(cardsToAnimate, { scale: 0.85, opacity: 0 });
+        cardsToAnimate.forEach(c => cardObserver.observe(c));
+    } else if (typeof gsap !== 'undefined') {
+        gsap.set(cardsToAnimate, { scale: 1, opacity: 1 });
+    }
 }
 
 window.observeCard = function(card) {
     if (!card || card.closest('.models')) return;
     cardsQueue.push(card);
     if (animTimer) clearTimeout(animTimer);
-    animTimer = setTimeout(processCardsQueue, 50);
+    animTimer = setTimeout(processCardsQueue, 30);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
