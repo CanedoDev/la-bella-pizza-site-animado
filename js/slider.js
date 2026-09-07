@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", (event) => {
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, CustomEase)
+    gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase)
 
     CustomEase.create("customBezier", "M0,0 C0.78,0 0.23,1 1,1");
 

@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function initCookieBanner() {
     const consent = localStorage.getItem('cookie_consent');
     if (consent) return;
 
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(() => {
         banner.classList.add('show');
-    }, 700);
+    }, 400);
 
     const fecharBanner = (tipo) => {
         localStorage.setItem('cookie_consent', tipo);
@@ -50,4 +50,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnReject) {
         btnReject.addEventListener('click', () => fecharBanner('rejected'));
     }
-});
+}
+
+if (document.readyState === 'complete') {
+    setTimeout(() => {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(initCookieBanner, { timeout: 2000 });
+        } else {
+            initCookieBanner();
+        }
+    }, 1500);
+} else {
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(initCookieBanner, { timeout: 2000 });
+            } else {
+                initCookieBanner();
+            }
+        }, 1500);
+    });
+}

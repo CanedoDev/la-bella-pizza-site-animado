@@ -10,38 +10,46 @@ function animateTitle(title) {
     const split = new SplitText(title, { type: "words,chars", wordsClass: "split-word" });
     title._split = split;
 
-    const rect = title.getBoundingClientRect();
-    const isAlreadyInView = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+    gsap.set(split.chars, { opacity: 0, y: 30, scale: 0.8 });
 
-    gsap.set(split.chars, { opacity: 0, y: 40, scale: 0.4 });
-
-    const tween = gsap.to(split.chars, {
+    gsap.to(split.chars, {
         opacity: 1,
         y: 0,
         scale: 1,
         duration: 0.8,
         ease: "elastic.out(1, 0.75)",
-        stagger: 0.04,
+        stagger: 0.03,
         overwrite: "auto",
         scrollTrigger: {
             trigger: title,
-            start: "top 85%",
+            start: "top 88%",
             toggleActions: "play none none none",
             once: true
         }
     });
-
-    if (isAlreadyInView) {
-        tween.play();
-    }
 }
 
 window.animateTitle = animateTitle;
 
-document.addEventListener("DOMContentLoaded", () => {
+function initAllTitles() {
     const titles = document.querySelectorAll(".section-title, .sobre-main-title, .clientes-title");
-
     titles.forEach(title => {
         animateTitle(title);
     });
-});
+}
+
+if (document.readyState === 'complete') {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(initAllTitles, { timeout: 1200 });
+    } else {
+        setTimeout(initAllTitles, 200);
+    }
+} else {
+    window.addEventListener('load', () => {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(initAllTitles, { timeout: 1200 });
+        } else {
+            setTimeout(initAllTitles, 200);
+        }
+    });
+}

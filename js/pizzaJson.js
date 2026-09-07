@@ -612,7 +612,7 @@ let pizzaJson = [
         category: 'Combos',
         comboId: 101,
         name: 'Combo Super + Doce + Refri',
-        img: 'assets/img/banner-promocao-combo-pizza.webp',
+        img: 'assets/img/banner-promocao-combo-pizza-mob.webp',
         price: [120.00],
         sizes: ['1 Super + 1 Média Doce + 1 Refri 2L'],
         description: '1 Super Salgada (40cm) + 1 Média Doce (30cm) + 1 Refrigerante 2L'
@@ -622,7 +622,7 @@ let pizzaJson = [
         category: 'Combos',
         comboId: 102,
         name: 'Combo 2 Grandes + Refri',
-        img: 'assets/img/banner-promocao-la-bella-em-dobro.webp',
+        img: 'assets/img/banner-promocao-la-bella-em-dobro-mob.webp',
         price: [120.00],
         sizes: ['2 Grandes + Refri 2L'],
         description: '2 Pizzas Grandes Tradicionais (35cm) + 1 Refrigerante 2L'
@@ -672,7 +672,7 @@ let combosJson = [
         code: 'combo_super_doce_refri',
         name: 'Combo Super + Doce + Refri',
         category: 'Combos',
-        img: 'assets/img/banner-promocao-combo-pizza.webp',
+        img: 'assets/img/banner-promocao-combo-pizza-mob.webp',
         price: 120.00,
         description: '1 Super Salgada (40cm) + 1 Média Doce (30cm) + 1 Refrigerante 2L',
         rules: {
@@ -690,7 +690,7 @@ let combosJson = [
         code: 'combo_2_grandes_refri',
         name: 'Combo 2 Grandes + Refri',
         category: 'Combos',
-        img: 'assets/img/banner-promocao-la-bella-em-dobro.webp',
+        img: 'assets/img/banner-promocao-la-bella-em-dobro-mob.webp',
         price: 120.00,
         description: '2 Pizzas Grandes Tradicionais (35cm) + 1 Refrigerante 2L',
         rules: {

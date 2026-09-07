@@ -24,22 +24,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     tl.to(".eat-circle", {
         strokeDashoffset: 158,
-        duration: 0.55,
+        duration: 0.35,
         ease: "power2.inOut"
     })
 
     .to(".pizza-svg", {
         opacity: 0,
         scale: 0.5,
-        duration: 0.15
+        duration: 0.12
     }, "-=0.05")
 
     .to(".loader-logo", {
         scale: 1,
         opacity: 1,
-        duration: 0.65,
-        ease: "elastic.out(1, 0.5)"
+        duration: 0.45,
+        ease: "elastic.out(1, 0.6)"
     }, "-=0.05")
 
-    .to({}, { duration: 0.15 });
+    .to({}, { duration: 0.05 });
 });

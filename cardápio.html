@@ -21,8 +21,9 @@
     <meta name="twitter:description" content="Mais de 60 sabores de pizzas artesanais com delivery em toda Petrópolis.">
     <meta name="twitter:image" content="https://labellapizzapetropolis.com.br/assets/img/logo-la-bella-pizza.webp">
 
-    <!-- Preload LCP Promo Banner -->
-    <link rel="preload" as="image" href="assets/img/banner-promocao-combo-pizza.webp" fetchpriority="high">
+    <!-- Preload LCP Promo Banner Responsivo -->
+    <link rel="preload" as="image" href="assets/img/banner-promocao-combo-pizza-mob.webp" media="(max-width: 768px)" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/img/banner-promocao-combo-pizza.webp" media="(min-width: 769px)" fetchpriority="high">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,11 +32,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Damion&family=Poppins:wght@400;500;600&display=swap"></noscript>
 
-    <link rel="stylesheet" href="css/style.css?v=10">
-    <link rel="stylesheet" href="css/responsive.css?v=10">
-    <link rel="stylesheet" href="css/cardapio.css?v=10">
-    <link rel="stylesheet" href="css/loader.css?v=10">
-    <link rel="stylesheet" href="css/cookie-banner.css?v=10">
+    <link rel="stylesheet" href="css/style.css?v=11">
+    <link rel="stylesheet" href="css/responsive.css?v=11">
+    <link rel="stylesheet" href="css/cardapio.css?v=11">
+    <link rel="stylesheet" href="css/loader.css?v=11">
+    <link rel="stylesheet" href="css/cookie-banner.css?v=11" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="css/cookie-banner.css?v=11"></noscript>
     <script>
         function setVH() {
             let vh = window.innerHeight * 0.01;
@@ -667,18 +669,17 @@
         </div>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/SplitText.min.js" defer></script>
-    <script src="js/security.js?v=10" defer></script>
-    <script src="js/promo-slider.js?v=10" defer></script>
-    <script src="js/card-animation.js?v=10" defer></script>
-    <script src="js/title-animation.js?v=10" defer></script>
-    <script src="js/pizzaJson.js?v=10" defer></script>
-    <script src="js/combos.js?v=10" defer></script>
-    <script src="js/cardapio.js?v=10" defer></script>
-    <script src="js/nav-scrollspy.js?v=10" defer></script>
-    <script src="js/loader.js?v=10" defer></script>
-    <script src="js/cookie-banner.js?v=10" defer></script>
+    <script src="js/security.js?v=11" defer></script>
+    <script src="js/promo-slider.js?v=11" defer></script>
+    <script src="js/card-animation.js?v=11" defer></script>
+    <script src="js/title-animation.js?v=11" defer></script>
+    <script src="js/pizzaJson.js?v=11" defer></script>
+    <script src="js/combos.js?v=11" defer></script>
+    <script src="js/cardapio.js?v=11" defer></script>
+    <script src="js/nav-scrollspy.js?v=11" defer></script>
+    <script src="js/loader.js?v=11" defer></script>
+    <script src="js/cookie-banner.js?v=11" defer></script>
 </body>
 </html>

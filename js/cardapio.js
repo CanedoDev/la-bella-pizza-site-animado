@@ -147,9 +147,21 @@ function getFeriadosAno(ano) {
 }
 
 (function initFeriados() {
-    const anoAtual = new Date().getFullYear();
-    sincronizarFeriadosBrasilAPI(anoAtual);
-    sincronizarFeriadosBrasilAPI(anoAtual + 1);
+    const runSync = () => {
+        const anoAtual = new Date().getFullYear();
+        sincronizarFeriadosBrasilAPI(anoAtual);
+    };
+    if (typeof window !== 'undefined') {
+        window.addEventListener('load', () => {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(runSync, { timeout: 3000 });
+            } else {
+                setTimeout(runSync, 2500);
+            }
+        });
+    } else {
+        runSync();
+    }
 })();
 
 function isFeriadoOuVespera(dateObj) {
