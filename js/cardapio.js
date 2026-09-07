@@ -379,16 +379,19 @@ const botoesFechar = () => {
 }
 
 const preencheDadosPizza = (pizzaItem, item, index) => {
-    pizzaItem.setAttribute('data-key', index)
-    const pizzaImg = pizzaItem.querySelector(".card-pizza-img")
-    pizzaImg.src = item.img
-    pizzaImg.alt = `Pizza ${item.name} artesanal`
-    pizzaImg.loading = "lazy"
-    pizzaImg.decoding = "async"
-    pizzaImg.width = 200
-    pizzaImg.height = 135
-    pizzaItem.querySelector(".card-title").innerHTML = item.name
-    pizzaItem.querySelector(".card-price").innerHTML = `R$ ${item.price[0].toFixed(2).replace('.', ',')}`
+    pizzaItem.setAttribute('data-key', index);
+    const pizzaImg = pizzaItem.querySelector(".card-pizza-img");
+    const mobImg = item.img.replace('.webp', '-mob.webp');
+    pizzaImg.srcset = `${mobImg} 360w, ${item.img} 706w`;
+    pizzaImg.sizes = "(max-width: 768px) 140px, 200px";
+    pizzaImg.src = item.img;
+    pizzaImg.alt = `Pizza ${item.name} artesanal`;
+    pizzaImg.loading = "lazy";
+    pizzaImg.decoding = "async";
+    pizzaImg.width = 200;
+    pizzaImg.height = 135;
+    pizzaItem.querySelector(".card-title").innerHTML = item.name;
+    pizzaItem.querySelector(".card-price").innerHTML = `R$ ${item.price[0].toFixed(2).replace('.', ',')}`;
 }
 
 const preencherDadosModal = (item) => {
@@ -1217,6 +1220,8 @@ const carregarPizzas = () => {
         cardItem.classList.add('card-white', 'card-meio-a-meio');
 
         const pizzaImg = cardItem.querySelector(".card-pizza-img");
+        pizzaImg.srcset = "assets/img/pizzas/pizza-calabresa-mob.webp 360w, assets/img/pizzas/pizza-calabresa.webp 706w";
+        pizzaImg.sizes = "(max-width: 768px) 140px, 200px";
         pizzaImg.src = 'assets/img/pizzas/pizza-calabresa.webp';
         pizzaImg.alt = 'Pizza Meio a Meio Artesanal';
         pizzaImg.loading = "lazy";
