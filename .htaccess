@@ -78,3 +78,7 @@
     AddOutputFilterByType DEFLATE application/xml
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
+
+# 4. Página de Erro 404 Personalizada (Sobrescreve a página padrão da Hostinger)
+ErrorDocument 404 /404.html
+
