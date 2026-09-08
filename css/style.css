@@ -204,18 +204,15 @@ body {
         .pizza-title {
             font-family: "Damion", cursive;
             font-weight: 100;
-            font-size: 70px;
-            /* Tamanho equilibrado para caber em uma linha */
+            font-size: clamp(48px, 4.4vw, 68px);
             color: #ffffff;
-            line-height: 1.1;
-            margin-bottom: 10px;
-            height: 110px;
-            /* Altura fixa para evitar o 'pulo' do layout */
+            line-height: 1.25;
+            margin-bottom: 12px;
+            min-height: 165px;
             display: flex;
             align-items: center;
-            /* Centraliza verticalmente no espaço reservado */
-            overflow: hidden;
-            /* Máscara para as linhas do SplitType */
+            overflow: visible;
+            padding: 8px 0;
         }
 
         .pizza-desc {
@@ -427,12 +424,14 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;
+    overflow: visible;
 }
 
 .crossfade-wrapper>div {
     grid-row: 1;
     grid-column: 1;
     width: 100%;
+    overflow: visible;
 }
 
 /* ==========================================================================
@@ -1010,20 +1009,20 @@ body {
     align-items: center;
     justify-content: center;
     gap: 40px;
-    min-height: 300px;
+    min-height: 350px;
     margin-bottom: 40px;
 }
 
 .testimonial-track {
     flex: 1;
     position: relative;
-    min-height: 280px;
+    min-height: 320px;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     overflow: hidden;
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
 }
 
 .testimonial-slide {
@@ -1032,7 +1031,7 @@ body {
     left: 0;
     width: 100%;
     text-align: center;
-    padding: 0 20px;
+    padding: 0 20px 30px;
 }
 
 /* Estrelas */

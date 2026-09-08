@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             modalSlug: "calabresa",
             desc: "Clássica e intensa, com calabresa selecionada, queijo derretido e um toque artesanal que equilibra sabor e textura.",
             img: "assets/img/pizza-calabresa.webp",
+            mobImg: "assets/img/pizza-calabresa-mob.webp",
             experiencia: [
                 "Levemente<br>picante",
                 "Recheio farto<br>& artesanal",
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             modalSlug: "frango-c-catupiry",
             desc: "A união perfeita do frango desfiado suculento com a cremosidade do autêntico requeijão, assada ao ponto ideal.",
             img: "assets/img/pizza-frango-catupiry.webp",
+            mobImg: "assets/img/pizza-frango-catupiry-mob.webp",
             experiencia: [
                 "Suave &<br>cremosa",
                 "Massa leve (48h)<br>& muito recheio",
@@ -42,7 +44,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             title: "La Bella",
             modalSlug: "la-bella",
             desc: "A receita exclusiva da casa: tomates maduros, folhas frescas de manjericão, queijo parmesão gratinado e alho frito crocante.",
-            img: "assets/img/pizza-calabresa.webp",
+            img: "assets/img/pizza-la-bella.webp",
+            mobImg: "assets/img/pizza-la-bella-mob.webp",
             experiencia: [
                 "Aromática &<br>fresca",
                 "Borda crocante<br>& queijo tostado",
@@ -59,7 +62,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             title: "Parma",
             modalSlug: "parma",
             desc: "Elegância da charcutaria nobre: fatias finíssimas de presunto tipo parma, queijo parmesão ralado na hora e folhas frescas de rúcula.",
-            img: "assets/img/pizza-brasileira.webp",
+            img: "assets/img/pizza-parma.webp",
+            mobImg: "assets/img/pizza-parma-mob.webp",
             experiencia: [
                 "Sabor nobre &<br>equilibrado",
                 "Massa fininha<br>& crocante",
@@ -186,7 +190,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
 
             DOM.img.src = nextData.img;
-            if (DOM.source) DOM.source.srcset = nextData.img;
+            if (DOM.source) {
+                DOM.source.srcset = nextData.mobImg || nextData.img.replace('.webp', '-mob.webp');
+            }
 
             DOM.dots.forEach((dot, index) => { dot.classList.toggle('active', index === currentIndex); });
 

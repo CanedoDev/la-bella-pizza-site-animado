@@ -61,10 +61,12 @@ function buildSlide(data) {
 
 function updateTrackHeight(track, slide) {
     if (!track || !slide) return;
-    const slideHeight = slide.offsetHeight;
+    const slideHeight = Math.max(slide.scrollHeight, slide.offsetHeight);
     if (slideHeight > 0) {
+        const targetHeight = Math.max(340, slideHeight + 55);
         gsap.to(track, {
-            minHeight: Math.max(280, slideHeight + 45),
+            height: targetHeight,
+            minHeight: targetHeight,
             duration: 0.35,
             ease: "power2.out"
         });
@@ -116,6 +118,18 @@ function initTestimonials() {
     requestAnimationFrame(() => {
         updateTrackHeight(track, firstSlide);
     });
+
+    window.addEventListener('resize', () => {
+        const currentSlide = track.querySelector('.testimonial-slide:last-child') || track.querySelector('.testimonial-slide');
+        if (currentSlide) updateTrackHeight(track, currentSlide);
+    });
+
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+            const currentSlide = track.querySelector('.testimonial-slide:last-child') || track.querySelector('.testimonial-slide');
+            if (currentSlide) updateTrackHeight(track, currentSlide);
+        });
+    }
 
     document.querySelector('.testimonial-btn-next').addEventListener('click', () => {
         currentTestimonial = (currentTestimonial + 1) % testimonials.length;

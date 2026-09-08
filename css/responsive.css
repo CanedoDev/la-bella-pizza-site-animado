@@ -69,10 +69,14 @@
 
         .pizza-title {
             order: 1;
-            font-size: 48px !important;
+            font-size: clamp(34px, 8.5vw, 44px) !important;
             height: auto !important;
-            margin-bottom: 0 !important;
+            min-height: auto !important;
+            line-height: 1.25 !important;
+            margin-bottom: 6px !important;
             display: block !important;
+            overflow: visible !important;
+            padding: 8px 0 !important;
         }
 
         .hero-center {
@@ -392,20 +396,22 @@
     }
 
     .testimonials-slider {
-        min-height: 320px !important;
+        min-height: 380px !important;
         gap: 5px !important;
     }
 
     .testimonial-track {
-        min-height: 320px !important;
+        min-height: 380px;
+        padding-bottom: 35px !important;
     }
 
     .testimonial-slide {
-        padding: 0 5px !important;
+        padding: 0 10px 30px !important;
     }
 
     .testimonial-text {
         font-size: 14px !important;
+        line-height: 1.7 !important;
     }
 
     /* --- Conceito Mobile Photos --- */

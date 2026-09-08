@@ -1178,7 +1178,7 @@ const carregarPizzas = () => {
 
     const promoSection = document.querySelector('.promocao');
     if (promoSection) {
-        if (termoAtual !== '') {
+        if (termoAtual.trim() !== '' || categoriaAtual !== 'all') {
             promoSection.style.display = 'none';
         } else {
             promoSection.style.display = '';
@@ -1188,7 +1188,7 @@ const carregarPizzas = () => {
     let pizzasPromo = [];
     let pizzasNormais = [];
 
-    const destacarOfertasDoDia = quartaFeira && categoriaAtual === 'all' && termoAtual === '';
+    const destacarOfertasDoDia = quartaFeira && categoriaAtual === 'all' && termoAtual.trim() === '';
 
     pizzaJson.forEach((item, originalIndex) => {
         let ehPromo = destacarOfertasDoDia && (pizzaPromoQuartaUm.includes(item.id) || pizzaPromoQuartaDois.includes(item.id));
@@ -1327,7 +1327,7 @@ const carregarPizzas = () => {
         botoesFechar();
     };
 
-    if (tercaFeira && typeof combosJson !== 'undefined') {
+    if (tercaFeira && typeof combosJson !== 'undefined' && termoAtual.trim() === '') {
         const combosTerca = combosJson.filter(c => c.category === 'PromocaoTerca');
         if (combosTerca.length > 0 && (categoriaAtual === 'all' || categoriaAtual === 'combos')) {
             let tituloTerca = document.createElement('h2');
@@ -1374,7 +1374,7 @@ const carregarPizzas = () => {
         }
     }
 
-    if (pizzasPromo.length > 0) {
+    if (pizzasPromo.length > 0 && termoAtual.trim() === '') {
         let temPromoPraMostrar = pizzasPromo.some(({ item }) => {
             const catSlug = item.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
             return item.name.toLowerCase().includes(termoAtual.toLowerCase()) &&

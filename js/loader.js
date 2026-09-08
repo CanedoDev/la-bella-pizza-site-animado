@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const isMobile = window.innerWidth <= 768;
-    const circleDur = isMobile ? 0.22 : 0.32;
-    const logoDur = isMobile ? 0.3 : 0.42;
+    const circleDur = isMobile ? 0.25 : 0.37;
+    const logoDur = isMobile ? 0.35 : 0.48;
 
     const dismissLoader = () => {
         document.body.style.overflow = "";
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .to(".pizza-svg", {
         opacity: 0,
         scale: 0.5,
-        duration: 0.08
+        duration: 0.09
     }, "-=0.03")
     .to(".loader-logo", {
         scale: 1,
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: logoDur,
         ease: "elastic.out(1, 0.7)"
     }, "-=0.04")
-    .to({}, { duration: 0.05 });
+    .to({}, { duration: 0.06 });
 
-    setTimeout(dismissLoader, 1500);
+    setTimeout(dismissLoader, 1750);
 });
